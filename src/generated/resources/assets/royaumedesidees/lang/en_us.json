@@ -1,0 +1,11 @@
+{
+  "block.royaumedesidees.chaine_caverne": "Cave Chain",
+  "block.royaumedesidees.pierre_ombre": "Shadow Stone",
+  "block.royaumedesidees.pierre_ombre_taillee": "Chiseled Shadow Stone",
+  "block.royaumedesidees.portail_royaume": "Kingdom Portal",
+  "item.royaumedesidees.lanterne_diogene": "Diogenes' Lantern",
+  "item.royaumedesidees.tolle_lege": "Tolle, Lege",
+  "item.royaumedesidees.tolle_lege.citation": "\"Take up and read; take up and read.\" (Confessions, VIII)",
+  "itemGroup.royaumedesidees": "The Kingdom of Ideas",
+  "tag.item.royaumedesidees.lie_au_royaume": "Bound to the Kingdom"
+}

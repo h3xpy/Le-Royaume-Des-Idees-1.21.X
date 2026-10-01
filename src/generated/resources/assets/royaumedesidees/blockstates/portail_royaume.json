@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "royaumedesidees:block/portail_royaume_ns"
+    },
+    "axis=z": {
+      "model": "royaumedesidees:block/portail_royaume_ew"
+    }
+  }
+}

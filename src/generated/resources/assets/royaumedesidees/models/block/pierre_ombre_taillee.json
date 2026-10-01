@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "royaumedesidees:block/pierre_ombre_taillee"
+  }
+}
