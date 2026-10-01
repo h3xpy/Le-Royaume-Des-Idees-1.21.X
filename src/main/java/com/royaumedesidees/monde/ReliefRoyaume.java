@@ -70,29 +70,31 @@ public final class ReliefRoyaume {
             /** Hauteur relative sur le dôme du Puy (0 au pied, 1 au sommet), 0 ailleurs. */
             double altitudeDome,
             /** Roche qui affleure en surface (flancs du dôme, garrigue d'Hippone). */
-            boolean affleurement) {
+            boolean affleurement,
+            /** Sur le cône d'un petit puy (sol de scories volcaniques). */
+            boolean petitPuy) {
 
         public boolean sousLEau() {
             return ile && surface < NIVEAU_MER;
         }
     }
 
-    private static final Colonne VIDE = new Colonne(false, 0, 0, Zone.JARDIN_MILAN, Zone.JARDIN_MILAN, 0, 0, false);
+    private static final Colonne VIDE = new Colonne(false, 0, 0, Zone.JARDIN_MILAN, Zone.JARDIN_MILAN, 0, 0, false, false);
 
     private ReliefRoyaume() {
     }
 
-    /** Zone (et donc biome) en (x, z). Les frontières suivent les axes, déformées d'environ ±70 blocs. */
+    /** Zone (et donc biome) en (x, z). Les frontières suivent les axes, déformées d'environ ±100 blocs. */
     public static Zone zone(int x, int z) {
         return Zone.en((int) Math.floor(deformationX(x, z)), (int) Math.floor(deformationZ(x, z)));
     }
 
     private static double deformationX(int x, int z) {
-        return x + 60 * BRUIT_FRONTIERE.fbm(x / 190.0, z / 190.0, 2) + 12 * BRUIT_DETAIL.fbm(x / 45.0, z / 45.0, 2);
+        return x + 85 * BRUIT_FRONTIERE.fbm(x / 230.0, z / 230.0, 3) + 18 * BRUIT_DETAIL.fbm(x / 60.0, z / 60.0, 2);
     }
 
     private static double deformationZ(int x, int z) {
-        return z + 60 * BRUIT_FRONTIERE.fbm((x + 5000) / 190.0, (z - 5000) / 190.0, 2) + 12 * BRUIT_DETAIL.fbm((x - 5000) / 45.0, (z + 5000) / 45.0, 2);
+        return z + 85 * BRUIT_FRONTIERE.fbm((x + 5000) / 230.0, (z - 5000) / 230.0, 3) + 18 * BRUIT_DETAIL.fbm((x - 5000) / 60.0, (z + 5000) / 60.0, 2);
     }
 
     public static Colonne colonne(int x, int z) {
@@ -115,6 +117,7 @@ public final class ReliefRoyaume {
         double sud = lisser(-25, 25, zd);
         double hauteur = 0;
         double altitudeDome = 0;
+        boolean petitPuy = false;
         double poids;
         if ((poids = (1 - est) * (1 - sud)) > 0) {
             hauteur += poids * jardinMilan(x, z);
@@ -126,6 +129,7 @@ public final class ReliefRoyaume {
             double distanceDome = Math.sqrt(carre(x - DOME_X) + carre(z - DOME_Z)) * (1 + 0.08 * BRUIT_ROCHE.fbm(x / 150.0, z / 150.0, 2));
             altitudeDome = profilDome(distanceDome / DOME_RAYON);
             hauteur += poids * puyDeDome(x, z, altitudeDome);
+            petitPuy = surPetitPuy(x, z);
         }
         if ((poids = (1 - est) * sud) > 0) {
             hauteur += poids * hippone(x, z);
@@ -140,16 +144,17 @@ public final class ReliefRoyaume {
         hauteur += rebord;
 
         int surface = (int) Math.floor(hauteur);
-        // Dessous de l'île : épais au centre, de plus en plus fin vers le bord, un peu bosselé.
+        // Dessous de l'île : épais au centre, de plus en plus fin vers le bord, un peu bosselé. Il est mesuré
+        // depuis le niveau de la plaine, pas depuis le sommet : sinon le dessous serait creux sous le Puy.
         double epaisseur = 14 + 110 * Math.sqrt(1 - bord) + 8 * BRUIT_DESSOUS.fbm(x / 50.0, z / 50.0, 3);
-        int fond = Math.min(Math.max(1, (int) Math.floor(hauteur - epaisseur)), surface - 4);
+        int fond = Math.min(Math.max(1, (int) Math.floor(Math.min(hauteur, CENTRE_PLAINE) - epaisseur)), surface - 4);
 
         boolean affleurement = switch (zoneSol) {
-            case PUY_DE_DOME -> altitudeDome > 0.5 && BRUIT_ROCHE.fbm(x / 18.0, z / 18.0, 2) > 0.25;
+            case PUY_DE_DOME -> altitudeDome > 0.45 && BRUIT_ROCHE.fbm(x / 18.0, z / 18.0, 2) > 0.2;
             case HIPPONE -> BRUIT_ROCHE.fbm(x / 14.0, z / 14.0, 2) > 0.45;
             default -> false;
         };
-        return new Colonne(true, surface, fond, zone, zoneSol, rebord, altitudeDome, affleurement);
+        return new Colonne(true, surface, fond, zone, zoneSol, rebord, altitudeDome, affleurement, petitPuy && zoneSol == Zone.PUY_DE_DOME);
     }
 
     /** Les îlots flottants au-delà du bord ; vide partout ailleurs. */
@@ -165,7 +170,7 @@ public final class ReliefRoyaume {
                 int surface = (int) Math.floor(ilot[3] + 3 * bombe + BRUIT_COLLINES.fbm(x / 10.0, z / 10.0, 2));
                 int fond = (int) Math.floor(ilot[3] - 4 - 1.3 * ilot[2] * Math.sqrt(bombe) + 3 * BRUIT_DESSOUS.fbm(x / 8.0, z / 8.0, 2));
                 Zone zone = zone(x, z);
-                return new Colonne(true, surface, Math.min(fond, surface - 2), zone, zone, 0, 0, false);
+                return new Colonne(true, surface, Math.min(fond, surface - 2), zone, zone, 0, 0, false, false);
             }
         }
         return VIDE;
@@ -178,18 +183,32 @@ public final class ReliefRoyaume {
     }
 
     /**
-     * Vallée en creux : fond plat et marécageux vers y ≈ 83, bords qui remontent vers y ≈ 105.
-     * Pas de mares au centre, où sera l'abbaye.
+     * Vallée en creux, comme celle du Rhodon où était Port-Royal des Champs : un fond marécageux qui ondule
+     * autour du niveau de l'eau (flaques, chenaux, étangs), et des bords qui remontent vers y ≈ 104.
+     * Une butte sèche au centre accueillera l'abbaye.
      */
     private static double portRoyal(int x, int z) {
         double distanceVallee = Math.sqrt(carre(x - VALLEE_X) + carre(z - VALLEE_Z));
-        double hauteur = 83 + 22 * lisser(110, 240, distanceVallee)
-                + 3 * BRUIT_COLLINES.fbm(x / 150.0, z / 150.0, 3) + 1.5 * BRUIT_DETAIL.fbm(x / 35.0, z / 35.0, 2);
+        double flancs = lisser(130, 250, distanceVallee);
+        // Fond : à peine au-dessus de l'eau, avec un micro-relief qui crée des flaques partout.
+        double fond = 80.4 + 1.6 * BRUIT_DETAIL.fbm(x / 22.0, z / 22.0, 2) + 1.2 * BRUIT_COLLINES.fbm(x / 90.0, z / 90.0, 2);
         double marais = BRUIT_MARAIS.fbm(x / 55.0, z / 55.0, 2);
-        if (marais > 0.3) {
-            hauteur -= (marais - 0.3) * 30 * lisser(35, 60, distanceVallee) * (1 - lisser(150, 230, distanceVallee));
+        if (marais > 0.15) {
+            fond -= (marais - 0.15) * 25;            // étangs plus profonds
         }
-        return hauteur;
+        double hauteur = fond + flancs * (23 + 3 * BRUIT_COLLINES.fbm(x / 150.0, z / 150.0, 3));
+        // Butte de l'abbaye, au sec.
+        return interpoler(84, hauteur, lisser(40, 65, distanceVallee));
+    }
+
+    /** Vrai si (x, z) est sur le cône d'un des petits puys. */
+    private static boolean surPetitPuy(int x, int z) {
+        for (int[] puy : PETITS_PUYS) {
+            if (Math.sqrt(carre(x - puy[0]) + carre(z - puy[1])) * (1 + 0.1 * BRUIT_DETAIL.fbm(x / 30.0, z / 30.0, 2)) < puy[2] * 0.9) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /** Hauteur relative du dôme pour une distance normalisée t (0 au centre, 1 au pied) : sommet arrondi, flancs longs. */
@@ -197,7 +216,7 @@ public final class ReliefRoyaume {
         if (t >= 1) {
             return 0;
         }
-        return (StrictMath.pow(1 - t * t, 2) + StrictMath.pow(1 - t, 1.5)) / 2;
+        return StrictMath.pow(1 - t * t, 1.8);
     }
 
     /** Prairie vers y ≈ 92, dôme de lave culminant vers y ≈ 300, petits puys à cratère autour. */
@@ -234,6 +253,22 @@ public final class ReliefRoyaume {
             hauteur = Math.min(hauteur, interpoler(58, garrigue, lisser(0.55, 1.0, rapport)));
         }
         return hauteur;
+    }
+
+    /**
+     * Plus grande chute entre la colonne et ses quatre voisines (0 sur terrain plat).
+     * Sert à mettre de la roche nue sur les pentes raides au lieu de laisser voir la terre.
+     */
+    public static int pente(Colonne colonne, int x, int z) {
+        return pente(colonne, colonne(x + 1, z), colonne(x - 1, z), colonne(x, z + 1), colonne(x, z - 1));
+    }
+
+    public static int pente(Colonne colonne, Colonne... voisines) {
+        int chute = 0;
+        for (Colonne voisine : voisines) {
+            chute = Math.max(chute, voisine.ile() ? colonne.surface() - voisine.surface() : 0);
+        }
+        return chute;
     }
 
     /** Nombre pseudo-aléatoire fixe pour une colonne. */

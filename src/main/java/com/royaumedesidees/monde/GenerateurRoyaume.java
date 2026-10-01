@@ -60,17 +60,26 @@ public class GenerateurRoyaume extends ChunkGenerator {
         int minX = chunk.getPos().getMinBlockX();
         int minZ = chunk.getPos().getMinBlockZ();
 
+        // Colonnes du chunk plus une bordure d'un bloc, pour connaître la pente de chaque colonne.
+        ReliefRoyaume.Colonne[][] grille = new ReliefRoyaume.Colonne[18][18];
+        for (int i = 0; i < 18; i++) {
+            for (int j = 0; j < 18; j++) {
+                grille[i][j] = ReliefRoyaume.colonne(minX + i - 1, minZ + j - 1);
+            }
+        }
+
         for (int lx = 0; lx < 16; lx++) {
             for (int lz = 0; lz < 16; lz++) {
-                int x = minX + lx;
-                int z = minZ + lz;
-                ReliefRoyaume.Colonne colonne = ReliefRoyaume.colonne(x, z);
+                ReliefRoyaume.Colonne colonne = grille[lx + 1][lz + 1];
                 if (!colonne.ile()) {
                     continue;
                 }
+                int pente = ReliefRoyaume.pente(colonne, grille[lx + 2][lz + 1], grille[lx][lz + 1], grille[lx + 1][lz + 2], grille[lx + 1][lz]);
+                int x = minX + lx;
+                int z = minZ + lz;
                 int haut = Math.max(colonne.surface(), colonne.sousLEau() ? ReliefRoyaume.NIVEAU_MER : colonne.surface());
                 for (int y = colonne.fond(); y <= haut; y++) {
-                    BlockState etat = bloc(colonne, x, y, z);
+                    BlockState etat = bloc(colonne, pente, x, y, z);
                     chunk.setBlockState(pos.set(lx, y, lz), etat, false);
                     fondOcean.update(lx, y, lz, etat);
                     surfaceMonde.update(lx, y, lz, etat);
@@ -81,46 +90,94 @@ public class GenerateurRoyaume extends ChunkGenerator {
         return CompletableFuture.completedFuture(chunk);
     }
 
-    /** Le bloc à la hauteur y d'une colonne de l'île (entre son fond et la surface de l'eau). */
-    public static BlockState bloc(ReliefRoyaume.Colonne colonne, int x, int y, int z) {
+    /** Pente à partir de laquelle la terre ne tient plus : la roche du biome affleure. */
+    private static final int PENTE_ROCHEUSE = 3;
+
+    /**
+     * Le bloc à la hauteur y d'une colonne de l'île (entre son fond et la surface de l'eau).
+     *
+     * <p>Chaque biome a son propre sol, choisi d'après le vrai lieu :
+     * <ul>
+     *   <li>Jardin de Milan : terre de jardin, roche grise dans les pentes ;</li>
+     *   <li>Port-Royal (vallée marécageuse du Rhodon) : boue et argile ;</li>
+     *   <li>Puy de Dôme : dôme de trachyte clair (la « domite »), petits puys en scories sombres ;</li>
+     *   <li>Hippone (côte d'Afrique du Nord) : terre rouge méditerranéenne sur du calcaire.</li>
+     * </ul>
+     */
+    public static BlockState bloc(ReliefRoyaume.Colonne colonne, int pente, int x, int y, int z) {
         int surface = colonne.surface();
         if (y > surface) {
             return y <= ReliefRoyaume.NIVEAU_MER ? EAU : AIR;
         }
         int profondeur = surface - y;
         BlockState roche = y < Y_ARDOISE ? Blocks.DEEPSLATE.defaultBlockState() : Blocks.STONE.defaultBlockState();
-        if (profondeur > 4) {
-            return roche;
-        }
         int hasard = hachage(x, y, z);
 
         // Falaises du bord : roche nue.
         if (colonne.rebord() > 4) {
-            return profondeur == 0 && hasard % 5 == 0 ? Blocks.ANDESITE.defaultBlockState() : roche;
+            return profondeur < 5 && hasard % 5 == 0 ? Blocks.ANDESITE.defaultBlockState() : roche;
         }
+        boolean raide = pente >= PENTE_ROCHEUSE;
 
         return switch (colonne.zoneSol()) {
-            case JARDIN_MILAN -> solHerbeux(profondeur, roche);
+            case JARDIN_MILAN -> {
+                if (profondeur > 3) {
+                    yield roche;
+                }
+                if (raide) {
+                    yield (hasard % 3 == 0 ? Blocks.ANDESITE : Blocks.STONE).defaultBlockState();
+                }
+                yield profondeur == 0 ? Blocks.GRASS_BLOCK.defaultBlockState() : Blocks.DIRT.defaultBlockState();
+            }
             case PORT_ROYAL -> {
-                // Fond des mares et leurs berges : boue, puis argile.
+                if (profondeur > 4) {
+                    yield roche;
+                }
                 if (surface <= ReliefRoyaume.NIVEAU_MER) {
-                    yield profondeur == 0 ? Blocks.MUD.defaultBlockState() : profondeur < 3 ? Blocks.CLAY.defaultBlockState() : roche;
+                    // Fond des flaques et des étangs.
+                    yield profondeur < 2 ? Blocks.MUD.defaultBlockState() : Blocks.CLAY.defaultBlockState();
                 }
-                if (surface == ReliefRoyaume.NIVEAU_MER + 1 && profondeur == 0) {
-                    yield Blocks.MUD.defaultBlockState();
+                if (surface <= ReliefRoyaume.NIVEAU_MER + 2) {
+                    // Fond du marais : herbe détrempée et boue à nu, sur de la boue et de l'argile.
+                    if (profondeur == 0) {
+                        yield hasard % 100 < 45 ? Blocks.MUD.defaultBlockState() : Blocks.GRASS_BLOCK.defaultBlockState();
+                    }
+                    yield profondeur < 3 ? Blocks.MUD.defaultBlockState() : Blocks.CLAY.defaultBlockState();
                 }
-                yield solHerbeux(profondeur, roche);
+                if (raide) {
+                    yield profondeur < 3 ? Blocks.CLAY.defaultBlockState() : roche;
+                }
+                // Coteaux : un peu de terre sur de l'argile.
+                yield profondeur == 0 ? Blocks.GRASS_BLOCK.defaultBlockState() : profondeur == 1 ? Blocks.DIRT.defaultBlockState() : Blocks.CLAY.defaultBlockState();
             }
             case PUY_DE_DOME -> {
-                if (colonne.affleurement() && profondeur < 2) {
-                    // Roche volcanique qui perce l'herbe sur le haut du dôme.
-                    yield (hasard % 3 == 0 ? Blocks.ANDESITE : Blocks.TUFF).defaultBlockState();
+                if (profondeur > 4) {
+                    yield roche;
                 }
-                if (profondeur == 0 && surface >= ReliefRoyaume.NEIGE_Y) {
-                    // Herbe sous une fine couche de neige (la neige est posée par VegetationRoyaume).
-                    yield Blocks.GRASS_BLOCK.defaultBlockState().setValue(SnowyDirtBlock.SNOWY, true);
+                // Petits puys : cônes de scories, basalte et tuf, pouzzolane rouge dans les pentes.
+                if (colonne.petitPuy()) {
+                    if (raide || profondeur > 0) {
+                        yield (hasard % 4 == 0 ? Blocks.RED_TERRACOTTA : hasard % 4 == 1 ? Blocks.BASALT : Blocks.TUFF).defaultBlockState();
+                    }
+                    yield Blocks.GRASS_BLOCK.defaultBlockState();
                 }
-                yield solHerbeux(profondeur, roche);
+                // Dôme : trachyte clair sous une herbe rase.
+                if (colonne.altitudeDome() > 0.05) {
+                    BlockState domite = (hasard % 3 == 0 ? Blocks.DIORITE : Blocks.ANDESITE).defaultBlockState();
+                    if (profondeur > 0 || raide || colonne.affleurement()) {
+                        yield domite;
+                    }
+                    if (surface >= ReliefRoyaume.NEIGE_Y) {
+                        // Herbe sous une fine couche de neige (la neige est posée par VegetationRoyaume).
+                        yield Blocks.GRASS_BLOCK.defaultBlockState().setValue(SnowyDirtBlock.SNOWY, true);
+                    }
+                    yield Blocks.GRASS_BLOCK.defaultBlockState();
+                }
+                // Plaine : prairie sur une mince couche de terre, puis tuf volcanique.
+                if (raide) {
+                    yield Blocks.TUFF.defaultBlockState();
+                }
+                yield profondeur == 0 ? Blocks.GRASS_BLOCK.defaultBlockState() : profondeur == 1 ? Blocks.DIRT.defaultBlockState() : Blocks.TUFF.defaultBlockState();
             }
             case HIPPONE -> {
                 if (surface <= ReliefRoyaume.NIVEAU_MER - 6) {
@@ -131,29 +188,28 @@ public class GenerateurRoyaume extends ChunkGenerator {
                     // Plage, seulement au bord de l'eau.
                     yield profondeur < 3 ? Blocks.SAND.defaultBlockState() : Blocks.SANDSTONE.defaultBlockState();
                 }
-                if (colonne.affleurement() && profondeur < 2) {
-                    yield (hasard % 3 == 0 ? Blocks.ANDESITE : Blocks.STONE).defaultBlockState();
+                if (profondeur > 7) {
+                    yield roche;
+                }
+                // Calcaire blanc qui perce la garrigue et borde les pentes.
+                if (raide || colonne.affleurement()) {
+                    yield profondeur < 2 && hasard % 2 == 0 ? Blocks.CALCITE.defaultBlockState() : Blocks.SANDSTONE.defaultBlockState();
                 }
                 if (profondeur == 0) {
-                    // Garrigue : herbe sèche, terre nue et podzol.
+                    // Garrigue : surtout de l'herbe sèche, quelques plaques de terre nue et de cailloux.
                     int tirage = hasard % 100;
-                    if (tirage < 14) {
+                    if (tirage < 6) {
                         yield Blocks.COARSE_DIRT.defaultBlockState();
                     }
-                    if (tirage < 20) {
-                        yield Blocks.PODZOL.defaultBlockState();
+                    if (tirage < 9) {
+                        yield Blocks.GRAVEL.defaultBlockState();
                     }
+                    yield Blocks.GRASS_BLOCK.defaultBlockState();
                 }
-                yield solHerbeux(profondeur, roche);
+                // Terre rouge (terra rossa) puis calcaire.
+                yield profondeur < 3 ? Blocks.TERRACOTTA.defaultBlockState() : Blocks.SANDSTONE.defaultBlockState();
             }
         };
-    }
-
-    private static BlockState solHerbeux(int profondeur, BlockState roche) {
-        if (profondeur == 0) {
-            return Blocks.GRASS_BLOCK.defaultBlockState();
-        }
-        return profondeur < 4 ? Blocks.DIRT.defaultBlockState() : roche;
     }
 
     /** Nombre pseudo-aléatoire fixe pour une position : sert à varier les blocs sans dépendre de la seed. */
@@ -180,11 +236,12 @@ public class GenerateurRoyaume extends ChunkGenerator {
     @Override
     public NoiseColumn getBaseColumn(int x, int z, LevelHeightAccessor niveau, RandomState aleatoire) {
         ReliefRoyaume.Colonne colonne = ReliefRoyaume.colonne(x, z);
+        int pente = colonne.ile() ? ReliefRoyaume.pente(colonne, x, z) : 0;
         BlockState[] etats = new BlockState[niveau.getHeight()];
         for (int i = 0; i < etats.length; i++) {
             int y = niveau.getMinBuildHeight() + i;
             boolean dansIle = colonne.ile() && y >= colonne.fond();
-            etats[i] = dansIle ? bloc(colonne, x, y, z) : AIR;
+            etats[i] = dansIle ? bloc(colonne, pente, x, y, z) : AIR;
         }
         return new NoiseColumn(niveau.getMinBuildHeight(), etats);
     }

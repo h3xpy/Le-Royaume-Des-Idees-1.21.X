@@ -22,8 +22,10 @@ public final class VerificationDev {
     private static final int[][] POINTS = {
             {0, 0},        // plaine au-dessus de la Caverne
             {-260, -260},  // Jardin de Milan
-            {300, -290},   // fond de la vallée de Port-Royal
+            {300, -290},   // butte de l'abbaye, au fond de la vallée de Port-Royal
+            {250, -250},   // marais de Port-Royal
             {260, 260},    // sommet enneigé du dôme
+            {305, 305},    // limite de la neige (Poêle de Descartes)
             {470, 120},    // cratère d'un petit puy
             {-330, 320},   // mer d'Hippone
             {-208, 203},   // plateau de la ville d'Hippone
@@ -61,7 +63,7 @@ public final class VerificationDev {
             } else {
                 BlockPos sol = new BlockPos(x, colonne.surface(), z);
                 BlockState obtenu = royaume.getBlockState(sol);
-                BlockState attendu = GenerateurRoyaume.bloc(colonne, x, colonne.surface(), z);
+                BlockState attendu = GenerateurRoyaume.bloc(colonne, ReliefRoyaume.pente(colonne, x, z), x, colonne.surface(), z);
                 BlockState dessus = royaume.getBlockState(sol.above());
                 boolean dessusLibre = colonne.sousLEau()
                         ? dessus.is(Blocks.WATER)
