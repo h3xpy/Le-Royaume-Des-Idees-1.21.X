@@ -44,7 +44,6 @@ public class ModLangueFr extends LanguageProvider {
         add("message.royaumedesidees.portail.incomplet", "Le livre reste muet : il faut un cadre de bibliothèques de 4 sur 5, vide au milieu, avec une lanterne contre chaque coin.");
         add("message.royaumedesidees.portail.allume", "« Prends, lis ; prends, lis. » Le portail s'ouvre.");
         add("message.royaumedesidees.portail.dans_royaume", "Ici, on ne lit plus : on cherche la sortie.");
-        add("sous_titre.royaumedesidees.portail_chant", "Une voix d'enfant chante");
 
         add(ModTags.LIE_AU_ROYAUME, "Lié au Royaume");
     }

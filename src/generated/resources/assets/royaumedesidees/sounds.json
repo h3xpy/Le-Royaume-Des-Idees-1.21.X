@@ -1,11 +1,10 @@
 {
-  "portail_chant": {
+  "musique_royaume": {
     "sounds": [
       {
-        "name": "royaumedesidees:portail_chant",
+        "name": "royaumedesidees:musique_royaume",
         "stream": true
       }
-    ],
-    "subtitle": "sous_titre.royaumedesidees.portail_chant"
+    ]
   }
 }

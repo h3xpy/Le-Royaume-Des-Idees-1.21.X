@@ -1,6 +1,7 @@
 package com.royaumedesidees.dev;
 
 import com.royaumedesidees.RoyaumeDesIdees;
+import com.royaumedesidees.client.MusiqueRoyaume;
 import com.royaumedesidees.structures.StructuresRoyaume;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Screenshot;
@@ -89,8 +90,8 @@ public final class VisiteDev {
             return;
         }
         String nom = ETAPES.get(etape).nom();
-        RoyaumeDesIdees.LOGGER.info("[visite] {} : dimension {}, position {}", nom,
-                jeu.level.dimension().location(), jeu.player.blockPosition().toShortString());
+        RoyaumeDesIdees.LOGGER.info("[visite] {} : dimension {}, position {}, musique du Royaume en cours : {}", nom,
+                jeu.level.dimension().location(), jeu.player.blockPosition().toShortString(), MusiqueRoyaume.joue());
         Screenshot.grab(jeu.gameDirectory, "visite_" + nom + ".png", jeu.getMainRenderTarget(), message -> { });
         if (etape + 1 < ETAPES.size()) {
             commencer(jeu, etape + 1);

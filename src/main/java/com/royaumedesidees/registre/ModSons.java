@@ -13,9 +13,12 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 public final class ModSons {
     public static final DeferredRegister<SoundEvent> SONS = DeferredRegister.create(Registries.SOUND_EVENT, RoyaumeDesIdees.MODID);
 
-    /** Voix d'enfant qui chante près d'un portail allumé (« prends, lis », jardin de Milan, 386). */
-    public static final DeferredHolder<SoundEvent, SoundEvent> PORTAIL_CHANT = SONS.register("portail_chant",
-            () -> SoundEvent.createVariableRangeEvent(RoyaumeDesIdees.id("portail_chant")));
+    /**
+     * Musique du Royaume, jouée dans toute la dimension à la place de celle de Minecraft. Le fichier
+     * (sounds/musique_royaume.ogg) est local et n'est pas publié sur le dépôt git : voir docs/sons_a_fournir.md.
+     */
+    public static final DeferredHolder<SoundEvent, SoundEvent> MUSIQUE_ROYAUME = SONS.register("musique_royaume",
+            () -> SoundEvent.createVariableRangeEvent(RoyaumeDesIdees.id("musique_royaume")));
 
     private ModSons() {
     }

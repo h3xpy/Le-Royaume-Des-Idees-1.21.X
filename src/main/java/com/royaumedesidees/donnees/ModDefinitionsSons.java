@@ -18,10 +18,10 @@ public class ModDefinitionsSons extends SoundDefinitionsProvider {
 
     @Override
     public void registerSounds() {
-        // Le fichier n'existe pas forcément encore : on le déclare pour que la vérification ne bloque pas.
-        fichiers.trackGenerated(RoyaumeDesIdees.id("portail_chant"), PackType.CLIENT_RESOURCES, ".ogg", "sounds");
-        add(ModSons.PORTAIL_CHANT, definition()
-                .subtitle("sous_titre.royaumedesidees.portail_chant")
-                .with(sound(RoyaumeDesIdees.id("portail_chant")).stream()));
+        // Le fichier n'est pas sur le dépôt git (droits d'auteur) : on le déclare pour que la vérification
+        // ne bloque pas sur une copie du projet qui ne l'a pas.
+        fichiers.trackGenerated(RoyaumeDesIdees.id("musique_royaume"), PackType.CLIENT_RESOURCES, ".ogg", "sounds");
+        // Morceau long : lu en flux (stream) plutôt que chargé d'un bloc en mémoire.
+        add(ModSons.MUSIQUE_ROYAUME, definition().with(sound(RoyaumeDesIdees.id("musique_royaume")).stream()));
     }
 }

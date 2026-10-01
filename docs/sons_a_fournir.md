@@ -6,6 +6,8 @@ Note la source et la licence de chaque fichier dans la dernière colonne, au cas
 
 | Fichier | Dossier | Version | Ambiance | Durée | Boucle | Source et licence |
 | --- | --- | --- | --- | --- | --- | --- |
-| `portail_chant.ogg` | `src/main/resources/assets/royaumedesidees/sounds/` | v0.1 | Voix d'enfant qui chante doucement, un peu mystérieux (le « prends, lis » du jardin de Milan) | 5 à 15 s | Oui | |
+| `musique_royaume.ogg` | `src/main/resources/assets/royaumedesidees/sounds/` | v0.1 | Musique de tout le Royaume, à la place de celle de Minecraft (démarre 7 s après l'arrivée, même en créatif, puis revient après 30 s à 5 min de silence) | 17 min 32 s (mono, 48 kHz) | Non (musique) | Fourni : « tolle lege, tolle lege… » (2019), Alexander Garsden. Licence à vérifier : fichier gardé hors du dépôt git (.gitignore), donc absent des builds GitHub. |
 
 Si un fichier manque, le jeu ne plante pas : le son est juste muet.
+
+Le portail du Royaume est silencieux : l'ancienne ligne `portail_chant.ogg` a été retirée.

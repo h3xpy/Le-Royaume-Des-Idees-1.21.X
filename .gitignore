@@ -48,3 +48,6 @@ __pycache__/
 ### Windows ###
 Thumbs.db
 desktop.ini
+
+### Musique du Royaume : fichier local, sous droit d'auteur, jamais publié ###
+src/main/resources/assets/royaumedesidees/sounds/musique_royaume.ogg

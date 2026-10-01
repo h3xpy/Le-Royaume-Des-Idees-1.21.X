@@ -3,11 +3,13 @@ package com.royaumedesidees.donnees;
 import com.royaumedesidees.monde.GenerateurRoyaume;
 import com.royaumedesidees.monde.SourceBiomesRoyaume;
 import com.royaumedesidees.registre.ModMonde;
+import com.royaumedesidees.registre.ModSons;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.sounds.Music;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.valueproviders.ConstantInt;
@@ -74,6 +76,13 @@ public final class ModDimension {
                 0xc2d4f4, 0xf8ecd8, 0x5fd8c8, 0x2a7a78, 0xccd290, 0xb0c070, ParticleTypes.WHITE_ASH, 0.003F));
     }
 
+    /**
+     * Musique du Royaume dans tous ses biomes : elle remplace celle de Minecraft 7 secondes après l'arrivée (lancée par
+     * {@link com.royaumedesidees.client.MusiqueRoyaume}), puis revient après 30 secondes à 5 minutes de silence. Elle suit le curseur « Musique » des options.
+     * Mêmes délais que {@link com.royaumedesidees.client.MusiqueRoyaume}, qui l'impose aussi en créatif.
+     */
+    private static final Music MUSIQUE = new Music(ModSons.MUSIQUE_ROYAUME, 600, 6000, true);
+
     private static Biome biome(float temperature, boolean precipitations, int ciel, int brume, int eau, int brumeEau,
                                int herbe, int feuillage, SimpleParticleType particule, float densite) {
         return new Biome.BiomeBuilder()
@@ -89,6 +98,7 @@ public final class ModDimension {
                         .foliageColorOverride(feuillage)
                         .ambientParticle(new AmbientParticleSettings(particule, densite))
                         .ambientMoodSound(AmbientMoodSettings.LEGACY_CAVE_SETTINGS)
+                        .backgroundMusic(MUSIQUE)
                         .build())
                 .mobSpawnSettings(MobSpawnSettings.EMPTY)
                 .generationSettings(BiomeGenerationSettings.EMPTY)

@@ -2,12 +2,10 @@ package com.royaumedesidees.bloc;
 
 import com.royaumedesidees.portail.CadrePortail;
 import com.royaumedesidees.portail.VoyageRoyaume;
-import com.royaumedesidees.registre.ModSons;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -87,13 +85,9 @@ public class PortailRoyaumeBloc extends Block implements Portal {
         return Transition.CONFUSION;
     }
 
-    /** Lettres dorées qui s'envolent du portail, et de temps en temps la voix d'enfant qui chante. */
+    /** Lettres dorées qui s'envolent du portail (il est silencieux : la musique est celle du Royaume). */
     @Override
     public void animateTick(BlockState etat, Level niveau, BlockPos pos, RandomSource hasard) {
-        if (hasard.nextInt(20) == 0) {
-            niveau.playLocalSound(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, ModSons.PORTAIL_CHANT.get(),
-                    SoundSource.BLOCKS, 0.6F, 1.0F, false);
-        }
         for (int i = 0; i < 2; i++) {
             niveau.addParticle(ParticleTypes.ENCHANT,
                     pos.getX() + hasard.nextDouble(), pos.getY() + hasard.nextDouble(), pos.getZ() + hasard.nextDouble(),
