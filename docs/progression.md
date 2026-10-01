@@ -13,8 +13,9 @@ v0.1 — Les fondations, en cours.
 | 3. Pipeline de textures | Fait |
 | 4. Dimension : relief de l'île | Fait |
 | 4 bis. Révision du relief après relecture | Fait |
-| 4 ter. Marais, sols par biome, références, emplacements | Fait, à vérifier en jeu |
-| 5. Biomes et Caverne creusée (fige la carte) | À faire |
+| 4 ter. Marais, sols par biome, références, emplacements | Fait |
+| 4 quater. Ambiance éthérée, biomes et leurs couleurs | Fait (les biomes de l'étape 5 sont faits) |
+| 5. Biomes et Caverne creusée (fige la carte) | Biomes faits ; reste la Caverne |
 | 6. Système de pose des structures | À faire |
 | 7. Portail et livre | À faire |
 | 8. Caverne jouable | À faire |
@@ -57,10 +58,18 @@ v0.1 — Les fondations, en cours.
 - 2026-10-01 : le bord de l'île est découpé (caps, criques, dentelures) et se relève en falaises de hauteur variable (10 à 40 blocs) avant de tomber dans le vide. Sept îlots flottants détachés entourent l'île, entre 770 et 830 blocs du centre. Le dessous de l'île est une masse de roche pleine et bombée, y compris sous le Puy.
 - 2026-10-01 : couleurs d'herbe prévues pour l'étape 5 : vert vif méditerranéen pour Milan, vert-gris terne pour Port-Royal, vert sombre de prairie d'altitude pour le Puy, vert olive sec pour Hippone. Brume possible sur le marais de Port-Royal (couleur du brouillard du biome).
 - 2026-10-01 : la Cité de Dieu et l'arène sont réservées au plus haut de la dimension, entre y 320 et 370, au-dessus du sommet du Puy (y 300). Le Puy garde sa hauteur pour la mécanique de pression.
-- 2026-10-01 : lumière ambiante de 0,05 (l'Overworld est à 0) ; ciel de type Overworld, dont les couleurs viendront des biomes.
+- 2026-10-01 : ambiance éthérée (aperçus : `docs/images/apercu_*.jpg`) :
+  - cinq biomes, `caverne_platon`, `jardin_milan`, `port_royal`, `puy_de_dome` et `hippone`, répartis par `SourceBiomesRoyaume` (zone de surface, et un ellipsoïde fixe sous le centre pour la Caverne, de y 39 à 91 et de 70 blocs de rayon) ;
+  - ciels pâles (pervenche, perle, bleu froid), brumes claires (lavande, blanc nacré, dorée à Hippone), eau turquoise, herbes et feuillages éclaircis ;
+  - particules dans l'air : pétales roses au Jardin, poussière blanche à Port-Royal, au Puy et à Hippone, cendres dans la Caverne ;
+  - lumière ambiante de 0,1 (l'Overworld est à 0) : les ombres ne sont jamais tout à fait noires ;
+  - falaises du bord et dessous de l'île entièrement en roche claire (calcite, diorite), avec du lichen lumineux et quelques fleurs de spores qui pendent dans le vide ;
+  - les marches d'un ou deux blocs sont bordées de mousse au lieu de montrer le flanc de terre des blocs d'herbe ;
+  - Puy de Dôme : température choisie pour que la neige ne tombe qu'au-dessus de y ≈ 264.
 - 2026-10-01 : pas de grottes ni de minerais générés dans le Royaume.
 - 2026-10-01 : `ReliefRoyaume` et `BruitRoyaume` ne dépendent pas de Minecraft, pour qu'on puisse dessiner la carte hors du jeu. Ils ne doivent plus être modifiés après la v0.1.
-- 2026-10-01 : contrôle de développement `VerificationDev`, actif seulement avec `-Droyaumedesidees.verification=true` : au démarrage d'un monde, il génère quelques chunks du Royaume et compare le bloc de surface au relief prévu. Les essais se font sur une copie temporaire du monde `test`.
+- 2026-10-01 : visite de développement `VisiteDev`, active seulement avec `-Droyaumedesidees.visite=true` : sur une copie du monde de test, le joueur passe en spectateur, visite cinq points de vue en plein jour et prend une capture à chacun (`run/screenshots/visite_*.png`).
+- 2026-10-01 : contrôle de développement `VerificationDev`, actif seulement avec `-Droyaumedesidees.verification=true` : au démarrage d'un monde, il génère quelques chunks du Royaume et compare le bloc de surface et le biome au relief prévu. Les essais se font sur une copie temporaire du monde `test`.
 
 ## Coordonnées réservées des structures
 

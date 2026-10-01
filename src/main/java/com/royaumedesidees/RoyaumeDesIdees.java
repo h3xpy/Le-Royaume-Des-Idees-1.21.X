@@ -26,6 +26,7 @@ public class RoyaumeDesIdees {
         ModItems.ITEMS.register(modEventBus);
         ModOngletsCreatifs.ONGLETS.register(modEventBus);
         ModMonde.GENERATEURS.register(modEventBus);
+        ModMonde.SOURCES_BIOMES.register(modEventBus);
 
         modEventBus.addListener(GenerateurDonnees::generer);
         VerificationDev.activerSiDemande();

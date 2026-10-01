@@ -71,11 +71,25 @@ public final class VerificationDev {
                 ok = obtenu == attendu && dessusLibre;
                 detail = "sol y=" + colonne.surface() + " " + nom(obtenu) + " (attendu " + nom(attendu) + "), dessus " + nom(dessus);
             }
+            if (colonne.ile()) {
+                // Le biome à la surface doit être celui de la zone.
+                String biome = royaume.getBiome(new BlockPos(x, colonne.surface() + 1, z)).unwrapKey().map(cle -> cle.location().getPath()).orElse("?");
+                boolean bonBiome = biome.equals(colonne.zone().name().toLowerCase(java.util.Locale.ROOT));
+                ok &= bonBiome;
+                detail += ", biome " + biome;
+            }
             if (!ok) {
                 erreurs++;
             }
             RoyaumeDesIdees.LOGGER.info("[verification] ({}, {}) {} : {} {}", x, z, colonne.zone(), detail, ok ? "OK" : "ECHEC");
         }
+        // Le cœur de la Caverne doit être dans son biome.
+        String biomeCaverne = royaume.getBiome(new BlockPos(0, 65, 0)).unwrapKey().map(cle -> cle.location().getPath()).orElse("?");
+        boolean caverneOk = biomeCaverne.equals("caverne_platon");
+        if (!caverneOk) {
+            erreurs++;
+        }
+        RoyaumeDesIdees.LOGGER.info("[verification] (0, 65, 0) biome {} {}", biomeCaverne, caverneOk ? "OK" : "ECHEC");
         RoyaumeDesIdees.LOGGER.info("[verification] Royaume : {}", erreurs == 0 ? "OK" : erreurs + " ECHEC(S)");
     }
 

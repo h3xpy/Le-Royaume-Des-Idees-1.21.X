@@ -6,6 +6,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DoublePlantBlock;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.levelgen.Heightmap;
@@ -21,6 +22,8 @@ import net.minecraft.world.level.levelgen.Heightmap;
  *   <li>Puy de Dôme (Auvergne) : prairie rase, bleuets, épicéas et hêtres au pied du dôme ;</li>
  *   <li>Hippone (côte d'Afrique du Nord) : garrigue, oliviers, quelques pins, lentisques, allium sauvage.</li>
  * </ul>
+ *
+ * <p>Sous l'île, du lichen lumineux et des fleurs de spores pendent dans le vide.
  *
  * <p>Les arbres sont placés sur une grille : au plus un arbre par case, à une position fixée par la case.
  * Un chunk dessine aussi les morceaux des arbres voisins qui débordent chez lui.
@@ -48,6 +51,7 @@ public final class VegetationRoyaume {
         for (int lx = 0; lx < 16; lx++) {
             for (int lz = 0; lz < 16; lz++) {
                 plantes(poseur, minX + lx, minZ + lz);
+                dessous(poseur, minX + lx, minZ + lz);
             }
         }
         // Les couronnes débordent d'au plus 3 blocs du tronc.
@@ -151,6 +155,21 @@ public final class VegetationRoyaume {
                     buisson(poseur, x, y, z);                    // lentisque
                 }
             }
+        }
+    }
+
+    /** Sous l'île : lichen lumineux et fleurs de spores qui pendent dans le vide. */
+    private static void dessous(Poseur poseur, int x, int z) {
+        ReliefRoyaume.Colonne colonne = ReliefRoyaume.colonne(x, z);
+        int y = colonne.fond() - 1;
+        if (!colonne.ile() || y < 0) {
+            return;
+        }
+        int tirage = hachage(x, z, 71) % 100;
+        if (tirage < 9) {
+            poseur.poser(x, y, z, Blocks.GLOW_LICHEN.defaultBlockState().setValue(BlockStateProperties.UP, true));
+        } else if (hachage(x, z, 73) % 1000 < 6) {
+            poseur.poser(x, y, z, Blocks.SPORE_BLOSSOM);
         }
     }
 

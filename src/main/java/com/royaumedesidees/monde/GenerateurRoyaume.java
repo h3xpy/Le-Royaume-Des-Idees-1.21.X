@@ -113,11 +113,18 @@ public class GenerateurRoyaume extends ChunkGenerator {
         BlockState roche = y < Y_ARDOISE ? Blocks.DEEPSLATE.defaultBlockState() : Blocks.STONE.defaultBlockState();
         int hasard = hachage(x, y, z);
 
-        // Falaises du bord : roche nue.
+        // Falaises du bord : toute la paroi en roche claire, comme des falaises de craie au-dessus des nuages.
         if (colonne.rebord() > 4) {
-            return profondeur < 5 && hasard % 5 == 0 ? Blocks.ANDESITE.defaultBlockState() : roche;
+            return rochePale(hasard);
+        }
+        // Dessous de l'île, visible depuis le vide : roche claire, presque nacrée.
+        if (profondeur > 4 && y - colonne.fond() < 6) {
+            return rochePale(hasard);
         }
         boolean raide = pente >= PENTE_ROCHEUSE;
+        // Petite marche (1 ou 2 blocs) : on verrait le flanc de terre du bloc d'herbe. On y met un bloc
+        // dont le flanc est de la même couleur que le dessus (mousse, ou grès clair à Hippone).
+        boolean bordDeMarche = !raide && profondeur < Math.max(pente, 1) && pente >= 1;
 
         return switch (colonne.zoneSol()) {
             case JARDIN_MILAN -> {
@@ -127,25 +134,35 @@ public class GenerateurRoyaume extends ChunkGenerator {
                 if (raide) {
                     yield (hasard % 3 == 0 ? Blocks.ANDESITE : Blocks.STONE).defaultBlockState();
                 }
+                if (bordDeMarche) {
+                    yield Blocks.MOSS_BLOCK.defaultBlockState();
+                }
                 yield profondeur == 0 ? Blocks.GRASS_BLOCK.defaultBlockState() : Blocks.DIRT.defaultBlockState();
             }
             case PORT_ROYAL -> {
                 if (profondeur > 4) {
                     yield roche;
                 }
-                if (surface <= ReliefRoyaume.NIVEAU_MER) {
+                if (surface < ReliefRoyaume.NIVEAU_MER) {
                     // Fond des flaques et des étangs.
                     yield profondeur < 2 ? Blocks.MUD.defaultBlockState() : Blocks.CLAY.defaultBlockState();
                 }
                 if (surface <= ReliefRoyaume.NIVEAU_MER + 2) {
-                    // Fond du marais : herbe détrempée et boue à nu, sur de la boue et de l'argile.
+                    // Fond du marais : herbe détrempée, mousse et un peu de boue à nu, sur de la boue et de l'argile.
                     if (profondeur == 0) {
-                        yield hasard % 100 < 45 ? Blocks.MUD.defaultBlockState() : Blocks.GRASS_BLOCK.defaultBlockState();
+                        int tirage = hasard % 100;
+                        yield (tirage < 18 ? Blocks.MUD : tirage < 30 || bordDeMarche ? Blocks.MOSS_BLOCK : Blocks.GRASS_BLOCK).defaultBlockState();
+                    }
+                    if (bordDeMarche) {
+                        yield Blocks.MOSS_BLOCK.defaultBlockState();
                     }
                     yield profondeur < 3 ? Blocks.MUD.defaultBlockState() : Blocks.CLAY.defaultBlockState();
                 }
                 if (raide) {
                     yield profondeur < 3 ? Blocks.CLAY.defaultBlockState() : roche;
+                }
+                if (bordDeMarche) {
+                    yield Blocks.MOSS_BLOCK.defaultBlockState();
                 }
                 // Coteaux : un peu de terre sur de l'argile.
                 yield profondeur == 0 ? Blocks.GRASS_BLOCK.defaultBlockState() : profondeur == 1 ? Blocks.DIRT.defaultBlockState() : Blocks.CLAY.defaultBlockState();
@@ -159,13 +176,16 @@ public class GenerateurRoyaume extends ChunkGenerator {
                     if (raide || profondeur > 0) {
                         yield (hasard % 4 == 0 ? Blocks.RED_TERRACOTTA : hasard % 4 == 1 ? Blocks.BASALT : Blocks.TUFF).defaultBlockState();
                     }
-                    yield Blocks.GRASS_BLOCK.defaultBlockState();
+                    yield (bordDeMarche ? Blocks.MOSS_BLOCK : Blocks.GRASS_BLOCK).defaultBlockState();
                 }
                 // Dôme : trachyte clair sous une herbe rase.
                 if (colonne.altitudeDome() > 0.05) {
                     BlockState domite = (hasard % 3 == 0 ? Blocks.DIORITE : Blocks.ANDESITE).defaultBlockState();
                     if (profondeur > 0 || raide || colonne.affleurement()) {
                         yield domite;
+                    }
+                    if (bordDeMarche) {
+                        yield Blocks.MOSS_BLOCK.defaultBlockState();
                     }
                     if (surface >= ReliefRoyaume.NEIGE_Y) {
                         // Herbe sous une fine couche de neige (la neige est posée par VegetationRoyaume).
@@ -176,6 +196,9 @@ public class GenerateurRoyaume extends ChunkGenerator {
                 // Plaine : prairie sur une mince couche de terre, puis tuf volcanique.
                 if (raide) {
                     yield Blocks.TUFF.defaultBlockState();
+                }
+                if (bordDeMarche) {
+                    yield Blocks.MOSS_BLOCK.defaultBlockState();
                 }
                 yield profondeur == 0 ? Blocks.GRASS_BLOCK.defaultBlockState() : profondeur == 1 ? Blocks.DIRT.defaultBlockState() : Blocks.TUFF.defaultBlockState();
             }
@@ -191,9 +214,16 @@ public class GenerateurRoyaume extends ChunkGenerator {
                 if (profondeur > 7) {
                     yield roche;
                 }
-                // Calcaire blanc qui perce la garrigue et borde les pentes.
-                if (raide || colonne.affleurement()) {
-                    yield profondeur < 2 && hasard % 2 == 0 ? Blocks.CALCITE.defaultBlockState() : Blocks.SANDSTONE.defaultBlockState();
+                // Rochers de calcaire gris qui percent la garrigue.
+                if (colonne.affleurement() && profondeur < 2) {
+                    yield (hasard % 3 == 0 ? Blocks.ANDESITE : Blocks.STONE).defaultBlockState();
+                }
+                // Pentes et marches de 2 blocs : calcaire clair. Marches d'un bloc : mousse, de la teinte olive de la garrigue.
+                if (raide || (bordDeMarche && pente >= 2)) {
+                    yield Blocks.SANDSTONE.defaultBlockState();
+                }
+                if (bordDeMarche) {
+                    yield Blocks.MOSS_BLOCK.defaultBlockState();
                 }
                 if (profondeur == 0) {
                     // Garrigue : surtout de l'herbe sèche, quelques plaques de terre nue et de cailloux.
@@ -210,6 +240,12 @@ public class GenerateurRoyaume extends ChunkGenerator {
                 yield profondeur < 3 ? Blocks.TERRACOTTA.defaultBlockState() : Blocks.SANDSTONE.defaultBlockState();
             }
         };
+    }
+
+    /** Calcite, diorite et un peu de pierre : la roche blanche du bord et du dessous de l'île. */
+    private static BlockState rochePale(int hasard) {
+        int tirage = hasard % 10;
+        return (tirage < 5 ? Blocks.CALCITE : tirage < 8 ? Blocks.DIORITE : Blocks.STONE).defaultBlockState();
     }
 
     /** Nombre pseudo-aléatoire fixe pour une position : sert à varier les blocs sans dépendre de la seed. */

@@ -26,6 +26,12 @@ public class ModLangueEn extends LanguageProvider {
         add(ModBlocs.PORTAIL_ROYAUME.get(), "Kingdom Portal");
         add(ModBlocs.CHAINE_CAVERNE.get(), "Cave Chain");
 
+        add("biome." + RoyaumeDesIdees.MODID + ".caverne_platon", "Plato's Cave");
+        add("biome." + RoyaumeDesIdees.MODID + ".jardin_milan", "Garden of Milan");
+        add("biome." + RoyaumeDesIdees.MODID + ".port_royal", "Port-Royal");
+        add("biome." + RoyaumeDesIdees.MODID + ".puy_de_dome", "Puy de Dôme");
+        add("biome." + RoyaumeDesIdees.MODID + ".hippone", "Hippo");
+
         add(ModTags.LIE_AU_ROYAUME, "Bound to the Kingdom");
     }
 }

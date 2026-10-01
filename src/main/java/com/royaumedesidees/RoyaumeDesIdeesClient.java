@@ -1,5 +1,6 @@
 package com.royaumedesidees;
 
+import com.royaumedesidees.dev.VisiteDev;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
@@ -12,5 +13,6 @@ import net.neoforged.fml.common.Mod;
 @Mod(value = RoyaumeDesIdees.MODID, dist = Dist.CLIENT)
 public class RoyaumeDesIdeesClient {
     public RoyaumeDesIdeesClient(IEventBus modEventBus, ModContainer modContainer) {
+        VisiteDev.activerSiDemande();
     }
 }

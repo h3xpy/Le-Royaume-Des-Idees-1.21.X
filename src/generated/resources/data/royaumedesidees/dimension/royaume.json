@@ -3,8 +3,12 @@
   "generator": {
     "type": "royaumedesidees:royaume",
     "biome_source": {
-      "type": "minecraft:fixed",
-      "biome": "minecraft:the_void"
+      "type": "royaumedesidees:royaume",
+      "caverne_platon": "royaumedesidees:caverne_platon",
+      "hippone": "royaumedesidees:hippone",
+      "jardin_milan": "royaumedesidees:jardin_milan",
+      "port_royal": "royaumedesidees:port_royal",
+      "puy_de_dome": "royaumedesidees:puy_de_dome"
     }
   }
 }
