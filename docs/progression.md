@@ -11,7 +11,7 @@ v0.1 — Les fondations, en cours.
 | 1. Transformer le mod d'exemple en notre mod | Fait |
 | 2. Data generation et les 6 objets | Fait |
 | 3. Pipeline de textures | Fait |
-| 4. Dimension : relief de l'île | Fait, à vérifier dans un monde |
+| 4. Dimension : relief de l'île | Fait |
 | 5. Biomes et Caverne creusée (fige la carte) | À faire |
 | 6. Système de pose des structures | À faire |
 | 7. Portail et livre | À faire |
@@ -40,7 +40,7 @@ v0.1 — Les fondations, en cours.
 - 2026-10-01 : l'Ombre a deux textures : `ombre` (silhouette noire semi-transparente) et `ombre_revelee` (un prisonnier de la Caverne en tunique, sa « vraie forme » sous la Lanterne).
 - 2026-10-01 : la couverture de Tolle, Lege porte un cœur enflammé doré, attribut traditionnel de saint Augustin.
 - 2026-10-01 : niveau de l'eau à y = 80. Plaine centrale vers y = 100 (la Caverne, entre y 40 et 90, aura un plafond d'au moins 10 blocs).
-- 2026-10-01 : le relief des zones : Jardin de Milan, collines entre y 94 et 110 ; Port-Royal, vallée plate vers y 85 avec des mares (fond en boue et argile) ; Puy de Dôme, cône centré en (480, 470), bord du cratère vers y 299, fond du cratère vers y 274, neige en haut, tuf et basalte sur les flancs ; Hippone, plaine vers y 90, mer intérieure centrée en (-500, 480) d'environ 200 blocs de rayon, plateau plat à y 100 centré en (-337, 324) qui descend vers le rivage.
+- 2026-10-01 : le relief des zones : Jardin de Milan, collines entre y 94 et 110 ; Port-Royal, vallée plate vers y 85 avec des mares (fond en boue et argile) ; Puy de Dôme, cône centré en (480, 470), sommet vers y 300, fond du cratère vers y 265, neige en haut, tuf et basalte sur les flancs ; Hippone, plaine vers y 90, mer intérieure centrée en (-500, 480) d'environ 200 blocs de rayon, plateau plat à y 100 centré en (-337, 324) qui descend vers le rivage.
 - 2026-10-01 : le bord de l'île se relève en falaises rocheuses (environ 30 blocs) avant de tomber dans le vide, pour qu'on ne sorte pas de l'île en marchant. Le dessous de l'île est une masse de roche bombée, visible depuis le bord.
 - 2026-10-01 : lumière ambiante de 0,05 (l'Overworld est à 0) ; ciel de type Overworld, dont les couleurs viendront des biomes.
 - 2026-10-01 : pas de grottes ni de minerais générés dans le Royaume.
