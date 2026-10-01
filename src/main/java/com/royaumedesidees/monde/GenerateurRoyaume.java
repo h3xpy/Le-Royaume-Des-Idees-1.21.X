@@ -109,9 +109,21 @@ public class GenerateurRoyaume extends ChunkGenerator {
         if (y > surface) {
             return y <= ReliefRoyaume.NIVEAU_MER ? EAU : AIR;
         }
+        if (CaverneRoyaume.vide(x, y, z, surface)) {
+            return AIR;
+        }
         int profondeur = surface - y;
         BlockState roche = y < Y_ARDOISE ? Blocks.DEEPSLATE.defaultBlockState() : Blocks.STONE.defaultBlockState();
         int hasard = hachage(x, y, z);
+
+        if (profondeur > 2 && CaverneRoyaume.paroiTunnel(x, y, z)) {
+            return rocheTunnel(y, hasard);
+        }
+        if (profondeur > 4 && SourceBiomesRoyaume.dansCaverne(x, y, z)) {
+            // Roche de la Caverne : sombre, pour que les ombres et le feu ressortent.
+            int tirage = hasard % 10;
+            return (tirage < 6 ? Blocks.DEEPSLATE : tirage < 9 ? Blocks.TUFF : Blocks.SMOOTH_BASALT).defaultBlockState();
+        }
 
         // Falaises du bord : toute la paroi en roche claire, comme des falaises de craie au-dessus des nuages.
         if (colonne.rebord() > 4) {
@@ -240,6 +252,22 @@ public class GenerateurRoyaume extends ChunkGenerator {
                 yield profondeur < 3 ? Blocks.TERRACOTTA.defaultBlockState() : Blocks.SANDSTONE.defaultBlockState();
             }
         };
+    }
+
+    /** Parois du tunnel de sortie : de plus en plus claires à mesure qu'on remonte vers la lumière. */
+    private static BlockState rocheTunnel(int y, int hasard) {
+        // Un peu de mélange entre deux paliers, pour que la transition ne soit pas une ligne nette.
+        int palier = y + (hasard % 5) - 2;
+        if (palier < 58) {
+            return Blocks.DEEPSLATE.defaultBlockState();
+        }
+        if (palier < 70) {
+            return Blocks.TUFF.defaultBlockState();
+        }
+        if (palier < 84) {
+            return Blocks.STONE.defaultBlockState();
+        }
+        return (hasard % 3 == 0 ? Blocks.DIORITE : Blocks.CALCITE).defaultBlockState();
     }
 
     /** Calcite, diorite et un peu de pierre : la roche blanche du bord et du dessous de l'île. */

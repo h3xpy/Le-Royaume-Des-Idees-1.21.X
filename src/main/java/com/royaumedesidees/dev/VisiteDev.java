@@ -20,6 +20,9 @@ public final class VisiteDev {
             {"puy", 40, 150, 40, 315f, 2f},
             {"hippone", -140, 118, 140, 45f, 14f},
             {"bord", 742, 128, 270, 90f, 6f},
+            {"caverne", 0, 52, 15, 180f, 5f},
+            {"rampe", 0, 52, -15, 0f, 5f},
+            {"tunnel", 0, 62, 50, 0f, -12f},
     };
     /** Ticks d'attente avant d'entrer dans le monde, puis entre deux points de vue (chargement des chunks). */
     private static final int ATTENTE_DEPART = 100;

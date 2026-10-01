@@ -15,7 +15,7 @@ v0.1 — Les fondations, en cours.
 | 4 bis. Révision du relief après relecture | Fait |
 | 4 ter. Marais, sols par biome, références, emplacements | Fait |
 | 4 quater. Ambiance éthérée, biomes et leurs couleurs | Fait (les biomes de l'étape 5 sont faits) |
-| 5. Biomes et Caverne creusée (fige la carte) | Biomes faits ; reste la Caverne |
+| 5. Biomes et Caverne creusée (fige la carte) | Fait, à valider en vol avant de figer |
 | 6. Système de pose des structures | À faire |
 | 7. Portail et livre | À faire |
 | 8. Caverne jouable | À faire |
@@ -66,7 +66,13 @@ v0.1 — Les fondations, en cours.
   - falaises du bord et dessous de l'île entièrement en roche claire (calcite, diorite), avec du lichen lumineux et quelques fleurs de spores qui pendent dans le vide ;
   - les marches d'un ou deux blocs sont bordées de mousse au lieu de montrer le flanc de terre des blocs d'herbe ;
   - Puy de Dôme : température choisie pour que la neige ne tombe qu'au-dessus de y ≈ 264.
-- 2026-10-01 : pas de grottes ni de minerais générés dans le Royaume.
+- 2026-10-01 : pas de grottes ni de minerais générés dans le Royaume, à part la Caverne de Platon.
+- 2026-10-01 : la Caverne de Platon (`CaverneRoyaume`, coupe : `docs/images/coupe_caverne.png`) suit l'allégorie :
+  - une salle sombre (roche des abîmes, tuf, basalte) sous le centre, d'environ 55 blocs de rayon, sol vers y 46, voûte jusqu'à y ≈ 84 ;
+  - les prisonniers arrivent en (0, 47, -20), tournés vers le nord, face au mur des ombres (paroi nord, vers z = -50) ; le feu est réservé derrière eux, vers (0, 10) ;
+  - derrière le feu, une rampe de roche monte du sol de la salle jusqu'à un tunnel de 5 blocs de large qui serpente vers le sud (un bloc de montée pour deux d'avancée) et débouche à l'air libre vers (0, 125), à y ≈ 91 ;
+  - les parois du tunnel s'éclaircissent en montant (roche des abîmes, tuf, pierre, puis calcite près de la sortie) : on remonte littéralement vers la lumière ;
+  - le mobilier (chaînes, mur des ombres, feu) sera posé par le système de structures à l'étape 6.
 - 2026-10-01 : `ReliefRoyaume` et `BruitRoyaume` ne dépendent pas de Minecraft, pour qu'on puisse dessiner la carte hors du jeu. Ils ne doivent plus être modifiés après la v0.1.
 - 2026-10-01 : visite de développement `VisiteDev`, active seulement avec `-Droyaumedesidees.visite=true` : sur une copie du monde de test, le joueur passe en spectateur, visite cinq points de vue en plein jour et prend une capture à chacun (`run/screenshots/visite_*.png`).
 - 2026-10-01 : contrôle de développement `VerificationDev`, actif seulement avec `-Droyaumedesidees.verification=true` : au démarrage d'un monde, il génère quelques chunks du Royaume et compare le bloc de surface et le biome au relief prévu. Les essais se font sur une copie temporaire du monde `test`.
@@ -78,7 +84,10 @@ Carte annotée : `docs/images/carte_relief.png`. Les hauteurs sont celles du sol
 | Structure | Version | Position (x, z) | Sol | Notes |
 | --- | --- | --- | --- | --- |
 | Caverne de Platon | v0.1 | sous (0, 0) | y 40 à 90 | Grande grotte, point d'arrivée fixe à l'intérieur |
-| Sortie de la Caverne et portail de retour | v0.1 | (0, 60) | y 100 | En surface, à 60 blocs au sud de l'Autel : le passage n'est pas sous l'Autel |
+| Point d'arrivée dans la Caverne | v0.1 | (0, -20) | y 47 | Tourné vers le nord, face au mur des ombres |
+| Mur des ombres | v0.1 | paroi nord, vers (0, -50) | y 47 à 75 | |
+| Feu de la Caverne | v0.1 | (0, 10) | y 47 | Derrière les prisonniers |
+| Sortie de la Caverne et portail de retour | v0.1 | (0, 125) | y ≈ 91 | Débouché du tunnel, à 125 blocs au sud de l'Autel : le passage n'est pas sous l'Autel |
 | Autel de la Cité de Dieu | v1.0 | (0, 0) | y 100 | Au-dessus de la Caverne, 25 blocs dégagés autour |
 | Confessionnal | v0.2 | (18, -14) | y 100 | Près de l'Autel, au centre |
 | Arène du boss | v1.0 | ciel au-dessus de (0, 0) | y ≈ 330 | Rayon d'environ 50 blocs |
