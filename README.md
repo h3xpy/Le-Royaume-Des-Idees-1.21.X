@@ -1,25 +1,23 @@
+# Le Royaume des Idées
 
-Installation information
-=======
+Mod Minecraft **NeoForge 1.21.1** (Java 21) : une dimension d'aventure humoristique où Blaise Pascal et saint Augustin servent de guides, de boss et de running gags, avec des mécaniques tirées de vrais faits historiques.
 
-This template repository can be directly cloned to get you started with a new
-mod. Simply create a new repository cloned from this one, by following the
-instructions provided by [GitHub](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template).
+- Conception : [`docs/conception.md`](docs/conception.md)
+- Versions prévues : [`docs/roadmap.md`](docs/roadmap.md)
+- Avancement : [`docs/progression.md`](docs/progression.md)
+- Pour démarrer : [`COMMENCER_ICI.md`](COMMENCER_ICI.md)
 
-Once you have your clone, simply open the repository in the IDE of your choice. The usual recommendation for an IDE is either IntelliJ IDEA or Eclipse.
+## Commandes
 
-If at any point you are missing libraries in your IDE, or you've run into problems you can
-run `gradlew --refresh-dependencies` to refresh the local cache. `gradlew clean` to reset everything 
-{this does not affect your code} and then start the process again.
+| Commande | Effet |
+| --- | --- |
+| `./gradlew runClient` | Lance le jeu avec le mod |
+| `./gradlew runServer` | Lance un serveur local |
+| `./gradlew runData` | Régénère les fichiers de données |
+| `./gradlew build` | Produit le .jar dans `build/libs/` |
 
-Mapping Names:
-============
-By default, the MDK is configured to use the official mapping names from Mojang for methods and fields 
-in the Minecraft codebase. These names are covered by a specific license. All modders should be aware of this
-license. For the latest license text, refer to the mapping file itself, or the reference copy here:
-https://github.com/NeoForged/NeoForm/blob/main/Mojang.md
+Sous Windows, remplace `./gradlew` par `gradlew.bat`.
 
-Additional Resources: 
-==========
-Community Documentation: https://docs.neoforged.net/  
-NeoForged Discord: https://discord.neoforged.net/
+## Installation sur un serveur
+
+Le serveur et chaque joueur ont besoin de NeoForge 1.21.1 et du même .jar (celui sans « sources » dans `build/libs/`). Sauvegarde le monde avant chaque mise à jour.

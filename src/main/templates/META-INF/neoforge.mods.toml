@@ -42,11 +42,11 @@ displayName="${mod_name}" #mandatory
 #credits="" #optional
 
 # The authors of the mod, displayed in the mod UI (optional)
-#authors=""
+authors="h3xpy"
 
 # The description text for the mod (multi line!) (#mandatory)
 description='''
-Example mod description.
+Une dimension d'aventure humoristique où Blaise Pascal et saint Augustin servent de guides, de boss et de running gags.
 '''
 
 # The [[mixins]] block allows you to declare your mixin config to FML so that it gets loaded.

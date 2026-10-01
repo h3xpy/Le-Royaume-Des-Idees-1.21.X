@@ -38,3 +38,13 @@ run/
 **/src/generated/**/.cache/
 repo/
 !**/src/**/repo/
+run-data/
+
+### Python (scripts de textures) ###
+__pycache__/
+*.pyc
+.venv/
+
+### Windows ###
+Thumbs.db
+desktop.ini
