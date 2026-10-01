@@ -20,5 +20,9 @@
   "item.royaumedesidees.tolle_lege": "Tolle, Lege",
   "item.royaumedesidees.tolle_lege.citation": "\"Take up and read; take up and read.\" (Confessions, VIII)",
   "itemGroup.royaumedesidees": "The Kingdom of Ideas",
+  "message.royaumedesidees.portail.allume": "\"Take up and read; take up and read.\" The portal opens.",
+  "message.royaumedesidees.portail.dans_royaume": "No more reading here: look for the way out.",
+  "message.royaumedesidees.portail.incomplet": "The book stays silent: you need a 4 by 5 bookshelf frame, empty inside, with a lantern against each corner.",
+  "sous_titre.royaumedesidees.portail_chant": "A child's voice sings",
   "tag.item.royaumedesidees.lie_au_royaume": "Bound to the Kingdom"
 }

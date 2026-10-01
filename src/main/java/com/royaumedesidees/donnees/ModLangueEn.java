@@ -41,6 +41,11 @@ public class ModLangueEn extends LanguageProvider {
         add("commande." + RoyaumeDesIdees.MODID + ".structures.inconnue", "Unknown structure: %1$s");
         add("commande." + RoyaumeDesIdees.MODID + ".structures.sans_royaume", "The Kingdom dimension is not loaded.");
 
+        add("message.royaumedesidees.portail.incomplet", "The book stays silent: you need a 4 by 5 bookshelf frame, empty inside, with a lantern against each corner.");
+        add("message.royaumedesidees.portail.allume", "\"Take up and read; take up and read.\" The portal opens.");
+        add("message.royaumedesidees.portail.dans_royaume", "No more reading here: look for the way out.");
+        add("sous_titre.royaumedesidees.portail_chant", "A child's voice sings");
+
         add(ModTags.LIE_AU_ROYAUME, "Bound to the Kingdom");
     }
 }

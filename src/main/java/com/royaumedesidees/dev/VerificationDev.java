@@ -2,6 +2,7 @@ package com.royaumedesidees.dev;
 
 import com.royaumedesidees.RoyaumeDesIdees;
 import com.royaumedesidees.monde.CaverneRoyaume;
+import com.royaumedesidees.portail.CadrePortail;
 import com.royaumedesidees.monde.GenerateurRoyaume;
 import com.royaumedesidees.monde.ReliefRoyaume;
 import com.royaumedesidees.registre.ModBlocs;
@@ -17,6 +18,8 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.server.ServerStartedEvent;
+
+import java.util.Optional;
 
 /**
  * Contrôle automatique réservé au développement : actif seulement si le jeu est lancé avec
@@ -138,6 +141,9 @@ public final class VerificationDev {
         PoseurStructures.poser(royaume, StructuresRoyaume.PORTAIL_RETOUR, true);
         erreurs += controle(royaume, cadre, ModBlocs.PIERRE_OMBRE_TAILLEE.get(), "cadre reposé après casse");
 
+        erreurs += verifierPortails(evenement.getServer().overworld());
+        erreurs += verifierButinVillage(evenement.getServer().overworld());
+
         // Le cœur de la Caverne doit être dans son biome.
         String biomeCaverne = royaume.getBiome(new BlockPos(0, 65, 0)).unwrapKey().map(cle -> cle.location().getPath()).orElse("?");
         boolean caverneOk = biomeCaverne.equals("caverne_platon");
@@ -146,6 +152,83 @@ public final class VerificationDev {
         }
         RoyaumeDesIdees.LOGGER.info("[verification] (0, 65, 0) biome {} {}", biomeCaverne, caverneOk ? "OK" : "ECHEC");
         RoyaumeDesIdees.LOGGER.info("[verification] Royaume : {}", erreurs == 0 ? "OK" : erreurs + " ECHEC(S)");
+    }
+
+    /** Tire 1000 coffres de maison de village : Tolle, Lege doit sortir dans environ 15 % d'entre eux. */
+    private static int verifierButinVillage(ServerLevel overworld) {
+        net.minecraft.world.level.storage.loot.LootTable table = overworld.getServer().reloadableRegistries()
+                .getLootTable(net.minecraft.world.level.storage.loot.BuiltInLootTables.VILLAGE_PLAINS_HOUSE);
+        int avecLivre = 0;
+        for (int i = 0; i < 1000; i++) {
+            net.minecraft.world.level.storage.loot.LootParams parametres = new net.minecraft.world.level.storage.loot.LootParams.Builder(overworld)
+                    .withParameter(net.minecraft.world.level.storage.loot.parameters.LootContextParams.ORIGIN, net.minecraft.world.phys.Vec3.ZERO)
+                    .create(net.minecraft.world.level.storage.loot.parameters.LootContextParamSets.CHEST);
+            if (table.getRandomItems(parametres).stream().anyMatch(pile -> pile.is(com.royaumedesidees.registre.ModItems.TOLLE_LEGE.get()))) {
+                avecLivre++;
+            }
+        }
+        boolean ok = avecLivre >= 100 && avecLivre <= 200;
+        RoyaumeDesIdees.LOGGER.info("[verification] Tolle, Lege dans {} coffres de village sur 1000 : {}", avecLivre, ok ? "OK" : "ECHEC");
+        return ok ? 0 : 1;
+    }
+
+    /** Intérieur du portail de test construit dans l'Overworld, pour le voyage de {@link VisiteDev}. */
+    public static volatile BlockPos portailTest;
+
+    /**
+     * Construit deux cadres de bibliothèques près du point d'apparition de l'Overworld : vérifie qu'un cadre sans
+     * toutes ses lanternes refuse de s'allumer, qu'il s'allume avec, et qu'un portail s'éteint si on casse son cadre.
+     */
+    private static int verifierPortails(ServerLevel overworld) {
+        int erreurs = 0;
+        BlockPos spawn = overworld.getSharedSpawnPos();
+        BlockPos premier = cadreDeTest(overworld, spawn.offset(8, 0, 8), false);
+        boolean refuse = CadrePortail.trouverPourAllumage(overworld, premier).isEmpty();
+        erreurs += refuse ? 0 : 1;
+        RoyaumeDesIdees.LOGGER.info("[verification] Portail sans sa 4e lanterne refusé : {}", refuse ? "OK" : "ECHEC");
+        overworld.setBlockAndUpdate(premier.offset(-1, 0, 0), Blocks.LANTERN.defaultBlockState());
+        Optional<CadrePortail> cadre = CadrePortail.trouverPourAllumage(overworld, premier.offset(0, 2, 0));
+        cadre.ifPresent(c -> c.allumer(overworld));
+        BlockPos interieur = premier.offset(1, 1, 0);
+        erreurs += controle(overworld, interieur, ModBlocs.PORTAIL_ROYAUME.get(), "portail allumé dans l'Overworld");
+        portailTest = interieur;
+
+        BlockPos second = cadreDeTest(overworld, spawn.offset(8, 0, 16), true);
+        CadrePortail.trouverPourAllumage(overworld, second).ifPresent(c -> c.allumer(overworld));
+        erreurs += controle(overworld, second.offset(1, 1, 0), ModBlocs.PORTAIL_ROYAUME.get(), "second portail allumé");
+        overworld.setBlockAndUpdate(second.offset(0, 2, 0), Blocks.AIR.defaultBlockState());
+        erreurs += controle(overworld, second.offset(1, 2, 0), Blocks.AIR, "second portail éteint après casse du cadre");
+        return erreurs;
+    }
+
+    /**
+     * Cadre de bibliothèques de 4 sur 5 dans le plan z, posé au sol, avec ses lanternes (sauf celle du coin bas
+     * gauche si {@code complet} est faux). Renvoie le coin bas gauche du cadre.
+     */
+    private static BlockPos cadreDeTest(ServerLevel niveau, BlockPos pres, boolean complet) {
+        niveau.getChunk(pres.getX() >> 4, pres.getZ() >> 4);
+        int y = niveau.getHeight(net.minecraft.world.level.levelgen.Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, pres.getX(), pres.getZ());
+        BlockPos origine = new BlockPos(pres.getX(), y, pres.getZ());
+        for (BlockPos pos : BlockPos.betweenClosed(origine.offset(-2, 0, -2), origine.offset(5, 7, 2))) {
+            niveau.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
+        }
+        for (BlockPos pos : BlockPos.betweenClosed(origine.offset(-2, -1, -2), origine.offset(5, -1, 2))) {
+            niveau.setBlockAndUpdate(pos, Blocks.STONE.defaultBlockState());
+        }
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 5; j++) {
+                if (i == 0 || i == 3 || j == 0 || j == 4) {
+                    niveau.setBlockAndUpdate(origine.offset(i, j, 0), Blocks.BOOKSHELF.defaultBlockState());
+                }
+            }
+        }
+        niveau.setBlockAndUpdate(origine.offset(0, 5, 0), Blocks.LANTERN.defaultBlockState());
+        niveau.setBlockAndUpdate(origine.offset(3, 5, 0), Blocks.SOUL_LANTERN.defaultBlockState());
+        niveau.setBlockAndUpdate(origine.offset(4, 0, 0), Blocks.LANTERN.defaultBlockState());
+        if (complet) {
+            niveau.setBlockAndUpdate(origine.offset(-1, 0, 0), Blocks.LANTERN.defaultBlockState());
+        }
+        return origine;
     }
 
     private static int controle(ServerLevel niveau, BlockPos pos, net.minecraft.world.level.block.Block attendu, String quoi) {

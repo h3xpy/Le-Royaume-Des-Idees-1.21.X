@@ -8,6 +8,8 @@ import com.royaumedesidees.registre.ModBlocs;
 import com.royaumedesidees.registre.ModItems;
 import com.royaumedesidees.registre.ModMonde;
 import com.royaumedesidees.registre.ModOngletsCreatifs;
+import com.royaumedesidees.registre.ModPiecesJointes;
+import com.royaumedesidees.registre.ModSons;
 import com.royaumedesidees.structures.PoseurStructures;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
@@ -30,6 +32,8 @@ public class RoyaumeDesIdees {
         ModOngletsCreatifs.ONGLETS.register(modEventBus);
         ModMonde.GENERATEURS.register(modEventBus);
         ModMonde.SOURCES_BIOMES.register(modEventBus);
+        ModSons.SONS.register(modEventBus);
+        ModPiecesJointes.PIECES_JOINTES.register(modEventBus);
 
         modEventBus.addListener(GenerateurDonnees::generer);
         NeoForge.EVENT_BUS.addListener(PoseurStructures::tick);

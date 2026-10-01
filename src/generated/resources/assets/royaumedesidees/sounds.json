@@ -1,0 +1,11 @@
+{
+  "portail_chant": {
+    "sounds": [
+      {
+        "name": "royaumedesidees:portail_chant",
+        "stream": true
+      }
+    ],
+    "subtitle": "sous_titre.royaumedesidees.portail_chant"
+  }
+}

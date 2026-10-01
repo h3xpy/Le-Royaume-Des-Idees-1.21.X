@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "chance": 0.15,
+          "condition": "minecraft:random_chance"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "royaumedesidees:tolle_lege"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "royaumedesidees:injection/tolle_lege_villages"
+}

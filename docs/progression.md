@@ -17,7 +17,7 @@ v0.1 — Les fondations, en cours.
 | 4 quater. Ambiance éthérée, biomes et leurs couleurs | Fait (les biomes de l'étape 5 sont faits) |
 | 5. Biomes et Caverne creusée (fige la carte) | Fait ; carte figée le 2026-10-01 |
 | 6. Système de pose des structures | Fait |
-| 7. Portail et livre | À faire |
+| 7. Portail et livre | Fait |
 | 8. Caverne jouable | À faire |
 | 9. Fin de version (tests, docs, serveur) | À faire |
 
@@ -28,6 +28,7 @@ v0.1 — Les fondations, en cours.
 - v0.1 étape 3 : pipeline `tools/textures/` (palettes des 5 biomes + communes, outils, un script par groupe, `generer_tout.py`). Textures : Pierre d'Ombre, Pierre d'Ombre taillée, Chaîne de la Caverne, portail animé (32 images), Tolle, Lege, Lanterne de Diogène, Ombre (silhouette) et Ombre révélée (prisonnier). Aperçus agrandis dans `build/apercus_textures/`.
 - v0.1 étape 4 : dimension `royaumedesidees:royaume` (y de 0 à 384) et générateur de chunks Java `GenerateurRoyaume`, qui ne lit jamais la seed. Relief calculé par `ReliefRoyaume` (bruit de Perlin maison à graines fixes) : île flottante d'environ 1000 blocs de rayon, falaises au bord puis vide. Carte vue du dessus : `docs/images/carte_relief.png`. Biome provisoire `minecraft:the_void` jusqu'à l'étape 5.
 - v0.1 étape 6 : système de pose des structures (`structures/`). Registre `StructuresRoyaume` (identifiant, version, boîte englobante, constructeur Java), sauvegarde `DonneesStructures` dans le dossier de la dimension (`data/royaumedesidees_structures.dat`), pose ou remplacement quand un joueur passe à moins de 96 blocs (contrôle une fois par seconde), commandes opérateur `/royaume structures` et `/royaume structures reposer <id>`. Structures : `caverne` (écran du mur des ombres, muret, feu, poteaux et chaînes) et `portail_retour` (cadre en Pierre d'Ombre à la sortie du tunnel).
+- v0.1 étape 7 : portail du Royaume. Clic droit avec Tolle, Lege sur un cadre de bibliothèques complet : l'intérieur se remplit de portail (le livre n'est pas consommé). Aller vers le point d'arrivée fixe de la Caverne, retour par le portail de Pierre d'Ombre vers le portail de départ (mémorisé pour chaque joueur, conservé à la mort), ou vers le point d'apparition du monde s'il a disparu. Le portail s'éteint si son cadre est cassé. Tolle, Lege dans environ 15 % des coffres de village (vérifié : 151 sur 1000). Son `portail_chant` déclaré dans `sounds.json`.
 
 ## Décisions
 
@@ -82,6 +83,10 @@ v0.1 — Les fondations, en cours.
 - 2026-10-01 : la Caverne est éclairée sur l'écran des ombres par des blocs de lumière invisibles (niveau 11) : le feu seul, à 55 blocs, ne l'éclairerait pas.
 - 2026-10-01 : le mobilier de la Caverne est en briques d'ardoise et pierre noire, pas en Pierre d'Ombre, pour qu'on ne puisse pas récolter de Pierre d'Ombre sans tuer d'Ombres. Seul le portail de retour est en Pierre d'Ombre, comme le demande la spec.
 - 2026-10-01 : le portail de retour est un cadre de 4 sur 5 en Pierre d'Ombre taillée, de x 6 à 9 dans le plan z = 130, sur une plateforme en Pierre d'Ombre, avec deux lanternes d'âme sur les coins du haut. Son intérieur ne téléporte pas encore (étape 7).
+- 2026-10-01 : les lanternes du portail comptent si elles touchent un coin du cadre par n'importe quelle face hors du cadre (dessus, à côté, devant ou derrière). Elles ne servent qu'à l'allumage : retirer une lanterne n'éteint pas un portail déjà ouvert.
+- 2026-10-01 : seuls les joueurs passent le portail (ni mobs ni objets). Comme au Nether, il faut y rester environ 4 secondes, et c'est immédiat en créatif (mêmes règles de jeu que le portail du Nether).
+- 2026-10-01 : on ne peut pas allumer de portail dans le Royaume : le livre répond « Ici, on ne lit plus : on cherche la sortie. » Le seul portail du Royaume est celui de retour.
+- 2026-10-01 : la voix d'enfant ne joue pas en boucle continue : chaque bloc de portail a une petite chance de la lancer, ce qui donne un chant toutes les quelques secondes près d'un portail allumé. Des lettres dorées (particules de table d'enchantement) s'en échappent.
 
 ## Coordonnées réservées des structures
 

@@ -30,6 +30,7 @@ public final class GenerateurDonnees {
         generateur.addProvider(client, new ModModelesItems(sortie, fichiers));
         generateur.addProvider(client, new ModLangueFr(sortie));
         generateur.addProvider(client, new ModLangueEn(sortie));
+        generateur.addProvider(client, new ModDefinitionsSons(sortie, fichiers));
 
         boolean serveur = evenement.includeServer();
         // Dimension du Royaume. Les tags et recettes suivants voient ainsi aussi ses entrées.
@@ -40,7 +41,9 @@ public final class GenerateurDonnees {
         generateur.addProvider(serveur, new ModTagsItems(sortie, registres, tagsBlocs.contentsGetter(), fichiers));
         generateur.addProvider(serveur, new ModRecettes(sortie, registres));
         generateur.addProvider(serveur, new LootTableProvider(sortie, Set.of(),
-                List.of(new LootTableProvider.SubProviderEntry(ModButinBlocs::new, LootContextParamSets.BLOCK)), registres));
+                List.of(new LootTableProvider.SubProviderEntry(ModButinBlocs::new, LootContextParamSets.BLOCK),
+                        new LootTableProvider.SubProviderEntry(ModButinCoffres::new, LootContextParamSets.CHEST)), registres));
+        generateur.addProvider(serveur, new ModModificateursButin(sortie, registres));
     }
 
     private GenerateurDonnees() {
