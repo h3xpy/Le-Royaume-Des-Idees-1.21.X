@@ -1,31 +1,35 @@
 package com.royaumedesidees.dev;
 
 import com.royaumedesidees.RoyaumeDesIdees;
+import com.royaumedesidees.monde.GenerateurRoyaume;
 import com.royaumedesidees.monde.ReliefRoyaume;
 import com.royaumedesidees.registre.ModMonde;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.server.ServerStartedEvent;
 
 /**
  * Contrôle automatique réservé au développement : actif seulement si le jeu est lancé avec
  * {@code -Droyaumedesidees.verification=true}. Au démarrage d'un monde, il génère quelques chunks
- * du Royaume et vérifie que le sol est à la hauteur prévue par {@link ReliefRoyaume}.
+ * du Royaume et vérifie que le sol est à la hauteur et dans le bloc prévus par le générateur.
  * Le résultat est écrit dans le journal ; en jeu normal, cette classe ne fait rien.
  */
 public final class VerificationDev {
     private static final int[][] POINTS = {
             {0, 0},        // plaine au-dessus de la Caverne
-            {-400, -400},  // Jardin de Milan
-            {400, -400},   // Port-Royal
-            {480, 470},    // cratère du Puy de Dôme
-            {560, 470},    // flanc du Puy de Dôme
-            {-500, 480},   // mer d'Hippone
-            {-337, 324},   // plateau d'Hippone
-            {0, -960},     // falaise nord
-            {0, -1100},    // vide au-delà du bord
+            {-260, -260},  // Jardin de Milan
+            {300, -290},   // fond de la vallée de Port-Royal
+            {260, 260},    // sommet enneigé du dôme
+            {470, 120},    // cratère d'un petit puy
+            {-330, 320},   // mer d'Hippone
+            {-208, 203},   // plateau de la ville d'Hippone
+            {-420, 110},   // garrigue d'Hippone
+            {742, 270},    // îlot flottant
+            {0, -900},     // vide au-delà du bord
     };
 
     public static void activerSiDemande() {
@@ -46,17 +50,35 @@ public final class VerificationDev {
             int z = point[1];
             royaume.getChunk(x >> 4, z >> 4);
             ReliefRoyaume.Colonne colonne = ReliefRoyaume.colonne(x, z);
-            int obtenu = royaume.getHeight(Heightmap.Types.OCEAN_FLOOR, x, z) - 1;
-            int attendu = colonne.ile() ? colonne.surface() : royaume.getMinBuildHeight() - 1;
-            String bloc = royaume.getBlockState(new BlockPos(x, Math.max(obtenu, 0), z)).getBlock().getName().getString();
-            boolean ok = obtenu == attendu;
+            boolean ok;
+            String detail;
+            if (!colonne.ile()) {
+                ok = true;
+                for (int y = royaume.getMinBuildHeight(); y < royaume.getMaxBuildHeight(); y++) {
+                    ok &= royaume.getBlockState(new BlockPos(x, y, z)).isAir();
+                }
+                detail = "colonne vide";
+            } else {
+                BlockPos sol = new BlockPos(x, colonne.surface(), z);
+                BlockState obtenu = royaume.getBlockState(sol);
+                BlockState attendu = GenerateurRoyaume.bloc(colonne, x, colonne.surface(), z);
+                BlockState dessus = royaume.getBlockState(sol.above());
+                boolean dessusLibre = colonne.sousLEau()
+                        ? dessus.is(Blocks.WATER)
+                        : dessus.isAir() || !dessus.isSolidRender(royaume, sol.above()) || dessus.is(BlockTags.LOGS);
+                ok = obtenu == attendu && dessusLibre;
+                detail = "sol y=" + colonne.surface() + " " + nom(obtenu) + " (attendu " + nom(attendu) + "), dessus " + nom(dessus);
+            }
             if (!ok) {
                 erreurs++;
             }
-            RoyaumeDesIdees.LOGGER.info("[verification] ({}, {}) {} : sol à y={} (attendu {}), bloc {} {}",
-                    x, z, colonne.zone(), obtenu, attendu, bloc, ok ? "OK" : "ECHEC");
+            RoyaumeDesIdees.LOGGER.info("[verification] ({}, {}) {} : {} {}", x, z, colonne.zone(), detail, ok ? "OK" : "ECHEC");
         }
         RoyaumeDesIdees.LOGGER.info("[verification] Royaume : {}", erreurs == 0 ? "OK" : erreurs + " ECHEC(S)");
+    }
+
+    private static String nom(BlockState etat) {
+        return etat.getBlock().getName().getString();
     }
 
     private VerificationDev() {

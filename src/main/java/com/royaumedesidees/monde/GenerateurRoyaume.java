@@ -11,6 +11,7 @@ import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.biome.BiomeManager;
 import net.minecraft.world.level.biome.BiomeSource;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SnowyDirtBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.ChunkGenerator;
@@ -76,11 +77,12 @@ public class GenerateurRoyaume extends ChunkGenerator {
                 }
             }
         }
+        VegetationRoyaume.decorer(chunk, fondOcean, surfaceMonde);
         return CompletableFuture.completedFuture(chunk);
     }
 
     /** Le bloc à la hauteur y d'une colonne de l'île (entre son fond et la surface de l'eau). */
-    static BlockState bloc(ReliefRoyaume.Colonne colonne, int x, int y, int z) {
+    public static BlockState bloc(ReliefRoyaume.Colonne colonne, int x, int y, int z) {
         int surface = colonne.surface();
         if (y > surface) {
             return y <= ReliefRoyaume.NIVEAU_MER ? EAU : AIR;
@@ -97,7 +99,7 @@ public class GenerateurRoyaume extends ChunkGenerator {
             return profondeur == 0 && hasard % 5 == 0 ? Blocks.ANDESITE.defaultBlockState() : roche;
         }
 
-        return switch (colonne.zone()) {
+        return switch (colonne.zoneSol()) {
             case JARDIN_MILAN -> solHerbeux(profondeur, roche);
             case PORT_ROYAL -> {
                 // Fond des mares et leurs berges : boue, puis argile.
@@ -109,18 +111,38 @@ public class GenerateurRoyaume extends ChunkGenerator {
                 }
                 yield solHerbeux(profondeur, roche);
             }
-            case PUY_DE_DOME -> solVolcan(colonne, profondeur, roche, hasard);
+            case PUY_DE_DOME -> {
+                if (colonne.affleurement() && profondeur < 2) {
+                    // Roche volcanique qui perce l'herbe sur le haut du dôme.
+                    yield (hasard % 3 == 0 ? Blocks.ANDESITE : Blocks.TUFF).defaultBlockState();
+                }
+                if (profondeur == 0 && surface >= ReliefRoyaume.NEIGE_Y) {
+                    // Herbe sous une fine couche de neige (la neige est posée par VegetationRoyaume).
+                    yield Blocks.GRASS_BLOCK.defaultBlockState().setValue(SnowyDirtBlock.SNOWY, true);
+                }
+                yield solHerbeux(profondeur, roche);
+            }
             case HIPPONE -> {
                 if (surface <= ReliefRoyaume.NIVEAU_MER - 6) {
                     // Fond de la mer : sable, avec du gravier par endroits.
                     yield profondeur < 3 ? (hasard % 4 == 0 ? Blocks.GRAVEL : Blocks.SAND).defaultBlockState() : Blocks.SANDSTONE.defaultBlockState();
                 }
                 if (surface <= ReliefRoyaume.NIVEAU_MER + 2) {
-                    // Plage.
+                    // Plage, seulement au bord de l'eau.
                     yield profondeur < 3 ? Blocks.SAND.defaultBlockState() : Blocks.SANDSTONE.defaultBlockState();
                 }
-                if (profondeur == 0 && hasard % 7 == 0) {
-                    yield Blocks.COARSE_DIRT.defaultBlockState();
+                if (colonne.affleurement() && profondeur < 2) {
+                    yield (hasard % 3 == 0 ? Blocks.ANDESITE : Blocks.STONE).defaultBlockState();
+                }
+                if (profondeur == 0) {
+                    // Garrigue : herbe sèche, terre nue et podzol.
+                    int tirage = hasard % 100;
+                    if (tirage < 14) {
+                        yield Blocks.COARSE_DIRT.defaultBlockState();
+                    }
+                    if (tirage < 20) {
+                        yield Blocks.PODZOL.defaultBlockState();
+                    }
                 }
                 yield solHerbeux(profondeur, roche);
             }
@@ -132,25 +154,6 @@ public class GenerateurRoyaume extends ChunkGenerator {
             return Blocks.GRASS_BLOCK.defaultBlockState();
         }
         return profondeur < 4 ? Blocks.DIRT.defaultBlockState() : roche;
-    }
-
-    private static BlockState solVolcan(ReliefRoyaume.Colonne colonne, int profondeur, BlockState roche, int hasard) {
-        if (colonne.distancePuy() < 30) {
-            // Fond du cratère : basalte et pierre noire.
-            return (hasard % 3 == 0 ? Blocks.BLACKSTONE : Blocks.BASALT).defaultBlockState();
-        }
-        if (colonne.altitudePuy() > 0.78) {
-            return profondeur == 0 ? Blocks.SNOW_BLOCK.defaultBlockState() : roche;
-        }
-        if (colonne.altitudePuy() > 0.3) {
-            // Flancs : tuf volcanique, basalte et pierre mélangés.
-            int tirage = hasard % 20;
-            if (profondeur > 1) {
-                return tirage < 12 ? Blocks.TUFF.defaultBlockState() : roche;
-            }
-            return (tirage < 12 ? Blocks.TUFF : tirage < 17 ? Blocks.BASALT : Blocks.STONE).defaultBlockState();
-        }
-        return solHerbeux(profondeur, roche);
     }
 
     /** Nombre pseudo-aléatoire fixe pour une position : sert à varier les blocs sans dépendre de la seed. */
