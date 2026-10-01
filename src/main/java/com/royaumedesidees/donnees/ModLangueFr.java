@@ -32,6 +32,15 @@ public class ModLangueFr extends LanguageProvider {
         add("biome." + RoyaumeDesIdees.MODID + ".puy_de_dome", "Puy de Dôme");
         add("biome." + RoyaumeDesIdees.MODID + ".hippone", "Hippone");
 
+        add("commande." + RoyaumeDesIdees.MODID + ".structures.titre", "Structures du Royaume :");
+        add("commande." + RoyaumeDesIdees.MODID + ".structures.ligne", "- %1$s : posée v%2$s, attendue v%3$s, vers %4$s (%5$s)");
+        add("commande." + RoyaumeDesIdees.MODID + ".structures.jamais", "pas encore posée");
+        add("commande." + RoyaumeDesIdees.MODID + ".structures.a_jour", "à jour");
+        add("commande." + RoyaumeDesIdees.MODID + ".structures.a_reposer", "sera reposée quand un joueur passera à proximité");
+        add("commande." + RoyaumeDesIdees.MODID + ".structures.reposee", "Structure %1$s reposée (version %2$s).");
+        add("commande." + RoyaumeDesIdees.MODID + ".structures.inconnue", "Structure inconnue : %1$s");
+        add("commande." + RoyaumeDesIdees.MODID + ".structures.sans_royaume", "La dimension du Royaume n'est pas chargée.");
+
         add(ModTags.LIE_AU_ROYAUME, "Lié au Royaume");
     }
 }

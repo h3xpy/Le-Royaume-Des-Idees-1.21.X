@@ -3,6 +3,8 @@ package com.royaumedesidees.dev;
 import com.royaumedesidees.RoyaumeDesIdees;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Screenshot;
+import net.minecraft.client.gui.screens.GenericMessageScreen;
+import net.minecraft.network.chat.Component;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.common.NeoForge;
 
@@ -22,6 +24,7 @@ public final class VisiteDev {
             {"bord", 742, 128, 270, 90f, 6f},
             {"caverne", 0, 52, 15, 180f, 5f},
             {"rampe", 0, 52, -15, 0f, 5f},
+            {"portail", 7, 100, 142, 180f, 10f},
             {"tunnel", 0, 62, 50, 0f, -12f},
     };
     /** Ticks d'attente avant d'entrer dans le monde, puis entre deux points de vue (chargement des chunks). */
@@ -52,6 +55,7 @@ public final class VisiteDev {
             jeu.getConnection().sendCommand("gamerule doDaylightCycle false");
             jeu.getConnection().sendCommand("time set 6000");
             jeu.getConnection().sendCommand("weather clear");
+            jeu.getConnection().sendCommand("royaume structures");
             allerA(jeu, 0);
             return;
         }
@@ -65,7 +69,10 @@ public final class VisiteDev {
             allerA(jeu, etape + 1);
         } else {
             etape++;
+            // Quitte le monde comme « Sauvegarder et quitter », pour que tout soit écrit sur le disque.
             RoyaumeDesIdees.LOGGER.info("[visite] terminee");
+            jeu.level.disconnect();
+            jeu.disconnect(new GenericMessageScreen(Component.literal("Visite terminée")));
         }
     }
 

@@ -1,16 +1,19 @@
 package com.royaumedesidees;
 
 import com.mojang.logging.LogUtils;
+import com.royaumedesidees.commande.CommandesRoyaume;
 import com.royaumedesidees.dev.VerificationDev;
 import com.royaumedesidees.donnees.GenerateurDonnees;
 import com.royaumedesidees.registre.ModBlocs;
 import com.royaumedesidees.registre.ModItems;
 import com.royaumedesidees.registre.ModMonde;
 import com.royaumedesidees.registre.ModOngletsCreatifs;
+import com.royaumedesidees.structures.PoseurStructures;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.common.NeoForge;
 import org.slf4j.Logger;
 
 /**
@@ -29,6 +32,8 @@ public class RoyaumeDesIdees {
         ModMonde.SOURCES_BIOMES.register(modEventBus);
 
         modEventBus.addListener(GenerateurDonnees::generer);
+        NeoForge.EVENT_BUS.addListener(PoseurStructures::tick);
+        NeoForge.EVENT_BUS.addListener(CommandesRoyaume::enregistrer);
         VerificationDev.activerSiDemande();
     }
 

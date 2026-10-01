@@ -32,6 +32,15 @@ public class ModLangueEn extends LanguageProvider {
         add("biome." + RoyaumeDesIdees.MODID + ".puy_de_dome", "Puy de Dôme");
         add("biome." + RoyaumeDesIdees.MODID + ".hippone", "Hippo");
 
+        add("commande." + RoyaumeDesIdees.MODID + ".structures.titre", "Kingdom structures:");
+        add("commande." + RoyaumeDesIdees.MODID + ".structures.ligne", "- %1$s: placed v%2$s, expected v%3$s, near %4$s (%5$s)");
+        add("commande." + RoyaumeDesIdees.MODID + ".structures.jamais", "not placed yet");
+        add("commande." + RoyaumeDesIdees.MODID + ".structures.a_jour", "up to date");
+        add("commande." + RoyaumeDesIdees.MODID + ".structures.a_reposer", "will be placed again when a player comes near");
+        add("commande." + RoyaumeDesIdees.MODID + ".structures.reposee", "Structure %1$s placed again (version %2$s).");
+        add("commande." + RoyaumeDesIdees.MODID + ".structures.inconnue", "Unknown structure: %1$s");
+        add("commande." + RoyaumeDesIdees.MODID + ".structures.sans_royaume", "The Kingdom dimension is not loaded.");
+
         add(ModTags.LIE_AU_ROYAUME, "Bound to the Kingdom");
     }
 }

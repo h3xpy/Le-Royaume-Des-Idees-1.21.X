@@ -4,7 +4,12 @@ import com.royaumedesidees.RoyaumeDesIdees;
 import com.royaumedesidees.monde.CaverneRoyaume;
 import com.royaumedesidees.monde.GenerateurRoyaume;
 import com.royaumedesidees.monde.ReliefRoyaume;
+import com.royaumedesidees.registre.ModBlocs;
 import com.royaumedesidees.registre.ModMonde;
+import com.royaumedesidees.structures.DonneesStructures;
+import com.royaumedesidees.structures.PoseurStructures;
+import com.royaumedesidees.structures.StructureRoyaume;
+import com.royaumedesidees.structures.StructuresRoyaume;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
@@ -110,6 +115,29 @@ public final class VerificationDev {
             erreurs += libre && plancher ? 0 : 1;
             RoyaumeDesIdees.LOGGER.info("[verification] Tunnel ({}, {}, {}) : {}", x, sol + 1, z, libre && plancher ? "OK" : "ECHEC");
         }
+        // Versions lues dans la sauvegarde, avant toute pose (0 = jamais posée dans ce monde).
+        DonneesStructures lues = DonneesStructures.de(royaume);
+        RoyaumeDesIdees.LOGGER.info("[verification] Versions lues au chargement : caverne={}, portail_retour={}",
+                lues.version("caverne"), lues.version("portail_retour"));
+        // Structures : pose forcée, contrôle de quelques blocs, puis casse et repose d'un bloc du cadre.
+        for (StructureRoyaume structure : StructuresRoyaume.TOUTES) {
+            PoseurStructures.poser(royaume, structure, true);
+            boolean notee = DonneesStructures.de(royaume).version(structure.id()) == structure.version();
+            erreurs += notee ? 0 : 1;
+            RoyaumeDesIdees.LOGGER.info("[verification] Structure {} posée et notée v{} : {}", structure.id(), structure.version(), notee ? "OK" : "ECHEC");
+        }
+        BlockPos feu = new BlockPos(0, CaverneRoyaume.sol(0, CaverneRoyaume.FEU_Z) + 1, CaverneRoyaume.FEU_Z);
+        BlockPos ecran = new BlockPos(0, 55, CaverneRoyaume.MUR_Z + 4);
+        BlockPos cadre = new BlockPos(StructuresRoyaume.PORTAIL_X, StructuresRoyaume.PORTAIL_Y, StructuresRoyaume.PORTAIL_Z);
+        BlockPos interieur = cadre.offset(1, 1, 0);
+        erreurs += controle(royaume, feu, Blocks.CAMPFIRE, "feu de la Caverne");
+        erreurs += controle(royaume, ecran, Blocks.CALCITE, "écran du mur des ombres");
+        erreurs += controle(royaume, cadre, ModBlocs.PIERRE_OMBRE_TAILLEE.get(), "cadre du portail de retour");
+        erreurs += controle(royaume, interieur, ModBlocs.PORTAIL_ROYAUME.get(), "intérieur du portail de retour");
+        royaume.setBlock(cadre, Blocks.AIR.defaultBlockState(), 2);
+        PoseurStructures.poser(royaume, StructuresRoyaume.PORTAIL_RETOUR, true);
+        erreurs += controle(royaume, cadre, ModBlocs.PIERRE_OMBRE_TAILLEE.get(), "cadre reposé après casse");
+
         // Le cœur de la Caverne doit être dans son biome.
         String biomeCaverne = royaume.getBiome(new BlockPos(0, 65, 0)).unwrapKey().map(cle -> cle.location().getPath()).orElse("?");
         boolean caverneOk = biomeCaverne.equals("caverne_platon");
@@ -118,6 +146,13 @@ public final class VerificationDev {
         }
         RoyaumeDesIdees.LOGGER.info("[verification] (0, 65, 0) biome {} {}", biomeCaverne, caverneOk ? "OK" : "ECHEC");
         RoyaumeDesIdees.LOGGER.info("[verification] Royaume : {}", erreurs == 0 ? "OK" : erreurs + " ECHEC(S)");
+    }
+
+    private static int controle(ServerLevel niveau, BlockPos pos, net.minecraft.world.level.block.Block attendu, String quoi) {
+        BlockState etat = niveau.getBlockState(pos);
+        boolean ok = etat.is(attendu);
+        RoyaumeDesIdees.LOGGER.info("[verification] {} en {} : {} {}", quoi, pos.toShortString(), nom(etat), ok ? "OK" : "ECHEC");
+        return ok ? 0 : 1;
     }
 
     private static String nom(BlockState etat) {

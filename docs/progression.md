@@ -15,8 +15,8 @@ v0.1 — Les fondations, en cours.
 | 4 bis. Révision du relief après relecture | Fait |
 | 4 ter. Marais, sols par biome, références, emplacements | Fait |
 | 4 quater. Ambiance éthérée, biomes et leurs couleurs | Fait (les biomes de l'étape 5 sont faits) |
-| 5. Biomes et Caverne creusée (fige la carte) | Fait, à valider en vol avant de figer |
-| 6. Système de pose des structures | À faire |
+| 5. Biomes et Caverne creusée (fige la carte) | Fait ; carte figée le 2026-10-01 |
+| 6. Système de pose des structures | Fait |
 | 7. Portail et livre | À faire |
 | 8. Caverne jouable | À faire |
 | 9. Fin de version (tests, docs, serveur) | À faire |
@@ -27,6 +27,7 @@ v0.1 — Les fondations, en cours.
 - v0.1 étape 2 : `runData` en place (modèles, blockstates, langues fr/en, tags, recettes, loot tables). Blocs `pierre_ombre`, `pierre_ombre_taillee`, `portail_royaume`, `chaine_caverne` ; items `tolle_lege`, `lanterne_diogene` ; onglet créatif ; tag `lie_au_royaume`. Pas encore de textures (damier violet et noir en jeu).
 - v0.1 étape 3 : pipeline `tools/textures/` (palettes des 5 biomes + communes, outils, un script par groupe, `generer_tout.py`). Textures : Pierre d'Ombre, Pierre d'Ombre taillée, Chaîne de la Caverne, portail animé (32 images), Tolle, Lege, Lanterne de Diogène, Ombre (silhouette) et Ombre révélée (prisonnier). Aperçus agrandis dans `build/apercus_textures/`.
 - v0.1 étape 4 : dimension `royaumedesidees:royaume` (y de 0 à 384) et générateur de chunks Java `GenerateurRoyaume`, qui ne lit jamais la seed. Relief calculé par `ReliefRoyaume` (bruit de Perlin maison à graines fixes) : île flottante d'environ 1000 blocs de rayon, falaises au bord puis vide. Carte vue du dessus : `docs/images/carte_relief.png`. Biome provisoire `minecraft:the_void` jusqu'à l'étape 5.
+- v0.1 étape 6 : système de pose des structures (`structures/`). Registre `StructuresRoyaume` (identifiant, version, boîte englobante, constructeur Java), sauvegarde `DonneesStructures` dans le dossier de la dimension (`data/royaumedesidees_structures.dat`), pose ou remplacement quand un joueur passe à moins de 96 blocs (contrôle une fois par seconde), commandes opérateur `/royaume structures` et `/royaume structures reposer <id>`. Structures : `caverne` (écran du mur des ombres, muret, feu, poteaux et chaînes) et `portail_retour` (cadre en Pierre d'Ombre à la sortie du tunnel).
 
 ## Décisions
 
@@ -76,6 +77,11 @@ v0.1 — Les fondations, en cours.
 - 2026-10-01 : `ReliefRoyaume` et `BruitRoyaume` ne dépendent pas de Minecraft, pour qu'on puisse dessiner la carte hors du jeu. Ils ne doivent plus être modifiés après la v0.1.
 - 2026-10-01 : visite de développement `VisiteDev`, active seulement avec `-Droyaumedesidees.visite=true` : sur une copie du monde de test, le joueur passe en spectateur, visite cinq points de vue en plein jour et prend une capture à chacun (`run/screenshots/visite_*.png`).
 - 2026-10-01 : contrôle de développement `VerificationDev`, actif seulement avec `-Droyaumedesidees.verification=true` : au démarrage d'un monde, il génère quelques chunks du Royaume et compare le bloc de surface et le biome au relief prévu. Les essais se font sur une copie temporaire du monde `test`.
+- 2026-10-01 : carte figée (relief, biomes, végétation, Caverne) après l'accord pour passer à l'étape 6. `ReliefRoyaume`, `BruitRoyaume`, `VegetationRoyaume`, `CaverneRoyaume`, `SourceBiomesRoyaume` et le choix des blocs dans `GenerateurRoyaume` ne doivent plus changer.
+- 2026-10-01 : pour remplacer une structure (version augmentée ou commande `reposer`), sa boîte est d'abord remise dans l'état exact de la génération (le terrain est recalculé, puisqu'il ne dépend que des coordonnées), puis la nouvelle version est posée. La végétation de la boîte n'est pas recréée. Les blocs sont posés sans prévenir leurs voisins, pour ne rien déclencher hors de la boîte.
+- 2026-10-01 : la Caverne est éclairée sur l'écran des ombres par des blocs de lumière invisibles (niveau 11) : le feu seul, à 55 blocs, ne l'éclairerait pas.
+- 2026-10-01 : le mobilier de la Caverne est en briques d'ardoise et pierre noire, pas en Pierre d'Ombre, pour qu'on ne puisse pas récolter de Pierre d'Ombre sans tuer d'Ombres. Seul le portail de retour est en Pierre d'Ombre, comme le demande la spec.
+- 2026-10-01 : le portail de retour est un cadre de 4 sur 5 en Pierre d'Ombre taillée, de x 6 à 9 dans le plan z = 130, sur une plateforme en Pierre d'Ombre, avec deux lanternes d'âme sur les coins du haut. Son intérieur ne téléporte pas encore (étape 7).
 
 ## Coordonnées réservées des structures
 
@@ -87,7 +93,8 @@ Carte annotée : `docs/images/carte_relief.png`. Les hauteurs sont celles du sol
 | Point d'arrivée dans la Caverne | v0.1 | (0, -20) | y 47 | Tourné vers le nord, face au mur des ombres |
 | Mur des ombres | v0.1 | paroi nord, vers (0, -50) | y 47 à 75 | |
 | Feu de la Caverne | v0.1 | (0, 10) | y 47 | Derrière les prisonniers |
-| Sortie de la Caverne et portail de retour | v0.1 | (0, 125) | y ≈ 91 | Débouché du tunnel, à 125 blocs au sud de l'Autel : le passage n'est pas sous l'Autel |
+| Sortie de la Caverne | v0.1 | (0, 125) | y ≈ 91 | Débouché du tunnel, à 125 blocs au sud de l'Autel : le passage n'est pas sous l'Autel |
+| Portail de retour (structure `portail_retour`) | v0.1 | x 6 à 9, z 130 | y 91 | À côté de la sortie du tunnel |
 | Autel de la Cité de Dieu | v1.0 | (0, 0) | y 100 | Au-dessus de la Caverne, 25 blocs dégagés autour |
 | Confessionnal | v0.2 | (18, -14) | y 100 | Près de l'Autel, au centre |
 | Arène du boss | v1.0 | ciel au-dessus de (0, 0) | y ≈ 330 | Rayon d'environ 50 blocs |
