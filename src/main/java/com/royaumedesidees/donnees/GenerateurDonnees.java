@@ -1,12 +1,10 @@
 package com.royaumedesidees.donnees;
 
-import com.royaumedesidees.RoyaumeDesIdees;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
-import net.neoforged.neoforge.client.model.generators.ModelProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 
@@ -19,21 +17,11 @@ import java.util.concurrent.CompletableFuture;
  * et loot tables dans {@code src/generated/resources}.
  */
 public final class GenerateurDonnees {
-    /**
-     * Textures attendues mais pas encore dessinées : sans cette liste, la génération des modèles
-     * refuserait de tourner. À vider quand le pipeline de textures (étape 3) les produit.
-     */
-    private static final List<String> TEXTURES_A_VENIR = List.of(
-            "block/pierre_ombre", "block/pierre_ombre_taillee", "block/portail_royaume", "block/chaine_caverne",
-            "item/tolle_lege", "item/lanterne_diogene");
-
     public static void generer(GatherDataEvent evenement) {
         DataGenerator generateur = evenement.getGenerator();
         PackOutput sortie = generateur.getPackOutput();
         ExistingFileHelper fichiers = evenement.getExistingFileHelper();
         CompletableFuture<HolderLookup.Provider> registres = evenement.getLookupProvider();
-
-        TEXTURES_A_VENIR.forEach(chemin -> fichiers.trackGenerated(RoyaumeDesIdees.id(chemin), ModelProvider.TEXTURE));
 
         boolean client = evenement.includeClient();
         generateur.addProvider(client, new ModEtatsBlocs(sortie, fichiers));
