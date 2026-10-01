@@ -1,10 +1,12 @@
 package com.royaumedesidees.donnees;
 
+import com.royaumedesidees.RoyaumeDesIdees;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import net.neoforged.neoforge.common.data.DatapackBuiltinEntriesProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 
@@ -30,6 +32,10 @@ public final class GenerateurDonnees {
         generateur.addProvider(client, new ModLangueEn(sortie));
 
         boolean serveur = evenement.includeServer();
+        // Dimension du Royaume. Les tags et recettes suivants voient ainsi aussi ses entrées.
+        DatapackBuiltinEntriesProvider dimension = generateur.addProvider(serveur,
+                new DatapackBuiltinEntriesProvider(sortie, registres, ModDimension.registres(), Set.of(RoyaumeDesIdees.MODID)));
+        registres = dimension.getRegistryProvider();
         ModTagsBlocs tagsBlocs = generateur.addProvider(serveur, new ModTagsBlocs(sortie, registres, fichiers));
         generateur.addProvider(serveur, new ModTagsItems(sortie, registres, tagsBlocs.contentsGetter(), fichiers));
         generateur.addProvider(serveur, new ModRecettes(sortie, registres));
