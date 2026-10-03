@@ -57,6 +57,7 @@ public final class PoseurStructures {
             pose.restaurerTerrain();
         }
         structure.constructeur().accept(pose);
+        pose.terminer();
         DonneesStructures.de(niveau).noter(structure.id(), structure.version());
         RoyaumeDesIdees.LOGGER.info("Structure {} posée (version {})", structure.id(), structure.version());
     }

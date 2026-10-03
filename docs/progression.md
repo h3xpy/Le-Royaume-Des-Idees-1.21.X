@@ -9,7 +9,8 @@ v0.2 — Le Jardin : spec `docs/specs/v0.2-jardin.md` validée le 2026-10-03. Co
 | Étape | État |
 | --- | --- |
 | 1. Blocs, items, effet, Culpabilité, `/confesse`, textures | Fait |
-| 2. Structures du Jardin, vérification en jeu, tests | Fait ; checklist à passer |
+| 2. Structures du Jardin, vérification en jeu, tests | Fait |
+| 3. Structures embellies, chemins, confession (10 s, claque) | Fait ; checklist à passer |
 
 v0.1 — Les fondations : terminée et validée en jeu par Maxime le 2026-10-03 (checklist `docs/tests/v0.1.md` passée, y compris sur serveur local).
 
@@ -42,6 +43,7 @@ v0.1 — Les fondations : terminée et validée en jeu par Maxime le 2026-10-03 
 - v0.1 étape 9 : checklist de tests en jeu `docs/tests/v0.1.md`. Le test sur serveur local (`runServer`) reste à faire par Maxime : il demande d'accepter la licence de Minecraft (`run/eula.txt`), ce que Claude ne fait pas à sa place.
 - v0.2 étape 1 : poires (achetée, volée), feuilles de poirier (propriété `poires`, cueillette = vol, repousse lente), bois, planches et feuilles de figuier, Confessionnal (deux blocs de haut, fabricable), Étal du verger (émeraude → 3 poires), effet Culpabilité I à V (lenteur, nuage, sanglots, musique, message), commande `/confesse`, voix « Prends, lis » au figuier, textures `tools/textures/jardin_v02.py`.
 - v0.2 étape 2 : structures `confessionnal_centre`, `figuier`, `villa_augustin` et `vergers` (`structures/StructuresJardin.java`), qui suivent le relief. Trois vergers clos de 8 poiriers (Lucius, Sévère, Vérécundus), panneaux traduisibles. Vérification automatique étendue : blocs clés des structures, Culpabilité insensible au lait, et une visite en survie (3 vols → Culpabilité III, `effect clear` et mort sans effet, confession refusée loin puis acceptée, anti-spam, achat à l'Étal).
+- v0.2 étape 3 : structures refaites en version 2. Villa : domus à atrium, impluvium, tablinum (Livres des Platoniciens, table de jeu), chambres, triclinium, cuisine, cellier, toit à compluvium, jardin à colonnade au nord. Vergers : murets moussus, allée, vigne de Patricius, porcherie. Jardin du figuier : haie, grand figuier, exèdre d'Alypius avec l'Épître aux Romains, puits, maison voisine. Confessionnal sous un baldaquin. Deux chemins (`chemin_villa_vergers`, `chemin_villa_figuier`). Outils communs : `Decor` (escaliers, plantes, panneaux, livres, cyprès, animaux) et le raccord des clôtures, murets, escaliers et vitres en fin de pose (`Pose.poserRaccorde`). Confession : 10 s entre deux confessions, claque si le même péché est répété.
 
 ## Décisions
 
@@ -110,6 +112,9 @@ v0.1 — Les fondations : terminée et validée en jeu par Maxime le 2026-10-03 
 - 2026-10-03 : les quatre propositions de la spec v0.2 sont acceptées (Étal sans PNJ, sanglots en attendant Monique, Culpabilité partout, figuier décor avec « Prends, lis »).
 - 2026-10-03 : trois vergers au lieu de deux, pour la « vingtaine de poiriers » de la spec. Le troisième appartient à Vérécundus, l'ami milanais d'Augustin (celui qui lui prêta sa villa de Cassiciacum).
 - 2026-10-03 : la visite de développement empêche la pause du jeu solo quand la fenêtre perd le focus (sinon les chunks n'arrivent plus et les clics échouent).
+- 2026-10-03 : détails tirés des *Confessions* pour le Jardin, au-delà de la spec : la table de jeu où Ponticianus trouva les épîtres de Paul (VIII, 6), le petit jardin de la maison (VIII, 8), le banc d'Alypius où le livre était resté (VIII, 12), la maison voisine d'où venait la voix, la vigne de la famille près du poirier et les porcs à qui les poires furent jetées (II, 4). Les versets cités sont dans des traductions du domaine public (Segond 1910, King James) ; les phrases des Confessions sont traduites par Claude.
+- 2026-10-03 : des cochons apparaissent avec la porcherie (une fois, à la pose). Le sol de l'enclos est aplani et rien n'est posé contre la clôture, sinon ils s'échappent.
+- 2026-10-03 : les chemins sont des structures séparées dont la boîte ne chevauche aucun bâtiment, car remplacer une structure remet toute sa boîte dans l'état d'origine.
 - 2026-10-03 : la console du serveur local reçoit ce qu'on tape dans le terminal (`build.gradle`, tâche `runServer`) : taper `stop` l'arrête proprement. En développement, la licence de Minecraft est acceptée d'office : pas de `eula.txt` à remplir.
 
 ## Coordonnées réservées des structures
@@ -128,9 +133,11 @@ Carte annotée : `docs/images/carte_relief.png`. Les hauteurs sont celles du sol
 | Confessionnal (structure `confessionnal_centre`) | v0.2 | (18, -14) | y 100 | Près de l'Autel, au centre ; posé |
 | Arène du boss | v1.0 | ciel au-dessus de (0, 0) | y ≈ 330 | Rayon d'environ 50 blocs |
 | Cité de Dieu (ville céleste) | v1.0 | ciel autour de (0, 0) | y 320 à 370 | Rayon d'environ 160 blocs, au-dessus du sommet du Puy |
-| Figuier d'Augustin (structure `figuier`) | v0.2 | (-260, -260) | y 99 | Posé |
-| Villa d'Augustin (structure `villa_augustin`) | v0.2 | (-200, -190) | y 100 | Posée ; Étal devant l'entrée sud |
-| Vergers de poiriers (structure `vergers`) | v0.2 | x -354 à -306, z -186 à -152 | y 102 | Posés ; trois vergers |
+| Figuier d'Augustin (structure `figuier`) | v0.2 | x -276 à -244, z -280 à -244 | y 99 | Posé ; jardin, maison voisine au nord |
+| Villa d'Augustin (structure `villa_augustin`) | v0.2 | x -216 à -184, z -220 à -174 | y 100 | Posée ; Étal devant l'entrée sud, jardin au nord |
+| Vergers de poiriers (structure `vergers`) | v0.2 | x -356 à -294, z -188 à -150 | y 102 | Posés ; trois vergers, vigne, porcherie |
+| Chemin villa ↔ vergers | v0.2 | x -293 à -217, z ≈ -204 à -162 | sol | Posé |
+| Chemin villa ↔ figuier | v0.2 | x -243 à -193, z -262 à -221 | sol | Posé |
 | Bibliothèque d'Ambroise | v0.3 | (-180, -330) | y 100 | |
 | Abbaye de Port-Royal | v0.4 | (300, -290) | y 84 | Butte sèche au milieu du marais |
 | Collège de Clermont (camp des Jésuites) | v0.4 | (380, -80) | y 99 | Sud de Port-Royal, côté Puy : zone frontière |

@@ -166,10 +166,22 @@ public final class VerificationDev {
         erreurs += controle(royaume, StructuresJardin.POS_LUTRIN, Blocks.LECTERN, "lutrin de la villa");
         erreurs += controle(royaume, StructuresJardin.POS_ETAL, ModBlocs.ETAL_VERGER.get(), "Étal du verger");
         erreurs += controle(royaume, StructuresJardin.POS_POIRIER, Blocks.OAK_LOG, "pied du premier poirier");
-        erreurs += controle(royaume, StructuresJardin.POS_PANNEAU, Blocks.OAK_SIGN, "panneau du verger");
+        erreurs += controle(royaume, StructuresJardin.POS_PANNEAU, Blocks.OAK_WALL_SIGN, "panneau du verger");
+        erreurs += controle(royaume, StructuresJardin.POS_CONFESSIONNAL.above(8), Blocks.BELL, "cloche du baldaquin");
+        erreurs += livrePose(royaume, StructuresJardin.POS_LUTRIN, "livres des Platoniciens (tablinum)");
+        erreurs += livrePose(royaume, StructuresJardin.POS_LUTRIN_FIGUIER, "épître aux Romains (exèdre d'Alypius)");
+        BlockState chemin = royaume.getBlockState(com.royaumedesidees.structures.CheminsJardin.POS_CHEMIN);
+        boolean cheminOk = chemin.is(Blocks.DIRT_PATH) || chemin.is(Blocks.COARSE_DIRT) || chemin.is(Blocks.MOSS_BLOCK);
+        erreurs += cheminOk ? 0 : 1;
+        RoyaumeDesIdees.LOGGER.info("[verification] chemin villa-vergers en {} : {} {}",
+                com.royaumedesidees.structures.CheminsJardin.POS_CHEMIN.toShortString(), nom(chemin), cheminOk ? "OK" : "ECHEC");
+        int cochons = royaume.getEntitiesOfClass(net.minecraft.world.entity.animal.Pig.class,
+                new net.minecraft.world.phys.AABB(StructuresJardin.POS_PORCHERIE).inflate(8)).size();
+        erreurs += cochons >= 3 ? 0 : 1;
+        RoyaumeDesIdees.LOGGER.info("[verification] cochons dans la porcherie : {} {}", cochons, cochons >= 3 ? "OK" : "ECHEC");
         int poires = 0;
         int feuilles = 0;
-        for (BlockPos pos : BlockPos.betweenClosed(StructuresJardin.POS_POIRIER.offset(-2, 2, -2), StructuresJardin.POS_POIRIER.offset(2, 6, 2))) {
+        for (BlockPos pos : BlockPos.betweenClosed(StructuresJardin.POS_POIRIER.offset(-3, 1, -3), StructuresJardin.POS_POIRIER.offset(3, 7, 3))) {
             BlockState etat = royaume.getBlockState(pos);
             if (etat.is(ModBlocs.FEUILLES_POIRIER.get())) {
                 feuilles++;
@@ -268,6 +280,13 @@ public final class VerificationDev {
             niveau.setBlockAndUpdate(origine.offset(-1, 0, 0), Blocks.LANTERN.defaultBlockState());
         }
         return origine;
+    }
+
+    private static int livrePose(ServerLevel niveau, BlockPos pos, String quoi) {
+        boolean ok = niveau.getBlockEntity(pos) instanceof net.minecraft.world.level.block.entity.LecternBlockEntity lutrin
+                && lutrin.hasBook();
+        RoyaumeDesIdees.LOGGER.info("[verification] lutrin en {} avec {} : {}", pos.toShortString(), quoi, ok ? "OK" : "ECHEC");
+        return ok ? 0 : 1;
     }
 
     private static int controle(ServerLevel niveau, BlockPos pos, net.minecraft.world.level.block.Block attendu, String quoi) {

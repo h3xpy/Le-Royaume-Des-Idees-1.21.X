@@ -99,12 +99,24 @@ public final class VisiteDev {
             new Etape("confession", () -> List.of(tpRoyaume(StructuresJardin.POS_CONFESSIONNAL.offset(-2, 0, 0), 270f, 0f),
                     "confesse J'ai vole des poires pour le plaisir de mal faire")),
             new Etape("confesse_trop_tot", () -> List.of("confesse Encore une fois")),
+            // Le même péché qu'à la première confession : claque attendue (un demi-cœur, un recul, une remarque).
+            new Etape("confesse_repetee", () -> List.of("confesse J'ai vole des poires pour le plaisir de mal faire")),
             new Etape("etal", () -> List.of("item replace entity @s weapon.mainhand with minecraft:emerald 2",
                     tpRoyaume(StructuresJardin.POS_ETAL.offset(0, 0, 2), 180f, 35f)), jeu -> utiliser(jeu, StructuresJardin.POS_ETAL)),
-            vue("villa", -200, 0, -160, 180f, 25f, true),
-            vue("vergers", -330, 0, -138, 180f, 30f, false),
-            vue("figuier", -260, 0, -245, 180f, 15f, false),
-            vue("confessionnal", 12, 105, -11, 245f, 25f, false),
+            vue("villa", -226, 0, -164, 225f, 22f, true),
+            vue("villa_dessus", -200, StructuresJardin.VILLA_SOL + 32, -152, 180f, 48f, false),
+            vue("atrium", -200, StructuresJardin.VILLA_SOL + 1, -183, 180f, 8f, false),
+            vue("tablinum", -200, StructuresJardin.VILLA_SOL + 1, -192, 180f, 18f, false),
+            vue("peristyle", -200, StructuresJardin.VILLA_SOL + 7, -199, 180f, 40f, false),
+            vue("chemin_vergers", -224, -6, -202, 90f, 18f, false),
+            vue("chemin_figuier", -208, -8, -224, 125f, 22f, false),
+            vue("vergers", -290, 0, -148, 125f, 25f, false),
+            vue("vigne", -301, -1, -171, 180f, 5f, false),
+            vue("porcherie", -312, -7, -171, 0f, 35f, false),
+            vue("figuier", -238, 0, -238, 135f, 25f, false),
+            vue("sous_figuier", -262, -1, -257, 310f, 0f, false),
+            vue("maison_voisine", -260, -2, -265, 180f, 5f, false),
+            vue("confessionnal", 9, -4, -10, 245f, 15f, false),
             vue("jardin", 0, 135, 0, 135f, 12f, false),
             vue("port_royal", 220, 104, -190, 225f, 18f, false),
             vue("puy", 40, 150, 40, 315f, 2f, false),
@@ -152,8 +164,8 @@ public final class VisiteDev {
     }
 
     private static Etape vue(String nom, int x, int y, int z, float orientation, float inclinaison, boolean spectateur) {
-        // y = 0 : à 12 blocs au-dessus du sol généré.
-        int hauteur = y != 0 ? y : ReliefRoyaume.colonne(x, z).surface() + 12;
+        // y = 0 : à 12 blocs au-dessus du sol généré ; y négatif : à -y blocs au-dessus du sol.
+        int hauteur = y > 0 ? y : ReliefRoyaume.colonne(x, z).surface() + (y == 0 ? 12 : -y);
         String tp = String.format(Locale.ROOT, "execute in royaumedesidees:royaume run tp @s %d %d %d %.1f %.1f",
                 x, hauteur, z, orientation, inclinaison);
         return new Etape(nom, () -> spectateur ? List.of("gamemode spectator", tp) : List.of(tp));
@@ -206,9 +218,15 @@ public final class VisiteDev {
                 nom, ombres, chainesAutour(jeu), jeu.player.hasEffect(MobEffects.BLINDNESS) || jeu.player.hasEffect(MobEffects.DARKNESS),
                 jeu.player.getInventory().hasAnyMatching(pile -> pile.is(ModItems.LANTERNE_DIOGENE.get())), infobulleSouvenir(jeu));
         MobEffectInstance culpabilite = jeu.player.getEffect(ModEffets.CULPABILITE);
-        RoyaumeDesIdees.LOGGER.info("[visite] {} : Culpabilité {}, poires volées {}, poires achetées {}, émeraudes {}", nom,
+        RoyaumeDesIdees.LOGGER.info("[visite] {} : vie {}, Culpabilité {}, poires volées {}, poires achetées {}, émeraudes {}", nom,
+                jeu.player.getHealth(),
                 culpabilite == null ? 0 : culpabilite.getAmplifier() + 1, compter(jeu, ModItems.POIRE_VOLEE.get()),
                 compter(jeu, ModItems.POIRE.get()), compter(jeu, net.minecraft.world.item.Items.EMERALD));
+        if (nom.equals("porcherie")) {
+            long cochons = jeu.level.getEntitiesOfClass(net.minecraft.world.entity.animal.Pig.class,
+                    new net.minecraft.world.phys.AABB(-317, 0, -164, -306, 400, -157)).size();
+            RoyaumeDesIdees.LOGGER.info("[visite] porcherie : cochons restés dans l'enclos {} {}", cochons, cochons >= 3 ? "OK" : "ECHEC");
+        }
         Screenshot.grab(jeu.gameDirectory, "visite_" + nom + ".png", jeu.getMainRenderTarget(), message -> { });
         if (etape + 1 < ETAPES.size()) {
             commencer(jeu, etape + 1);

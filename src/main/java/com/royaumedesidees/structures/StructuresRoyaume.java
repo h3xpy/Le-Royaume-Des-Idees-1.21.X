@@ -59,7 +59,8 @@ public final class StructuresRoyaume {
 
     public static final List<StructureRoyaume> TOUTES = List.of(CAVERNE, PORTAIL_RETOUR,
             StructuresJardin.CONFESSIONNAL_CENTRE, StructuresJardin.FIGUIER,
-            StructuresJardin.VILLA_AUGUSTIN, StructuresJardin.VERGERS_STRUCTURE);
+            StructuresJardin.VILLA_AUGUSTIN, StructuresJardin.VERGERS_STRUCTURE,
+            CheminsJardin.CHEMIN_VILLA_VERGERS, CheminsJardin.CHEMIN_VILLA_FIGUIER);
 
     private StructuresRoyaume() {
     }

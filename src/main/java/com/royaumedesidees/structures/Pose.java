@@ -19,6 +19,8 @@ public final class Pose {
     private final ServerLevel niveau;
     private final BoundingBox boite;
     private final BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
+    /** Blocs dont la forme dépend des voisins (clôtures, murets, escaliers, vitres), raccordés à la fin. */
+    private final java.util.List<BlockPos> araccorder = new java.util.ArrayList<>();
 
     Pose(ServerLevel niveau, BoundingBox boite) {
         this.niveau = niveau;
@@ -38,6 +40,42 @@ public final class Pose {
 
     public void poser(int x, int y, int z, Block bloc) {
         poser(x, y, z, bloc.defaultBlockState());
+    }
+
+    /** Pose un bloc qui se raccordera à ses voisins une fois toute la structure posée (voir {@link #terminer()}). */
+    public void poserRaccorde(int x, int y, int z, BlockState etat) {
+        if (boite.isInside(x, y, z)) {
+            poser(x, y, z, etat);
+            araccorder.add(new BlockPos(x, y, z));
+        }
+    }
+
+    public void poserRaccorde(int x, int y, int z, Block bloc) {
+        poserRaccorde(x, y, z, bloc.defaultBlockState());
+    }
+
+    /** Ce qu'il y a actuellement en (x, y, z). */
+    public BlockState lire(int x, int y, int z) {
+        return niveau.getBlockState(pos.set(x, y, z));
+    }
+
+    public boolean dedans(int x, int y, int z) {
+        return boite.isInside(x, y, z);
+    }
+
+    /**
+     * Raccorde les blocs posés avec {@link #poserRaccorde} : chaque clôture, muret, escalier ou vitre prend la forme
+     * que lui donnent ses voisins, comme s'il avait été posé à la main.
+     */
+    void terminer() {
+        for (BlockPos ici : araccorder) {
+            BlockState etat = niveau.getBlockState(ici);
+            BlockState raccorde = Block.updateFromNeighbourShapes(etat, niveau, ici);
+            if (raccorde != etat && !raccorde.isAir()) {
+                niveau.setBlock(ici, raccorde, DRAPEAUX);
+            }
+        }
+        araccorder.clear();
     }
 
     /** Remplit le pavé entre deux coins (inclus). */
