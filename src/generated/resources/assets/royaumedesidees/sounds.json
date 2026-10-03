@@ -17,7 +17,10 @@
   },
   "sanglots": {
     "sounds": [
-      "royaumedesidees:sanglots"
+      {
+        "name": "royaumedesidees:sanglots",
+        "stream": true
+      }
     ],
     "subtitle": "sous_titre.royaumedesidees.sanglots"
   }

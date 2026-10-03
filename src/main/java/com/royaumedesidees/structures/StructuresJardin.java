@@ -1119,6 +1119,9 @@ public final class StructuresJardin {
         Decor.panneau(pose, Blocks.OAK_SIGN, -310, sol(-310, -166) + 1, -166, 8,
                 "panneau.royaumedesidees.porcherie.1", "panneau.royaumedesidees.porcherie.2",
                 "panneau.royaumedesidees.porcherie.3", "panneau.royaumedesidees.porcherie.4");
+        // Une nouvelle pose (nouvelle version) remplace les cochons au lieu d'en ajouter.
+        pose.niveau().getEntitiesOfClass(net.minecraft.world.entity.animal.Pig.class,
+                new net.minecraft.world.phys.AABB(x1, py - 2, z1, x2 + 1, py + 6, z2 + 1)).forEach(net.minecraft.world.entity.Entity::discard);
         Decor.animaux(pose, EntityType.PIG, 3, -312, py + 1, -161);
     }
 

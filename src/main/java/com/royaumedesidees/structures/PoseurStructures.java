@@ -6,10 +6,12 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
+import net.neoforged.neoforge.event.server.ServerStartedEvent;
 import net.neoforged.neoforge.event.tick.LevelTickEvent;
 
 /**
- * Système de pose des structures (« StructurePlacer » de la spec). Une fois par seconde, dans le Royaume :
+ * Système de pose des structures (« StructurePlacer » de la spec). Toutes les structures sont posées au démarrage
+ * du serveur, donc dès la création du monde. En filet de sécurité, une fois par seconde, dans le Royaume :
  * si un joueur est à moins de 96 blocs d'une structure absente ou dont la version a augmenté, elle est posée
  * (ou remplacée) et sa version est enregistrée. Ainsi, une structure ajoutée dans une version future du mod
  * apparaît aussi dans un monde créé avant.
@@ -18,6 +20,31 @@ public final class PoseurStructures {
     public static final int DISTANCE = 96;
 
     private PoseurStructures() {
+    }
+
+    /**
+     * Au démarrage du serveur (donc dès la création du monde), pose toutes les structures absentes ou dont la
+     * version a augmenté : le Royaume est complet avant qu'aucun joueur n'y entre. Le contrôle de proximité
+     * ci-dessous reste en filet de sécurité.
+     */
+    public static void demarrage(ServerStartedEvent evenement) {
+        ServerLevel niveau = evenement.getServer().getLevel(ModMonde.ROYAUME);
+        if (niveau == null) {
+            return;
+        }
+        long debut = System.currentTimeMillis();
+        DonneesStructures donnees = DonneesStructures.de(niveau);
+        int posees = 0;
+        for (StructureRoyaume structure : StructuresRoyaume.TOUTES) {
+            int posee = donnees.version(structure.id());
+            if (posee < structure.version()) {
+                poser(niveau, structure, posee > 0);
+                posees++;
+            }
+        }
+        if (posees > 0) {
+            RoyaumeDesIdees.LOGGER.info("{} structure(s) du Royaume posée(s) au démarrage en {} ms", posees, System.currentTimeMillis() - debut);
+        }
     }
 
     public static void tick(LevelTickEvent.Post evenement) {

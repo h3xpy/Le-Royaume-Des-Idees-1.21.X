@@ -10,7 +10,8 @@ v0.2 — Le Jardin : spec `docs/specs/v0.2-jardin.md` validée le 2026-10-03. Co
 | --- | --- |
 | 1. Blocs, items, effet, Culpabilité, `/confesse`, textures | Fait |
 | 2. Structures du Jardin, vérification en jeu, tests | Fait |
-| 3. Structures embellies, chemins, confession (10 s, claque) | Fait ; checklist à passer |
+| 3. Structures embellies, chemins, confession (10 s, claque) | Fait |
+| 4. Sanglots un par un, structures posées au démarrage | Fait ; checklist presque passée par Maxime |
 
 v0.1 — Les fondations : terminée et validée en jeu par Maxime le 2026-10-03 (checklist `docs/tests/v0.1.md` passée, y compris sur serveur local).
 
@@ -44,6 +45,7 @@ v0.1 — Les fondations : terminée et validée en jeu par Maxime le 2026-10-03 
 - v0.2 étape 1 : poires (achetée, volée), feuilles de poirier (propriété `poires`, cueillette = vol, repousse lente), bois, planches et feuilles de figuier, Confessionnal (deux blocs de haut, fabricable), Étal du verger (émeraude → 3 poires), effet Culpabilité I à V (lenteur, nuage, sanglots, musique, message), commande `/confesse`, voix « Prends, lis » au figuier, textures `tools/textures/jardin_v02.py`.
 - v0.2 étape 2 : structures `confessionnal_centre`, `figuier`, `villa_augustin` et `vergers` (`structures/StructuresJardin.java`), qui suivent le relief. Trois vergers clos de 8 poiriers (Lucius, Sévère, Vérécundus), panneaux traduisibles. Vérification automatique étendue : blocs clés des structures, Culpabilité insensible au lait, et une visite en survie (3 vols → Culpabilité III, `effect clear` et mort sans effet, confession refusée loin puis acceptée, anti-spam, achat à l'Étal).
 - v0.2 étape 3 : structures refaites en version 2. Villa : domus à atrium, impluvium, tablinum (Livres des Platoniciens, table de jeu), chambres, triclinium, cuisine, cellier, toit à compluvium, jardin à colonnade au nord. Vergers : murets moussus, allée, vigne de Patricius, porcherie. Jardin du figuier : haie, grand figuier, exèdre d'Alypius avec l'Épître aux Romains, puits, maison voisine. Confessionnal sous un baldaquin. Deux chemins (`chemin_villa_vergers`, `chemin_villa_figuier`). Outils communs : `Decor` (escaliers, plantes, panneaux, livres, cyprès, animaux) et le raccord des clôtures, murets, escaliers et vitres en fin de pose (`Pose.poserRaccorde`). Confession : 10 s entre deux confessions, claque si le même péché est répété.
+- v0.2 étape 4 : les sanglots ne se superposent plus (un à la fois, 53 s, puis 10 à 40 s de silence ; arrêt quand la Culpabilité retombe sous III ; son lu en flux). Toutes les structures sont posées au démarrage du serveur (8 structures en 1,7 s), la pose de proximité reste en filet de sécurité. Une nouvelle pose de la porcherie remplace ses cochons au lieu d'en ajouter.
 
 ## Décisions
 
@@ -115,6 +117,7 @@ v0.1 — Les fondations : terminée et validée en jeu par Maxime le 2026-10-03 
 - 2026-10-03 : détails tirés des *Confessions* pour le Jardin, au-delà de la spec : la table de jeu où Ponticianus trouva les épîtres de Paul (VIII, 6), le petit jardin de la maison (VIII, 8), le banc d'Alypius où le livre était resté (VIII, 12), la maison voisine d'où venait la voix, la vigne de la famille près du poirier et les porcs à qui les poires furent jetées (II, 4). Les versets cités sont dans des traductions du domaine public (Segond 1910, King James) ; les phrases des Confessions sont traduites par Claude.
 - 2026-10-03 : des cochons apparaissent avec la porcherie (une fois, à la pose). Le sol de l'enclos est aplani et rien n'est posé contre la clôture, sinon ils s'échappent.
 - 2026-10-03 : les chemins sont des structures séparées dont la boîte ne chevauche aucun bâtiment, car remplacer une structure remet toute sa boîte dans l'état d'origine.
+- 2026-10-03 : à la demande de Maxime, les structures sont là dès la création du monde. Elles restent posées par le système de pose (pas par la génération du monde, comme le veut CLAUDE.md), mais au démarrage du serveur au lieu d'attendre qu'un joueur approche.
 - 2026-10-03 : la console du serveur local reçoit ce qu'on tape dans le terminal (`build.gradle`, tâche `runServer`) : taper `stop` l'arrête proprement. En développement, la licence de Minecraft est acceptée d'office : pas de `eula.txt` à remplir.
 
 ## Coordonnées réservées des structures
@@ -193,4 +196,4 @@ Les points d'intérêt sont regroupés à moins de 300 blocs du centre. La moiti
 
 ## Problèmes connus
 
-(aucun)
+- Si la porcherie est reposée (nouvelle version) au démarrage d'un monde où ses cochons sont déjà sauvegardés, les anciens ne sont pas encore chargés et ne peuvent pas être retirés : il peut alors y en avoir 6. Sans conséquence, à revoir si la porcherie change de version.

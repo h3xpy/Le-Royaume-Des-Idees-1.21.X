@@ -45,6 +45,7 @@ public class RoyaumeDesIdees {
         modEventBus.addListener(ModEntites::attributs);
 
         modEventBus.addListener(GenerateurDonnees::generer);
+        NeoForge.EVENT_BUS.addListener(PoseurStructures::demarrage);
         NeoForge.EVENT_BUS.addListener(PoseurStructures::tick);
         NeoForge.EVENT_BUS.addListener(CommandesRoyaume::enregistrer);
         NeoForge.EVENT_BUS.addListener(PopulationOmbres::tick);

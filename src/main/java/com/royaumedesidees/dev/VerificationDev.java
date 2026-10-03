@@ -121,8 +121,12 @@ public final class VerificationDev {
         }
         // Versions lues dans la sauvegarde, avant toute pose (0 = jamais posée dans ce monde).
         DonneesStructures lues = DonneesStructures.de(royaume);
+        // Les structures doivent déjà être posées par PoseurStructures au démarrage, avant tout joueur.
         for (StructureRoyaume structure : StructuresRoyaume.TOUTES) {
-            RoyaumeDesIdees.LOGGER.info("[verification] Version lue au chargement : {}={}", structure.id(), lues.version(structure.id()));
+            boolean deja = lues.version(structure.id()) == structure.version();
+            erreurs += deja ? 0 : 1;
+            RoyaumeDesIdees.LOGGER.info("[verification] {} déjà posée au démarrage (v{}) : {}", structure.id(),
+                    lues.version(structure.id()), deja ? "OK" : "ECHEC");
         }
         // Structures : pose forcée, contrôle de quelques blocs, puis casse et repose d'un bloc du cadre.
         for (StructureRoyaume structure : StructuresRoyaume.TOUTES) {
@@ -177,8 +181,9 @@ public final class VerificationDev {
                 com.royaumedesidees.structures.CheminsJardin.POS_CHEMIN.toShortString(), nom(chemin), cheminOk ? "OK" : "ECHEC");
         int cochons = royaume.getEntitiesOfClass(net.minecraft.world.entity.animal.Pig.class,
                 new net.minecraft.world.phys.AABB(StructuresJardin.POS_PORCHERIE).inflate(8)).size();
-        erreurs += cochons >= 3 ? 0 : 1;
-        RoyaumeDesIdees.LOGGER.info("[verification] cochons dans la porcherie : {} {}", cochons, cochons >= 3 ? "OK" : "ECHEC");
+        erreurs += cochons == 3 ? 0 : 1;
+        RoyaumeDesIdees.LOGGER.info("[verification] cochons dans la porcherie (3 attendus, même après une repose) : {} {}",
+                cochons, cochons == 3 ? "OK" : "ECHEC");
         int poires = 0;
         int feuilles = 0;
         for (BlockPos pos : BlockPos.betweenClosed(StructuresJardin.POS_POIRIER.offset(-3, 1, -3), StructuresJardin.POS_POIRIER.offset(3, 7, 3))) {

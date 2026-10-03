@@ -12,6 +12,10 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
 /**
  * La Culpabilité : un niveau de 0 à 5 par joueur, sauvegardé avec lui et conservé à la mort. Elle suit le joueur
  * partout, Overworld compris. Effets cumulés :
@@ -25,6 +29,10 @@ import net.neoforged.neoforge.event.tick.PlayerTickEvent;
  */
 public final class Culpabilite {
     public static final int MAXIMUM = 5;
+    /** Durée du fichier sanglots.ogg (52,6 s), arrondie au-dessus : on n'en relance pas un avant la fin du précédent. */
+    private static final int DUREE_SANGLOTS = 53 * 20;
+    /** Heure (en ticks de jeu) à partir de laquelle chaque joueur peut de nouveau faire entendre des sanglots. */
+    private static final Map<UUID, Long> PROCHAINS_SANGLOTS = new HashMap<>();
 
     private Culpabilite() {
     }
@@ -46,9 +54,23 @@ public final class Culpabilite {
         int apres = Math.max(0, Math.min(MAXIMUM, avant + ecart));
         joueur.setData(ModPiecesJointes.CULPABILITE, apres);
         appliquerEffet(joueur, apres);
+        if (avant >= 3 && apres < 3) {
+            arreterSanglots(joueur);
+        }
         if (apres == MAXIMUM && avant < MAXIMUM) {
             joueur.server.getPlayerList().broadcastSystemMessage(
                     Component.translatable("message.royaumedesidees.culpabilite.ecrase", joueur.getDisplayName()), false);
+        }
+    }
+
+    /** La Culpabilité est retombée sous III : les sanglots se taisent pour ceux qui les entendaient. */
+    private static void arreterSanglots(ServerPlayer joueur) {
+        PROCHAINS_SANGLOTS.remove(joueur.getUUID());
+        var arret = new net.minecraft.network.protocol.game.ClientboundStopSoundPacket(ModSons.SANGLOTS.getId(), SoundSource.PLAYERS);
+        for (ServerPlayer autre : joueur.serverLevel().players()) {
+            if (autre.distanceToSqr(joueur) < 64 * 64) {
+                autre.connection.send(arret);
+            }
         }
     }
 
@@ -84,9 +106,12 @@ public final class Culpabilite {
             monde.sendParticles(ParticleTypes.CLOUD, joueur.getX(), y, joueur.getZ(), 4, 0.35, 0.08, 0.35, 0.0);
             monde.sendParticles(ParticleTypes.FALLING_WATER, joueur.getX(), y - 0.2, joueur.getZ(), 3, 0.3, 0.0, 0.3, 0.0);
         }
-        if (niveau >= 3 && joueur.getRandom().nextInt(16) == 0) {
-            // Des sanglots de temps en temps (environ toutes les 8 s), audibles par ceux qui sont autour.
+        long maintenant = monde.getGameTime();
+        if (niveau >= 3 && maintenant >= PROCHAINS_SANGLOTS.getOrDefault(joueur.getUUID(), 0L)) {
+            // Des sanglots, audibles par ceux qui sont autour. Un seul à la fois : le suivant attend la fin de
+            // celui-ci, plus un silence de 10 à 40 secondes.
             monde.playSound(null, joueur.getX(), joueur.getY(), joueur.getZ(), ModSons.SANGLOTS.get(), SoundSource.PLAYERS, 0.6F, 1.0F);
+            PROCHAINS_SANGLOTS.put(joueur.getUUID(), maintenant + DUREE_SANGLOTS + 200 + joueur.getRandom().nextInt(600));
         }
     }
 }
