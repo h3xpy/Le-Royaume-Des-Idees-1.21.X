@@ -1,4 +1,16 @@
 {
+  "ambroise_page": {
+    "sounds": [
+      "royaumedesidees:ambroise_page"
+    ],
+    "subtitle": "sous_titre.royaumedesidees.ambroise_page"
+  },
+  "augustin_rire": {
+    "sounds": [
+      "royaumedesidees:augustin_rire"
+    ],
+    "subtitle": "sous_titre.royaumedesidees.augustin_rire"
+  },
   "musique_culpabilite": {
     "sounds": [
       {
@@ -14,6 +26,12 @@
         "stream": true
       }
     ]
+  },
+  "pascal_merci": {
+    "sounds": [
+      "royaumedesidees:pascal_merci"
+    ],
+    "subtitle": "sous_titre.royaumedesidees.pascal_merci"
   },
   "sanglots": {
     "sounds": [

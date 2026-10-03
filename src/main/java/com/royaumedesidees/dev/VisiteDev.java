@@ -108,6 +108,19 @@ public final class VisiteDev {
             new Etape("confesse_repetee", () -> List.of("confesse J'ai vole des poires pour le plaisir de mal faire")),
             new Etape("etal", () -> List.of("item replace entity @s weapon.mainhand with minecraft:emerald 2",
                     tpRoyaume(StructuresJardin.POS_ETAL.offset(0, 0, 2), 180f, 35f)), jeu -> utiliser(jeu, StructuresJardin.POS_ETAL)),
+            // PNJ (v0.3) : les cinq en rang, face au joueur ; un coup à Pascal, un mot à Augustin.
+            // Interface visible pour voir les noms au-dessus des têtes.
+            new Etape("pnj", VisiteDev::invoquerPnj, jeu -> {
+                jeu.options.hideGui = false;
+                return true;
+            }),
+            new Etape("pnj_coup", () -> List.of(
+                    "damage @e[type=royaumedesidees:pascal,limit=1,sort=nearest] 4 minecraft:player_attack by @s",
+                    "damage @e[type=royaumedesidees:augustin_jeune,limit=1,sort=nearest] 4 minecraft:player_attack by @s")),
+            new Etape("pnj_parler", () -> List.of(), jeu -> {
+                jeu.options.hideGui = true;
+                return parlerA(jeu, "ambroise") && parlerA(jeu, "adeodat");
+            }),
             vue("villa", -226, 0, -164, 225f, 22f, true),
             vue("villa_dessus", -200, StructuresJardin.VILLA_SOL + 32, -152, 180f, 48f, false),
             vue("atrium", -200, StructuresJardin.VILLA_SOL + 1, -183, 180f, 8f, false),
@@ -139,6 +152,37 @@ public final class VisiteDev {
     private static int compteur;
     private static int etape = -1;
     private static boolean actionFaite;
+
+    private static final String[] PNJ = {"augustin_jeune", "adeodat", "ambroise", "monique", "pascal"};
+
+    /** Les cinq PNJ en rang, immobiles (sans IA), tournés vers le joueur placé 4 blocs au nord. */
+    private static List<String> invoquerPnj() {
+        int z = 8;
+        int x0 = 30;
+        List<String> commandes = new java.util.ArrayList<>();
+        int sol = ReliefRoyaume.colonne(x0 + 4, z - 4).surface();
+        commandes.add(String.format(Locale.ROOT, "execute in royaumedesidees:royaume run tp @s %d %d %d 0 8", x0 + 4, sol + 1, z - 4));
+        for (int i = 0; i < PNJ.length; i++) {
+            int x = x0 + 2 * i;
+            commandes.add(String.format(Locale.ROOT,
+                    "execute in royaumedesidees:royaume run summon royaumedesidees:%s %d %d %d {NoAI:1b,Rotation:[180f,0f]}",
+                    PNJ[i], x, ReliefRoyaume.colonne(x, z).surface() + 1, z));
+        }
+        return commandes;
+    }
+
+    /** Clic droit du joueur sur le PNJ le plus proche de ce type. */
+    private static boolean parlerA(Minecraft jeu, String id) {
+        return jeu.level.getEntitiesOfClass(com.royaumedesidees.pnj.PnjRoyaume.class, jeu.player.getBoundingBox().inflate(16),
+                        pnj -> pnj.id().equals(id)).stream()
+                .min(java.util.Comparator.comparingDouble(pnj -> pnj.distanceToSqr(jeu.player)))
+                .map(pnj -> {
+                    InteractionResult resultat = jeu.gameMode.interact(jeu.player, pnj, InteractionHand.MAIN_HAND);
+                    RoyaumeDesIdees.LOGGER.info("[visite] clic droit sur {} : {}", id, resultat);
+                    return true;
+                })
+                .orElse(false);
+    }
 
     private static String tpRoyaume(BlockPos pos, float orientation, float inclinaison) {
         return String.format(Locale.ROOT, "execute in royaumedesidees:royaume run tp @s %.1f %d %.1f %.1f %.1f",
@@ -231,6 +275,12 @@ public final class VisiteDev {
             long cochons = jeu.level.getEntitiesOfClass(net.minecraft.world.entity.animal.Pig.class,
                     new net.minecraft.world.phys.AABB(-317, 0, -164, -306, 400, -157)).size();
             RoyaumeDesIdees.LOGGER.info("[visite] porcherie : cochons restés dans l'enclos {} {}", cochons, cochons >= 3 ? "OK" : "ECHEC");
+        }
+        if (nom.startsWith("pnj")) {
+            for (com.royaumedesidees.pnj.PnjRoyaume pnj : jeu.level.getEntitiesOfClass(com.royaumedesidees.pnj.PnjRoyaume.class,
+                    jeu.player.getBoundingBox().inflate(16))) {
+                RoyaumeDesIdees.LOGGER.info("[visite] {} : PNJ {} vie {}", nom, pnj.id(), pnj.getHealth());
+            }
         }
         RoyaumeDesIdees.LOGGER.info("[visite] {} : Grâce reçue {}, jauge visible {}", nom,
                 com.royaumedesidees.grace.GracePaquet.recue(), com.royaumedesidees.client.JaugeGrace.visible());

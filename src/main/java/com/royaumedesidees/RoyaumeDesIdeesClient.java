@@ -4,6 +4,7 @@ import com.royaumedesidees.client.InfobulleSouvenir;
 import com.royaumedesidees.client.JaugeGrace;
 import com.royaumedesidees.client.MusiqueRoyaume;
 import com.royaumedesidees.client.RenduOmbre;
+import com.royaumedesidees.client.RenduPnj;
 import com.royaumedesidees.dev.VisiteDev;
 import com.royaumedesidees.registre.ModEntites;
 import net.neoforged.api.distmarker.Dist;
@@ -26,8 +27,14 @@ public class RoyaumeDesIdeesClient {
         modEventBus.addListener(JaugeGrace::enregistrer);
         modEventBus.addListener((EntityRenderersEvent.RegisterLayerDefinitions evenement) ->
                 evenement.registerLayerDefinition(RenduOmbre.COUCHE, RenduOmbre::couche));
-        modEventBus.addListener((EntityRenderersEvent.RegisterRenderers evenement) ->
-                evenement.registerEntityRenderer(ModEntites.OMBRE.get(), RenduOmbre::new));
+        modEventBus.addListener((EntityRenderersEvent.RegisterRenderers evenement) -> {
+            evenement.registerEntityRenderer(ModEntites.OMBRE.get(), RenduOmbre::new);
+            evenement.registerEntityRenderer(ModEntites.AUGUSTIN_JEUNE.get(), contexte -> new RenduPnj<>(contexte, false));
+            evenement.registerEntityRenderer(ModEntites.ADEODAT.get(), contexte -> new RenduPnj<>(contexte, false));
+            evenement.registerEntityRenderer(ModEntites.AMBROISE.get(), contexte -> new RenduPnj<>(contexte, false));
+            evenement.registerEntityRenderer(ModEntites.MONIQUE.get(), contexte -> new RenduPnj<>(contexte, true));
+            evenement.registerEntityRenderer(ModEntites.PASCAL.get(), contexte -> new RenduPnj<>(contexte, false));
+        });
         VisiteDev.activerSiDemande();
     }
 }

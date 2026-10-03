@@ -28,6 +28,18 @@ public final class ModSons {
     public static final DeferredHolder<SoundEvent, SoundEvent> MUSIQUE_CULPABILITE = SONS.register("musique_culpabilite",
             () -> SoundEvent.createVariableRangeEvent(RoyaumeDesIdees.id("musique_culpabilite")));
 
+    /** Rire d'Augustin jeune, quand on le frappe (v0.3). */
+    public static final DeferredHolder<SoundEvent, SoundEvent> AUGUSTIN_RIRE = SONS.register("augustin_rire",
+            () -> SoundEvent.createVariableRangeEvent(RoyaumeDesIdees.id("augustin_rire")));
+
+    /** Page tournée par Ambroise, qui ne parle pas (v0.3). */
+    public static final DeferredHolder<SoundEvent, SoundEvent> AMBROISE_PAGE = SONS.register("ambroise_page",
+            () -> SoundEvent.createVariableRangeEvent(RoyaumeDesIdees.id("ambroise_page")));
+
+    /** « Merci. » de Pascal, quand on le frappe (v0.3, facultatif). */
+    public static final DeferredHolder<SoundEvent, SoundEvent> PASCAL_MERCI = SONS.register("pascal_merci",
+            () -> SoundEvent.createVariableRangeEvent(RoyaumeDesIdees.id("pascal_merci")));
+
     private ModSons() {
     }
 }

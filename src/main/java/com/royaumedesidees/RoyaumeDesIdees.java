@@ -10,6 +10,7 @@ import com.royaumedesidees.grace.Grace;
 import com.royaumedesidees.grace.GracePaquet;
 import com.royaumedesidees.jardin.Confession;
 import com.royaumedesidees.jardin.Culpabilite;
+import com.royaumedesidees.pnj.ReponsesChat;
 import com.royaumedesidees.registre.ModBlocs;
 import com.royaumedesidees.registre.ModEffets;
 import com.royaumedesidees.registre.ModEntites;
@@ -64,6 +65,9 @@ public class RoyaumeDesIdees {
         NeoForge.EVENT_BUS.addListener(Grace::degats);
         NeoForge.EVENT_BUS.addListener(Grace::attaque);
         NeoForge.EVENT_BUS.addListener(Grace::tick);
+        // PNJ (v0.3) : réponses données dans le chat.
+        NeoForge.EVENT_BUS.addListener(ReponsesChat::chat);
+        NeoForge.EVENT_BUS.addListener(ReponsesChat::tick);
         VerificationDev.activerSiDemande();
     }
 

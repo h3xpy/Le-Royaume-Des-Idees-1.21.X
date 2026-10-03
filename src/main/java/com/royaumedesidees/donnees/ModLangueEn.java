@@ -94,6 +94,26 @@ public class ModLangueEn extends LanguageProvider {
         add("voie.royaumedesidees.aucune", "no Way");
         add("voie.royaumedesidees.raison", "Way of Reason");
         add("voie.royaumedesidees.coeur", "Way of the Heart");
+        // v0.3 : PNJ
+        add("entity.royaumedesidees.augustin_jeune", "Augustine");
+        add("entity.royaumedesidees.adeodat", "Adeodatus");
+        add("entity.royaumedesidees.ambroise", "Ambrose");
+        add("entity.royaumedesidees.monique", "Monica");
+        add("entity.royaumedesidees.pascal", "Blaise Pascal");
+        add("pnj.royaumedesidees.augustin_jeune.bonjour", "Hey! You look far too well-behaved. There's a cure for that: pears, over there.");
+        add("pnj.royaumedesidees.augustin_jeune.coup", "*bursts out laughing* You hit the way you steal: half-heartedly!");
+        add("pnj.royaumedesidees.adeodat.bonjour", "Hello. My father says I was born of his sin. I prefer mathematics.");
+        add("pnj.royaumedesidees.adeodat.coup", "*sighs* Hitting a genius does not make you smarter. I checked.");
+        add("pnj.royaumedesidees.ambroise.bonjour", "*Ambrose looks up from his book, then down again, without a word.*");
+        add("pnj.royaumedesidees.ambroise.coup", "*Ambrose turns a page, without a word.*");
+        add("pnj.royaumedesidees.monique.bonjour", "*Monica wipes her tears.* My son… Have you seen my son?");
+        add("pnj.royaumedesidees.monique.coup", "*Monica weeps louder.*");
+        add("pnj.royaumedesidees.pascal.bonjour", "The heart has its reasons which reason does not know. My father's accounts, however, have none.");
+        add("pnj.royaumedesidees.pascal.coup", "Thank you. *He tightens his belt.*");
+        add("message.royaumedesidees.pascal.merci", "Pascal thanks %1$s for hitting him.");
+        add("sous_titre.royaumedesidees.augustin_rire", "Augustine laughs");
+        add("sous_titre.royaumedesidees.ambroise_page", "A page turns");
+        add("sous_titre.royaumedesidees.pascal_merci", "Pascal says thank you");
         add("message.royaumedesidees.confessionnal.mode_emploi", "To confess, type /confesse followed by your sin.");
         add("message.royaumedesidees.etal.achat", "You honestly buy %1$s pears. They look less tasty.");
         add("message.royaumedesidees.etal.ecriteau", "\"One emerald in the box, %1$s pears for you. Or you could just steal them...\"");

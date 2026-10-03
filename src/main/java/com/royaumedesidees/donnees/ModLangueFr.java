@@ -94,6 +94,26 @@ public class ModLangueFr extends LanguageProvider {
         add("voie.royaumedesidees.aucune", "sans Voie");
         add("voie.royaumedesidees.raison", "Voie de la Raison");
         add("voie.royaumedesidees.coeur", "Voie du Cœur");
+        // v0.3 : PNJ
+        add("entity.royaumedesidees.augustin_jeune", "Augustin");
+        add("entity.royaumedesidees.adeodat", "Adéodat");
+        add("entity.royaumedesidees.ambroise", "Ambroise");
+        add("entity.royaumedesidees.monique", "Monique");
+        add("entity.royaumedesidees.pascal", "Blaise Pascal");
+        add("pnj.royaumedesidees.augustin_jeune.bonjour", "Salut ! Tu as l'air bien trop sage. Ça se soigne : il y a des poires, là-bas.");
+        add("pnj.royaumedesidees.augustin_jeune.coup", "*éclate de rire* Tu frappes comme tu voles : sans conviction !");
+        add("pnj.royaumedesidees.adeodat.bonjour", "Bonjour. Mon père dit que je suis né de son péché. Moi, je préfère les mathématiques.");
+        add("pnj.royaumedesidees.adeodat.coup", "*soupire* Frapper un génie ne rend pas plus intelligent. J'ai vérifié.");
+        add("pnj.royaumedesidees.ambroise.bonjour", "*Ambroise lève les yeux de son livre, puis les rabaisse, sans un mot.*");
+        add("pnj.royaumedesidees.ambroise.coup", "*Ambroise tourne une page, sans un mot.*");
+        add("pnj.royaumedesidees.monique.bonjour", "*Monique essuie ses larmes.* Mon fils… Tu n'aurais pas vu mon fils ?");
+        add("pnj.royaumedesidees.monique.coup", "*Monique pleure plus fort.*");
+        add("pnj.royaumedesidees.pascal.bonjour", "Le cœur a ses raisons que la raison ne connaît point. Mais les comptes de mon père, eux, n'en ont aucune.");
+        add("pnj.royaumedesidees.pascal.coup", "Merci. *Il serre sa ceinture.*");
+        add("message.royaumedesidees.pascal.merci", "Pascal remercie %1$s de l'avoir frappé.");
+        add("sous_titre.royaumedesidees.augustin_rire", "Augustin rit");
+        add("sous_titre.royaumedesidees.ambroise_page", "Une page tourne");
+        add("sous_titre.royaumedesidees.pascal_merci", "Pascal dit merci");
         add("message.royaumedesidees.confessionnal.mode_emploi", "Pour te confesser, tape /confesse suivi de ton péché.");
         add("message.royaumedesidees.etal.achat", "Tu achètes %1$s poires, honnêtement. Elles ont l'air moins bonnes.");
         add("message.royaumedesidees.etal.ecriteau", "« Une émeraude dans le tronc, %1$s poires pour toi. Ou alors, tu les voles… »");
