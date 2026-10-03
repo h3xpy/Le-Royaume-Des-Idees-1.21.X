@@ -4,7 +4,7 @@ Journal tenu par Claude Code.
 
 ## Version en cours
 
-v0.1 — Les fondations, en cours.
+v0.1 — Les fondations : code terminé, en attente des tests en jeu (`docs/tests/v0.1.md`).
 
 | Étape | État |
 | --- | --- |
@@ -19,7 +19,7 @@ v0.1 — Les fondations, en cours.
 | 6. Système de pose des structures | Fait |
 | 7. Portail et livre | Fait |
 | 8. Caverne jouable | Fait |
-| 9. Fin de version (tests, docs, serveur) | À faire |
+| 9. Fin de version (tests, docs, serveur) | Fait ; checklist `docs/tests/v0.1.md` à passer par Maxime |
 
 ## Fait
 
@@ -32,6 +32,7 @@ v0.1 — Les fondations, en cours.
 
 - v0.1 étape 8 : Caverne jouable. Première entrée enchaînée (cage de 17 Chaînes de la Caverne autour du joueur), entrées suivantes libres à côté. Entité `ombre` : silhouette noire semi-transparente, intouchable, révélée en prisonnier par la Lanterne de Diogène tenue à moins de 8 blocs, attaque faiblement (1 dégât), 10 PV, lâche 1 ou 2 Pierres d'Ombre. Six Ombres entretenues devant le mur tant qu'un joueur est dans la Caverne. Sortie à l'air libre au débouché du tunnel : aveuglement 5 s, message, succès « Allégorie vécue » (onglet de succès du Royaume), Lanterne à la première sortie. Infobulle « Souvenir du Royaume » hors de la dimension pour tous les objets du tag `lie_au_royaume`.
 
+- v0.1 étape 9 : checklist de tests en jeu `docs/tests/v0.1.md`. Le test sur serveur local (`runServer`) reste à faire par Maxime : il demande d'accepter la licence de Minecraft (`run/eula.txt`), ce que Claude ne fait pas à sa place.
 ## Décisions
 
 - 2026-10-01 : génération du monde figée dès la v0.1, structures posées par le mod (voir CLAUDE.md).
