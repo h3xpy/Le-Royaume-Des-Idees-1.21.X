@@ -16,5 +16,9 @@ public class ModModelesItems extends ItemModelProvider {
     protected void registerModels() {
         basicItem(ModItems.TOLLE_LEGE.get());
         basicItem(ModItems.LANTERNE_DIOGENE.get());
+        basicItem(ModItems.POIRE.get());
+        basicItem(ModItems.POIRE_VOLEE.get());
+        // Bloc de deux de haut : une icône plate en inventaire, comme les portes.
+        basicItem(ModItems.CONFESSIONNAL.get());
     }
 }

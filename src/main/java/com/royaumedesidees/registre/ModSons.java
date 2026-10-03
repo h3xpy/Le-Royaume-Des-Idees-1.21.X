@@ -20,6 +20,14 @@ public final class ModSons {
     public static final DeferredHolder<SoundEvent, SoundEvent> MUSIQUE_ROYAUME = SONS.register("musique_royaume",
             () -> SoundEvent.createVariableRangeEvent(RoyaumeDesIdees.id("musique_royaume")));
 
+    /** Sanglots lointains autour d'un joueur à la Culpabilité III ou plus. */
+    public static final DeferredHolder<SoundEvent, SoundEvent> SANGLOTS = SONS.register("sanglots",
+            () -> SoundEvent.createVariableRangeEvent(RoyaumeDesIdees.id("sanglots")));
+
+    /** Musique dramatique, en boucle, pour un joueur à la Culpabilité IV ou plus. */
+    public static final DeferredHolder<SoundEvent, SoundEvent> MUSIQUE_CULPABILITE = SONS.register("musique_culpabilite",
+            () -> SoundEvent.createVariableRangeEvent(RoyaumeDesIdees.id("musique_culpabilite")));
+
     private ModSons() {
     }
 }

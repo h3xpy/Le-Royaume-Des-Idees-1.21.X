@@ -22,5 +22,13 @@ public class ModTagsBlocs extends BlockTagsProvider {
         tag(BlockTags.PORTALS).add(ModBlocs.PORTAIL_ROYAUME.get());
         tag(BlockTags.DRAGON_IMMUNE).add(ModBlocs.PORTAIL_ROYAUME.get());
         tag(BlockTags.WITHER_IMMUNE).add(ModBlocs.PORTAIL_ROYAUME.get());
+
+        // Jardin de Milan (v0.2) : bois et feuilles se comportent comme leurs équivalents vanilla.
+        tag(BlockTags.LEAVES).add(ModBlocs.FEUILLES_POIRIER.get(), ModBlocs.FEUILLES_FIGUIER.get());
+        tag(BlockTags.MINEABLE_WITH_HOE).add(ModBlocs.FEUILLES_POIRIER.get(), ModBlocs.FEUILLES_FIGUIER.get());
+        tag(BlockTags.LOGS_THAT_BURN).add(ModBlocs.BOIS_FIGUIER.get());
+        tag(BlockTags.PLANKS).add(ModBlocs.PLANCHES_FIGUIER.get());
+        tag(BlockTags.MINEABLE_WITH_AXE).add(ModBlocs.BOIS_FIGUIER.get(), ModBlocs.PLANCHES_FIGUIER.get(),
+                ModBlocs.CONFESSIONNAL.get(), ModBlocs.ETAL_VERGER.get());
     }
 }

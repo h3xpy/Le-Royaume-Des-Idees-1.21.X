@@ -18,6 +18,13 @@ public class ModButinBlocs extends net.minecraft.data.loot.BlockLootSubProvider 
     protected void generate() {
         dropSelf(ModBlocs.PIERRE_OMBRE.get());
         dropSelf(ModBlocs.PIERRE_OMBRE_TAILLEE.get());
+        // Les feuilles ne se récupèrent qu'aux cisailles ; les poires se cueillent à la main.
+        add(ModBlocs.FEUILLES_POIRIER.get(), createShearsOnlyDrop(ModBlocs.FEUILLES_POIRIER.get()));
+        add(ModBlocs.FEUILLES_FIGUIER.get(), createShearsOnlyDrop(ModBlocs.FEUILLES_FIGUIER.get()));
+        dropSelf(ModBlocs.BOIS_FIGUIER.get());
+        dropSelf(ModBlocs.PLANCHES_FIGUIER.get());
+        add(ModBlocs.CONFESSIONNAL.get(), createDoorTable(ModBlocs.CONFESSIONNAL.get()));
+        dropSelf(ModBlocs.ETAL_VERGER.get());
     }
 
     @Override

@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    {
+      "item": "royaumedesidees:bois_figuier"
+    }
+  ],
+  "result": {
+    "count": 4,
+    "id": "royaumedesidees:planches_figuier"
+  }
+}

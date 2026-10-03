@@ -1,0 +1,172 @@
+{
+  "variants": {
+    "distance=1,persistent=false,poires=false,waterlogged=false": {
+      "model": "royaumedesidees:block/feuilles_poirier"
+    },
+    "distance=1,persistent=false,poires=false,waterlogged=true": {
+      "model": "royaumedesidees:block/feuilles_poirier"
+    },
+    "distance=1,persistent=false,poires=true,waterlogged=false": {
+      "model": "royaumedesidees:block/feuilles_poirier_poires"
+    },
+    "distance=1,persistent=false,poires=true,waterlogged=true": {
+      "model": "royaumedesidees:block/feuilles_poirier_poires"
+    },
+    "distance=1,persistent=true,poires=false,waterlogged=false": {
+      "model": "royaumedesidees:block/feuilles_poirier"
+    },
+    "distance=1,persistent=true,poires=false,waterlogged=true": {
+      "model": "royaumedesidees:block/feuilles_poirier"
+    },
+    "distance=1,persistent=true,poires=true,waterlogged=false": {
+      "model": "royaumedesidees:block/feuilles_poirier_poires"
+    },
+    "distance=1,persistent=true,poires=true,waterlogged=true": {
+      "model": "royaumedesidees:block/feuilles_poirier_poires"
+    },
+    "distance=2,persistent=false,poires=false,waterlogged=false": {
+      "model": "royaumedesidees:block/feuilles_poirier"
+    },
+    "distance=2,persistent=false,poires=false,waterlogged=true": {
+      "model": "royaumedesidees:block/feuilles_poirier"
+    },
+    "distance=2,persistent=false,poires=true,waterlogged=false": {
+      "model": "royaumedesidees:block/feuilles_poirier_poires"
+    },
+    "distance=2,persistent=false,poires=true,waterlogged=true": {
+      "model": "royaumedesidees:block/feuilles_poirier_poires"
+    },
+    "distance=2,persistent=true,poires=false,waterlogged=false": {
+      "model": "royaumedesidees:block/feuilles_poirier"
+    },
+    "distance=2,persistent=true,poires=false,waterlogged=true": {
+      "model": "royaumedesidees:block/feuilles_poirier"
+    },
+    "distance=2,persistent=true,poires=true,waterlogged=false": {
+      "model": "royaumedesidees:block/feuilles_poirier_poires"
+    },
+    "distance=2,persistent=true,poires=true,waterlogged=true": {
+      "model": "royaumedesidees:block/feuilles_poirier_poires"
+    },
+    "distance=3,persistent=false,poires=false,waterlogged=false": {
+      "model": "royaumedesidees:block/feuilles_poirier"
+    },
+    "distance=3,persistent=false,poires=false,waterlogged=true": {
+      "model": "royaumedesidees:block/feuilles_poirier"
+    },
+    "distance=3,persistent=false,poires=true,waterlogged=false": {
+      "model": "royaumedesidees:block/feuilles_poirier_poires"
+    },
+    "distance=3,persistent=false,poires=true,waterlogged=true": {
+      "model": "royaumedesidees:block/feuilles_poirier_poires"
+    },
+    "distance=3,persistent=true,poires=false,waterlogged=false": {
+      "model": "royaumedesidees:block/feuilles_poirier"
+    },
+    "distance=3,persistent=true,poires=false,waterlogged=true": {
+      "model": "royaumedesidees:block/feuilles_poirier"
+    },
+    "distance=3,persistent=true,poires=true,waterlogged=false": {
+      "model": "royaumedesidees:block/feuilles_poirier_poires"
+    },
+    "distance=3,persistent=true,poires=true,waterlogged=true": {
+      "model": "royaumedesidees:block/feuilles_poirier_poires"
+    },
+    "distance=4,persistent=false,poires=false,waterlogged=false": {
+      "model": "royaumedesidees:block/feuilles_poirier"
+    },
+    "distance=4,persistent=false,poires=false,waterlogged=true": {
+      "model": "royaumedesidees:block/feuilles_poirier"
+    },
+    "distance=4,persistent=false,poires=true,waterlogged=false": {
+      "model": "royaumedesidees:block/feuilles_poirier_poires"
+    },
+    "distance=4,persistent=false,poires=true,waterlogged=true": {
+      "model": "royaumedesidees:block/feuilles_poirier_poires"
+    },
+    "distance=4,persistent=true,poires=false,waterlogged=false": {
+      "model": "royaumedesidees:block/feuilles_poirier"
+    },
+    "distance=4,persistent=true,poires=false,waterlogged=true": {
+      "model": "royaumedesidees:block/feuilles_poirier"
+    },
+    "distance=4,persistent=true,poires=true,waterlogged=false": {
+      "model": "royaumedesidees:block/feuilles_poirier_poires"
+    },
+    "distance=4,persistent=true,poires=true,waterlogged=true": {
+      "model": "royaumedesidees:block/feuilles_poirier_poires"
+    },
+    "distance=5,persistent=false,poires=false,waterlogged=false": {
+      "model": "royaumedesidees:block/feuilles_poirier"
+    },
+    "distance=5,persistent=false,poires=false,waterlogged=true": {
+      "model": "royaumedesidees:block/feuilles_poirier"
+    },
+    "distance=5,persistent=false,poires=true,waterlogged=false": {
+      "model": "royaumedesidees:block/feuilles_poirier_poires"
+    },
+    "distance=5,persistent=false,poires=true,waterlogged=true": {
+      "model": "royaumedesidees:block/feuilles_poirier_poires"
+    },
+    "distance=5,persistent=true,poires=false,waterlogged=false": {
+      "model": "royaumedesidees:block/feuilles_poirier"
+    },
+    "distance=5,persistent=true,poires=false,waterlogged=true": {
+      "model": "royaumedesidees:block/feuilles_poirier"
+    },
+    "distance=5,persistent=true,poires=true,waterlogged=false": {
+      "model": "royaumedesidees:block/feuilles_poirier_poires"
+    },
+    "distance=5,persistent=true,poires=true,waterlogged=true": {
+      "model": "royaumedesidees:block/feuilles_poirier_poires"
+    },
+    "distance=6,persistent=false,poires=false,waterlogged=false": {
+      "model": "royaumedesidees:block/feuilles_poirier"
+    },
+    "distance=6,persistent=false,poires=false,waterlogged=true": {
+      "model": "royaumedesidees:block/feuilles_poirier"
+    },
+    "distance=6,persistent=false,poires=true,waterlogged=false": {
+      "model": "royaumedesidees:block/feuilles_poirier_poires"
+    },
+    "distance=6,persistent=false,poires=true,waterlogged=true": {
+      "model": "royaumedesidees:block/feuilles_poirier_poires"
+    },
+    "distance=6,persistent=true,poires=false,waterlogged=false": {
+      "model": "royaumedesidees:block/feuilles_poirier"
+    },
+    "distance=6,persistent=true,poires=false,waterlogged=true": {
+      "model": "royaumedesidees:block/feuilles_poirier"
+    },
+    "distance=6,persistent=true,poires=true,waterlogged=false": {
+      "model": "royaumedesidees:block/feuilles_poirier_poires"
+    },
+    "distance=6,persistent=true,poires=true,waterlogged=true": {
+      "model": "royaumedesidees:block/feuilles_poirier_poires"
+    },
+    "distance=7,persistent=false,poires=false,waterlogged=false": {
+      "model": "royaumedesidees:block/feuilles_poirier"
+    },
+    "distance=7,persistent=false,poires=false,waterlogged=true": {
+      "model": "royaumedesidees:block/feuilles_poirier"
+    },
+    "distance=7,persistent=false,poires=true,waterlogged=false": {
+      "model": "royaumedesidees:block/feuilles_poirier_poires"
+    },
+    "distance=7,persistent=false,poires=true,waterlogged=true": {
+      "model": "royaumedesidees:block/feuilles_poirier_poires"
+    },
+    "distance=7,persistent=true,poires=false,waterlogged=false": {
+      "model": "royaumedesidees:block/feuilles_poirier"
+    },
+    "distance=7,persistent=true,poires=false,waterlogged=true": {
+      "model": "royaumedesidees:block/feuilles_poirier"
+    },
+    "distance=7,persistent=true,poires=true,waterlogged=false": {
+      "model": "royaumedesidees:block/feuilles_poirier_poires"
+    },
+    "distance=7,persistent=true,poires=true,waterlogged=true": {
+      "model": "royaumedesidees:block/feuilles_poirier_poires"
+    }
+  }
+}

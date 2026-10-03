@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "royaumedesidees:block/etal_verger",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "royaumedesidees:block/etal_verger"
+    },
+    "facing=south": {
+      "model": "royaumedesidees:block/etal_verger",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "royaumedesidees:block/etal_verger",
+      "y": 270
+    }
+  }
+}

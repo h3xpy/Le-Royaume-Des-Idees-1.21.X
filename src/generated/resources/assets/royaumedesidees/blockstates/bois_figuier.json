@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "royaumedesidees:block/bois_figuier_horizontal",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "royaumedesidees:block/bois_figuier"
+    },
+    "axis=z": {
+      "model": "royaumedesidees:block/bois_figuier_horizontal",
+      "x": 90
+    }
+  }
+}

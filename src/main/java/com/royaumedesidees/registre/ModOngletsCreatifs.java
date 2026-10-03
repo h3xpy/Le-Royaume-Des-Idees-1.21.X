@@ -24,6 +24,14 @@ public final class ModOngletsCreatifs {
                 sortie.accept(ModItems.PIERRE_OMBRE.get());
                 sortie.accept(ModItems.PIERRE_OMBRE_TAILLEE.get());
                 sortie.accept(ModItems.CHAINE_CAVERNE.get());
+                sortie.accept(ModItems.POIRE_VOLEE.get());
+                sortie.accept(ModItems.POIRE.get());
+                sortie.accept(ModItems.FEUILLES_POIRIER.get());
+                sortie.accept(ModItems.BOIS_FIGUIER.get());
+                sortie.accept(ModItems.PLANCHES_FIGUIER.get());
+                sortie.accept(ModItems.FEUILLES_FIGUIER.get());
+                sortie.accept(ModItems.CONFESSIONNAL.get());
+                sortie.accept(ModItems.ETAL_VERGER.get());
             })
             .build());
 

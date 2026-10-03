@@ -62,6 +62,31 @@ public class ModLangueEn extends LanguageProvider {
         add("message.royaumedesidees.ombre.statue", "It was only a wooden statue. Diogenes is still looking for a man.");
         add("message.royaumedesidees.caverne.tenebres", "Back in the Cave, your sun-filled eyes see nothing but darkness.");
 
+        add("item.royaumedesidees.poire", "Pear");
+        add("item.royaumedesidees.poire.citation", "Honestly bought. Not as good as the other kind: Augustine noticed it too.");
+        add("item.royaumedesidees.poire_volee", "Stolen Pear");
+        add("item.royaumedesidees.poire_volee.citation", "\"It was not the pear I loved, but the theft.\" (after the Confessions, II)");
+        add("block.royaumedesidees.feuilles_poirier", "Pear Leaves");
+        add("block.royaumedesidees.bois_figuier", "Fig Log");
+        add("block.royaumedesidees.planches_figuier", "Fig Planks");
+        add("block.royaumedesidees.feuilles_figuier", "Fig Leaves");
+        add("block.royaumedesidees.confessionnal", "Confessional");
+        add("block.royaumedesidees.etal_verger", "Orchard Stall");
+        add("effect.royaumedesidees.culpabilite", "Guilt");
+        add("message.royaumedesidees.culpabilite.vol_poire", "%1$s stole a pear. Shame.");
+        add("message.royaumedesidees.culpabilite.ecrase", "%1$s is crushed by guilt.");
+        add("message.royaumedesidees.confession.publique", "%1$s confesses: \"%2$s\"");
+        add("message.royaumedesidees.confession.allege", "Your conscience feels lighter. Guilt left: %1$s.");
+        add("message.royaumedesidees.confession.rien", "Augustine wrote thirteen books of them; you really have nothing?");
+        add("message.royaumedesidees.confession.loin", "You need a Confessional to confess. There is one near the Altar, in the centre of the island.");
+        add("message.royaumedesidees.confession.trop_tot", "Easy: wait %1$s more seconds before your next confession.");
+        add("message.royaumedesidees.confession.trop_long", "Your confession is too long (%1$s characters at most). Augustine needed thirteen books.");
+        add("message.royaumedesidees.confessionnal.mode_emploi", "To confess, type /confesse followed by your sin.");
+        add("message.royaumedesidees.etal.achat", "You honestly buy %1$s pears. They look less tasty.");
+        add("message.royaumedesidees.etal.ecriteau", "\"One emerald in the box, %1$s pears for you. Or you could just steal them...\"");
+        add("message.royaumedesidees.figuier.voix", "A child's voice from the house next door: \"Take up and read; take up and read.\"");
+        add("sous_titre.royaumedesidees.sanglots", "Someone sobs");
+
         add(ModTags.LIE_AU_ROYAUME, "Bound to the Kingdom");
     }
 }

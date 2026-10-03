@@ -1,8 +1,14 @@
 package com.royaumedesidees.registre;
 
 import com.royaumedesidees.RoyaumeDesIdees;
+import com.royaumedesidees.bloc.ConfessionnalBloc;
+import com.royaumedesidees.bloc.EtalVergerBloc;
+import com.royaumedesidees.bloc.FeuillesFiguierBloc;
+import com.royaumedesidees.bloc.FeuillesPoirierBloc;
 import com.royaumedesidees.bloc.PortailRoyaumeBloc;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
@@ -43,6 +49,28 @@ public final class ModBlocs {
                     .sound(SoundType.CHAIN)
                     .noOcclusion()
                     .noLootTable());
+
+    // --- v0.2 : le Jardin de Milan ---
+
+    /** Feuilles de poirier des vergers : chargées de poires ou non. Cueillir = voler. */
+    public static final DeferredBlock<FeuillesPoirierBloc> FEUILLES_POIRIER = BLOCS.registerBlock("feuilles_poirier",
+            FeuillesPoirierBloc::new, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LEAVES));
+
+    /** Bois de figuier : la ressource du Jardin (pour la Bière d'Augustin, en v0.5). */
+    public static final DeferredBlock<RotatedPillarBlock> BOIS_FIGUIER = BLOCS.registerBlock("bois_figuier",
+            RotatedPillarBlock::new, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LOG));
+    public static final DeferredBlock<Block> PLANCHES_FIGUIER = BLOCS.registerSimpleBlock("planches_figuier",
+            BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS));
+    public static final DeferredBlock<FeuillesFiguierBloc> FEUILLES_FIGUIER = BLOCS.registerBlock("feuilles_figuier",
+            FeuillesFiguierBloc::new, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LEAVES));
+
+    /** Le Confessionnal, deux blocs de haut : on s'y confesse avec /confesse. */
+    public static final DeferredBlock<ConfessionnalBloc> CONFESSIONNAL = BLOCS.registerBlock("confessionnal",
+            ConfessionnalBloc::new, BlockBehaviour.Properties.ofFullCopy(Blocks.DARK_OAK_PLANKS).noOcclusion());
+
+    /** Étal du verger : une émeraude contre 3 poires achetées. */
+    public static final DeferredBlock<EtalVergerBloc> ETAL_VERGER = BLOCS.registerBlock("etal_verger",
+            EtalVergerBloc::new, BlockBehaviour.Properties.ofFullCopy(Blocks.BARREL));
 
     /** Pierre sombre, aussi dure que la pierre vanilla ; il faut une pioche pour la récupérer. */
     private static BlockBehaviour.Properties proprietesPierreOmbre() {

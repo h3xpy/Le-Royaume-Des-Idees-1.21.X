@@ -8,6 +8,9 @@ import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.data.recipes.ShapelessRecipeBuilder;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.world.item.Items;
 import net.minecraft.data.recipes.SingleItemRecipeBuilder;
 import net.minecraft.world.item.crafting.Ingredient;
 
@@ -20,6 +23,23 @@ public class ModRecettes extends RecipeProvider {
 
     @Override
     protected void buildRecipes(RecipeOutput sortie) {
+        // Bois de figuier : 1 bûche donne 4 planches, comme les bois vanilla.
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, ModItems.PLANCHES_FIGUIER.get(), 4)
+                .requires(ModItems.BOIS_FIGUIER.get())
+                .unlockedBy(getHasName(ModItems.BOIS_FIGUIER.get()), has(ModItems.BOIS_FIGUIER.get()))
+                .save(sortie);
+
+        // Confessionnal : 6 planches, une cloche pour l'absolution, un panneau pour la grille.
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, ModItems.CONFESSIONNAL.get())
+                .pattern("PSP")
+                .pattern("PBP")
+                .pattern("P P")
+                .define('P', ItemTags.PLANKS)
+                .define('S', ItemTags.SIGNS)
+                .define('B', Items.BELL)
+                .unlockedBy(getHasName(Items.BELL), has(Items.BELL))
+                .save(sortie);
+
         // 4 Pierres d'Ombre en carré donnent 4 Pierres taillées, comme les briques de pierre.
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModItems.PIERRE_OMBRE_TAILLEE.get(), 4)
                 .pattern("##")

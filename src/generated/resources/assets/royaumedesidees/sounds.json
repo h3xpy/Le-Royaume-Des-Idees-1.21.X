@@ -1,4 +1,12 @@
 {
+  "musique_culpabilite": {
+    "sounds": [
+      {
+        "name": "royaumedesidees:musique_culpabilite",
+        "stream": true
+      }
+    ]
+  },
   "musique_royaume": {
     "sounds": [
       {
@@ -6,5 +14,11 @@
         "stream": true
       }
     ]
+  },
+  "sanglots": {
+    "sounds": [
+      "royaumedesidees:sanglots"
+    ],
+    "subtitle": "sous_titre.royaumedesidees.sanglots"
   }
 }

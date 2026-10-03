@@ -1,10 +1,12 @@
 package com.royaumedesidees.client;
 
 import com.royaumedesidees.RoyaumeDesIdees;
+import com.royaumedesidees.registre.ModEffets;
 import com.royaumedesidees.registre.ModMonde;
 import com.royaumedesidees.registre.ModSons;
 import net.minecraft.client.Minecraft;
 import net.minecraft.sounds.Music;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.SelectMusicEvent;
 
@@ -14,7 +16,8 @@ import net.neoforged.neoforge.client.event.SelectMusicEvent;
  *   <li>elle démarre 7 secondes après l'entrée dans le Royaume (sinon Minecraft attendrait de 30 s à 5 min) ;</li>
  *   <li>dans le Royaume, c'est toujours elle qui est choisie, même en créatif (Minecraft y imposerait sinon
  *       sa musique « créative ») ;</li>
- *   <li>une fois finie, elle revient après 30 s à 5 min de silence (mêmes délais que dans les biomes).</li>
+ *   <li>une fois finie, elle revient après 30 s à 5 min de silence (mêmes délais que dans les biomes) ;</li>
+ *   <li>à la Culpabilité IV ou plus, une musique dramatique la remplace, en boucle, partout.</li>
  * </ul>
  */
 public final class MusiqueRoyaume {
@@ -22,6 +25,7 @@ public final class MusiqueRoyaume {
     public static final int DELAI_MAX = 6000;
 
     private static Music musique;
+    private static Music musiqueCulpabilite;
     /** Ticks d'attente entre l'arrivée et le lancement de la musique. */
     private static final int DEMARRAGE = 140;
     /** Ticks passés dans le Royaume depuis l'arrivée (-1 hors du Royaume). */
@@ -43,8 +47,26 @@ public final class MusiqueRoyaume {
         return Minecraft.getInstance().getMusicManager().isPlayingMusic(musique());
     }
 
+    /** Vrai si le joueur local est à la Culpabilité IV ou plus : la musique dramatique passe avant tout. */
+    private static boolean culpabiliteForte(Minecraft jeu) {
+        MobEffectInstance culpabilite = jeu.player == null ? null : jeu.player.getEffect(ModEffets.CULPABILITE);
+        return culpabilite != null && culpabilite.getAmplifier() >= 3;
+    }
+
+    private static Music musiqueCulpabilite() {
+        if (musiqueCulpabilite == null) {
+            // Délais nuls : elle reprend dès qu'elle se termine, en boucle.
+            musiqueCulpabilite = new Music(ModSons.MUSIQUE_CULPABILITE, 0, 0, true);
+        }
+        return musiqueCulpabilite;
+    }
+
     public static void choisir(SelectMusicEvent evenement) {
         Minecraft jeu = Minecraft.getInstance();
+        if (culpabiliteForte(jeu)) {
+            evenement.setMusic(musiqueCulpabilite());
+            return;
+        }
         if (jeu.level != null && jeu.level.dimension().equals(ModMonde.ROYAUME)) {
             evenement.setMusic(musique());
         }
@@ -66,7 +88,7 @@ public final class MusiqueRoyaume {
             ticksDansLeRoyaume = 0;
             attente = 0;
         }
-        if (++ticksDansLeRoyaume < DEMARRAGE || ticksDansLeRoyaume > 600 || joue() || attente-- > 0) {
+        if (++ticksDansLeRoyaume < DEMARRAGE || ticksDansLeRoyaume > 600 || joue() || attente-- > 0 || culpabiliteForte(jeu)) {
             return;
         }
         jeu.getMusicManager().stopPlaying();

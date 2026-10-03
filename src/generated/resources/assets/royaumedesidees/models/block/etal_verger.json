@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/orientable",
+  "textures": {
+    "front": "royaumedesidees:block/etal_verger_face",
+    "side": "royaumedesidees:block/etal_verger_cote",
+    "top": "royaumedesidees:block/etal_verger_dessus"
+  }
+}

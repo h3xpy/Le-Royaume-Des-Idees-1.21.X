@@ -62,6 +62,31 @@ public class ModLangueFr extends LanguageProvider {
         add("message.royaumedesidees.ombre.statue", "Ce n'était qu'une statue de bois. Diogène cherche toujours un homme.");
         add("message.royaumedesidees.caverne.tenebres", "Revenu dans la Caverne, tes yeux pleins de soleil ne voient plus que des ténèbres.");
 
+        add("item.royaumedesidees.poire", "Poire");
+        add("item.royaumedesidees.poire.citation", "Achetée honnêtement. Moins bonne que l'autre : Augustin l'avait bien remarqué.");
+        add("item.royaumedesidees.poire_volee", "Poire volée");
+        add("item.royaumedesidees.poire_volee.citation", "« Ce n'était pas la poire que j'aimais, c'était le vol. » (d'après les Confessions, II)");
+        add("block.royaumedesidees.feuilles_poirier", "Feuilles de poirier");
+        add("block.royaumedesidees.bois_figuier", "Bois de figuier");
+        add("block.royaumedesidees.planches_figuier", "Planches de figuier");
+        add("block.royaumedesidees.feuilles_figuier", "Feuilles de figuier");
+        add("block.royaumedesidees.confessionnal", "Confessionnal");
+        add("block.royaumedesidees.etal_verger", "Étal du verger");
+        add("effect.royaumedesidees.culpabilite", "Culpabilité");
+        add("message.royaumedesidees.culpabilite.vol_poire", "%1$s a volé une poire. Honte.");
+        add("message.royaumedesidees.culpabilite.ecrase", "%1$s croule sous la culpabilité.");
+        add("message.royaumedesidees.confession.publique", "%1$s se confesse : « %2$s »");
+        add("message.royaumedesidees.confession.allege", "Ta conscience s'allège. Culpabilité restante : %1$s.");
+        add("message.royaumedesidees.confession.rien", "Augustin en a écrit treize livres ; toi, tu n'as vraiment rien ?");
+        add("message.royaumedesidees.confession.loin", "Il faut un Confessionnal pour se confesser. Il y en a un près de l'Autel, au centre de l'île.");
+        add("message.royaumedesidees.confession.trop_tot", "Doucement : attends encore %1$s secondes avant ta prochaine confession.");
+        add("message.royaumedesidees.confession.trop_long", "Ta confession est trop longue (%1$s caractères au plus). Augustin, lui, avait treize livres.");
+        add("message.royaumedesidees.confessionnal.mode_emploi", "Pour te confesser, tape /confesse suivi de ton péché.");
+        add("message.royaumedesidees.etal.achat", "Tu achètes %1$s poires, honnêtement. Elles ont l'air moins bonnes.");
+        add("message.royaumedesidees.etal.ecriteau", "« Une émeraude dans le tronc, %1$s poires pour toi. Ou alors, tu les voles… »");
+        add("message.royaumedesidees.figuier.voix", "Une voix d'enfant, venue de la maison voisine : « Prends, lis ; prends, lis. »");
+        add("sous_titre.royaumedesidees.sanglots", "Quelqu'un sanglote");
+
         add(ModTags.LIE_AU_ROYAUME, "Lié au Royaume");
     }
 }

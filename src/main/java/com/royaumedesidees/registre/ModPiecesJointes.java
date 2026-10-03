@@ -26,6 +26,14 @@ public final class ModPiecesJointes {
     public static final Supplier<AttachmentType<Boolean>> SORTIE_FAITE = PIECES_JOINTES.register("sortie_faite",
             () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL).copyOnDeath().build());
 
+    /** Niveau de Culpabilité, de 0 à 5. Conservé à la mort : on ne meurt pas de ses péchés. */
+    public static final Supplier<AttachmentType<Integer>> CULPABILITE = PIECES_JOINTES.register("culpabilite",
+            () -> AttachmentType.builder(() -> 0).serialize(Codec.INT).copyOnDeath().build());
+
+    /** Vrai une fois que le joueur a entendu « Prends, lis » en touchant un figuier. */
+    public static final Supplier<AttachmentType<Boolean>> FIGUIER_ENTENDU = PIECES_JOINTES.register("figuier_entendu",
+            () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL).copyOnDeath().build());
+
     private ModPiecesJointes() {
     }
 }

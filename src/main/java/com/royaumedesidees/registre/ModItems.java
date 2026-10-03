@@ -1,8 +1,10 @@
 package com.royaumedesidees.registre;
 
 import com.royaumedesidees.RoyaumeDesIdees;
+import com.royaumedesidees.item.ItemAvecCitation;
 import com.royaumedesidees.item.LanterneDiogeneItem;
 import com.royaumedesidees.item.TolleLegeItem;
+import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
@@ -26,6 +28,22 @@ public final class ModItems {
     public static final DeferredItem<BlockItem> PIERRE_OMBRE = ITEMS.registerSimpleBlockItem(ModBlocs.PIERRE_OMBRE);
     public static final DeferredItem<BlockItem> PIERRE_OMBRE_TAILLEE = ITEMS.registerSimpleBlockItem(ModBlocs.PIERRE_OMBRE_TAILLEE);
     public static final DeferredItem<BlockItem> CHAINE_CAVERNE = ITEMS.registerSimpleBlockItem(ModBlocs.CHAINE_CAVERNE);
+
+    // --- v0.2 : le Jardin de Milan ---
+
+    /** Poire achetée : nourrit moins que la volée (Augustin l'avait remarqué). */
+    public static final DeferredItem<ItemAvecCitation> POIRE = ITEMS.registerItem("poire", ItemAvecCitation::new,
+            new Item.Properties().food(new FoodProperties.Builder().nutrition(3).saturationModifier(0.3F).build()));
+    /** Poire volée : bien meilleure. La Culpabilité est donnée au moment du vol, pas en la mangeant. */
+    public static final DeferredItem<ItemAvecCitation> POIRE_VOLEE = ITEMS.registerItem("poire_volee", ItemAvecCitation::new,
+            new Item.Properties().food(new FoodProperties.Builder().nutrition(6).saturationModifier(0.8F).build()));
+
+    public static final DeferredItem<BlockItem> FEUILLES_POIRIER = ITEMS.registerSimpleBlockItem(ModBlocs.FEUILLES_POIRIER);
+    public static final DeferredItem<BlockItem> BOIS_FIGUIER = ITEMS.registerSimpleBlockItem(ModBlocs.BOIS_FIGUIER);
+    public static final DeferredItem<BlockItem> PLANCHES_FIGUIER = ITEMS.registerSimpleBlockItem(ModBlocs.PLANCHES_FIGUIER);
+    public static final DeferredItem<BlockItem> FEUILLES_FIGUIER = ITEMS.registerSimpleBlockItem(ModBlocs.FEUILLES_FIGUIER);
+    public static final DeferredItem<BlockItem> CONFESSIONNAL = ITEMS.registerSimpleBlockItem(ModBlocs.CONFESSIONNAL);
+    public static final DeferredItem<BlockItem> ETAL_VERGER = ITEMS.registerSimpleBlockItem(ModBlocs.ETAL_VERGER);
 
     private ModItems() {
     }

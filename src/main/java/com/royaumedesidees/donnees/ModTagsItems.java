@@ -7,6 +7,8 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.data.tags.TagsProvider;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
@@ -21,5 +23,8 @@ public class ModTagsItems extends ItemTagsProvider {
     @Override
     protected void addTags(HolderLookup.Provider registres) {
         tag(ModTags.LIE_AU_ROYAUME).add(ModItems.LANTERNE_DIOGENE.get());
+        copy(BlockTags.LEAVES, ItemTags.LEAVES);
+        copy(BlockTags.LOGS_THAT_BURN, ItemTags.LOGS_THAT_BURN);
+        copy(BlockTags.PLANKS, ItemTags.PLANKS);
     }
 }

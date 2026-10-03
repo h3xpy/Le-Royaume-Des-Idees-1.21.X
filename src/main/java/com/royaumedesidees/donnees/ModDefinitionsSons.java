@@ -23,5 +23,12 @@ public class ModDefinitionsSons extends SoundDefinitionsProvider {
         fichiers.trackGenerated(RoyaumeDesIdees.id("musique_royaume"), PackType.CLIENT_RESOURCES, ".ogg", "sounds");
         // Morceau long : lu en flux (stream) plutôt que chargé d'un bloc en mémoire.
         add(ModSons.MUSIQUE_ROYAUME, definition().with(sound(RoyaumeDesIdees.id("musique_royaume")).stream()));
+
+        // Sons de la Culpabilité (v0.2), à fournir : voir docs/sons_a_fournir.md.
+        fichiers.trackGenerated(RoyaumeDesIdees.id("sanglots"), PackType.CLIENT_RESOURCES, ".ogg", "sounds");
+        add(ModSons.SANGLOTS, definition().subtitle("sous_titre.royaumedesidees.sanglots")
+                .with(sound(RoyaumeDesIdees.id("sanglots"))));
+        fichiers.trackGenerated(RoyaumeDesIdees.id("musique_culpabilite"), PackType.CLIENT_RESOURCES, ".ogg", "sounds");
+        add(ModSons.MUSIQUE_CULPABILITE, definition().with(sound(RoyaumeDesIdees.id("musique_culpabilite")).stream()));
     }
 }

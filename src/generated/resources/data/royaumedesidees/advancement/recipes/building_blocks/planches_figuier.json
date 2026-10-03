@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_bois_figuier": {
+      "conditions": {
+        "items": [
+          {
+            "items": "royaumedesidees:bois_figuier"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "royaumedesidees:planches_figuier"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_bois_figuier"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "royaumedesidees:planches_figuier"
+    ]
+  }
+}

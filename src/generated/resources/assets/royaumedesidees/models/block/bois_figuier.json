@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "royaumedesidees:block/bois_figuier_top",
+    "side": "royaumedesidees:block/bois_figuier"
+  }
+}

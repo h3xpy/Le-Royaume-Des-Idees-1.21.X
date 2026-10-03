@@ -6,7 +6,10 @@ import com.royaumedesidees.caverne.SortieCaverne;
 import com.royaumedesidees.commande.CommandesRoyaume;
 import com.royaumedesidees.dev.VerificationDev;
 import com.royaumedesidees.donnees.GenerateurDonnees;
+import com.royaumedesidees.jardin.Confession;
+import com.royaumedesidees.jardin.Culpabilite;
 import com.royaumedesidees.registre.ModBlocs;
+import com.royaumedesidees.registre.ModEffets;
 import com.royaumedesidees.registre.ModEntites;
 import com.royaumedesidees.registre.ModItems;
 import com.royaumedesidees.registre.ModMonde;
@@ -38,6 +41,7 @@ public class RoyaumeDesIdees {
         ModSons.SONS.register(modEventBus);
         ModPiecesJointes.PIECES_JOINTES.register(modEventBus);
         ModEntites.ENTITES.register(modEventBus);
+        ModEffets.EFFETS.register(modEventBus);
         modEventBus.addListener(ModEntites::attributs);
 
         modEventBus.addListener(GenerateurDonnees::generer);
@@ -45,6 +49,8 @@ public class RoyaumeDesIdees {
         NeoForge.EVENT_BUS.addListener(CommandesRoyaume::enregistrer);
         NeoForge.EVENT_BUS.addListener(PopulationOmbres::tick);
         NeoForge.EVENT_BUS.addListener(SortieCaverne::tick);
+        NeoForge.EVENT_BUS.addListener(Culpabilite::tick);
+        NeoForge.EVENT_BUS.addListener(Confession::enregistrer);
         VerificationDev.activerSiDemande();
     }
 
