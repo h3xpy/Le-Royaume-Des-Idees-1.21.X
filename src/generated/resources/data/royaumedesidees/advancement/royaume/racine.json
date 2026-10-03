@@ -1,0 +1,30 @@
+{
+  "criteria": {
+    "entree": {
+      "conditions": {
+        "to": "royaumedesidees:royaume"
+      },
+      "trigger": "minecraft:changed_dimension"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "background": "royaumedesidees:textures/block/pierre_ombre_taillee.png",
+    "description": {
+      "translate": "advancements.royaumedesidees.racine.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "royaumedesidees:tolle_lege"
+    },
+    "title": {
+      "translate": "advancements.royaumedesidees.racine.title"
+    }
+  },
+  "requirements": [
+    [
+      "entree"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

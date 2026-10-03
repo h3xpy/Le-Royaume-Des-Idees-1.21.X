@@ -1,4 +1,8 @@
 {
+  "advancements.royaumedesidees.allegorie_vecue.description": "Sortir de la Caverne de Platon et voir enfin la lumière (et en être ébloui).",
+  "advancements.royaumedesidees.allegorie_vecue.title": "Allégorie vécue",
+  "advancements.royaumedesidees.racine.description": "Prendre, lire, et passer le portail de bibliothèques.",
+  "advancements.royaumedesidees.racine.title": "Le Royaume des Idées",
   "biome.royaumedesidees.caverne_platon": "Caverne de Platon",
   "biome.royaumedesidees.hippone": "Hippone",
   "biome.royaumedesidees.jardin_milan": "Jardin de Milan",
@@ -16,12 +20,21 @@
   "commande.royaumedesidees.structures.reposee": "Structure %1$s reposée (version %2$s).",
   "commande.royaumedesidees.structures.sans_royaume": "La dimension du Royaume n'est pas chargée.",
   "commande.royaumedesidees.structures.titre": "Structures du Royaume :",
+  "entity.royaumedesidees.ombre": "Ombre",
   "item.royaumedesidees.lanterne_diogene": "Lanterne de Diogène",
+  "item.royaumedesidees.lanterne_diogene.citation": "« Je cherche un homme. » (Diogène de Sinope)",
+  "item.royaumedesidees.lanterne_diogene.effet": "Tenue en main : révèle les Ombres à moins de 8 blocs.",
   "item.royaumedesidees.tolle_lege": "Tolle, Lege",
   "item.royaumedesidees.tolle_lege.citation": "« Prends, lis ; prends, lis. » (Confessions, VIII)",
   "itemGroup.royaumedesidees": "Le Royaume des Idées",
+  "message.royaumedesidees.caverne.enchaine": "Tu es enchaîné face au mur, comme les prisonniers de Platon. Brise tes chaînes.",
+  "message.royaumedesidees.caverne.lanterne": "Au bord du chemin, une vieille lanterne t'attendait. « Je cherche un homme », disait Diogène.",
+  "message.royaumedesidees.caverne.lumiere": "Tes yeux, habitués aux ombres, brûlent à la lumière du jour.",
+  "message.royaumedesidees.ombre.intouchable": "Ce n'est qu'une ombre : ton coup la traverse.",
   "message.royaumedesidees.portail.allume": "« Prends, lis ; prends, lis. » Le portail s'ouvre.",
   "message.royaumedesidees.portail.dans_royaume": "Ici, on ne lit plus : on cherche la sortie.",
   "message.royaumedesidees.portail.incomplet": "Le livre reste muet : il faut un cadre de bibliothèques de 4 sur 5, vide au milieu, avec une lanterne contre chaque coin.",
-  "tag.item.royaumedesidees.lie_au_royaume": "Lié au Royaume"
+  "tag.item.royaumedesidees.lie_au_royaume": "Lié au Royaume",
+  "tooltip.royaumedesidees.souvenir": "Souvenir du Royaume",
+  "tooltip.royaumedesidees.souvenir.detail": "Sans effet hors du Royaume."
 }

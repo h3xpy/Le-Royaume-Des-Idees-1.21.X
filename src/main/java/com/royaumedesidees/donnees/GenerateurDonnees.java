@@ -6,6 +6,7 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import net.neoforged.neoforge.common.data.AdvancementProvider;
 import net.neoforged.neoforge.common.data.DatapackBuiltinEntriesProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
@@ -42,7 +43,9 @@ public final class GenerateurDonnees {
         generateur.addProvider(serveur, new ModRecettes(sortie, registres));
         generateur.addProvider(serveur, new LootTableProvider(sortie, Set.of(),
                 List.of(new LootTableProvider.SubProviderEntry(ModButinBlocs::new, LootContextParamSets.BLOCK),
-                        new LootTableProvider.SubProviderEntry(ModButinCoffres::new, LootContextParamSets.CHEST)), registres));
+                        new LootTableProvider.SubProviderEntry(ModButinCoffres::new, LootContextParamSets.CHEST),
+                        new LootTableProvider.SubProviderEntry(ModButinEntites::new, LootContextParamSets.ENTITY)), registres));
+        generateur.addProvider(serveur, new AdvancementProvider(sortie, registres, fichiers, List.of(new ModSucces())));
         generateur.addProvider(serveur, new ModModificateursButin(sortie, registres));
     }
 

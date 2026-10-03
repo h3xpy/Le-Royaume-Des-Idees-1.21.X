@@ -1,6 +1,6 @@
 package com.royaumedesidees.portail;
 
-import com.royaumedesidees.monde.CaverneRoyaume;
+import com.royaumedesidees.caverne.ArriveeCaverne;
 import com.royaumedesidees.registre.ModBlocs;
 import com.royaumedesidees.registre.ModMonde;
 import com.royaumedesidees.registre.ModPiecesJointes;
@@ -35,9 +35,9 @@ public final class VoyageRoyaume {
                 return null;
             }
             entite.setData(ModPiecesJointes.POINT_RETOUR, new PointRetour(true, niveau.dimension(), entite.blockPosition(), entite.getYRot()));
-            Vec3 arrivee = new Vec3(CaverneRoyaume.ARRIVEE_X + 0.5, CaverneRoyaume.ARRIVEE_Y, CaverneRoyaume.ARRIVEE_Z + 0.5);
-            return new DimensionTransition(royaume, arrivee, Vec3.ZERO, ORIENTATION_ARRIVEE, 0f,
-                    DimensionTransition.PLAY_PORTAL_SOUND.then(DimensionTransition.PLACE_PORTAL_TICKET));
+            // Première entrée : enchaîné au point fixe. Ensuite : libre, à côté.
+            return new DimensionTransition(royaume, ArriveeCaverne.position(entite), Vec3.ZERO, ORIENTATION_ARRIVEE, 0f,
+                    DimensionTransition.PLAY_PORTAL_SOUND.then(DimensionTransition.PLACE_PORTAL_TICKET).then(ArriveeCaverne::apresArrivee));
         }
 
         PointRetour retour = entite.getData(ModPiecesJointes.POINT_RETOUR);

@@ -1,5 +1,6 @@
 package com.royaumedesidees.registre;
 
+import com.mojang.serialization.Codec;
 import com.royaumedesidees.RoyaumeDesIdees;
 import com.royaumedesidees.portail.PointRetour;
 import net.neoforged.neoforge.attachment.AttachmentType;
@@ -16,6 +17,14 @@ public final class ModPiecesJointes {
     /** Portail de bibliothèques par lequel le joueur est entré dans le Royaume. */
     public static final Supplier<AttachmentType<PointRetour>> POINT_RETOUR = PIECES_JOINTES.register("point_retour",
             () -> AttachmentType.builder(() -> PointRetour.AUCUN).serialize(PointRetour.CODEC).copyOnDeath().build());
+
+    /** Vrai une fois que le joueur est arrivé enchaîné dans la Caverne (les fois suivantes, il arrive libre). */
+    public static final Supplier<AttachmentType<Boolean>> ENCHAINE = PIECES_JOINTES.register("enchaine",
+            () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL).copyOnDeath().build());
+
+    /** Vrai une fois que le joueur est sorti de la Caverne et a reçu la Lanterne de Diogène. */
+    public static final Supplier<AttachmentType<Boolean>> SORTIE_FAITE = PIECES_JOINTES.register("sortie_faite",
+            () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL).copyOnDeath().build());
 
     private ModPiecesJointes() {
     }

@@ -1,0 +1,27 @@
+{
+  "parent": "royaumedesidees:royaume/racine",
+  "criteria": {
+    "sortie": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.royaumedesidees.allegorie_vecue.description"
+    },
+    "frame": "goal",
+    "icon": {
+      "count": 1,
+      "id": "royaumedesidees:lanterne_diogene"
+    },
+    "title": {
+      "translate": "advancements.royaumedesidees.allegorie_vecue.title"
+    }
+  },
+  "requirements": [
+    [
+      "sortie"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

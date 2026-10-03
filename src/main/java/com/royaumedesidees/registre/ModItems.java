@@ -1,6 +1,7 @@
 package com.royaumedesidees.registre;
 
 import com.royaumedesidees.RoyaumeDesIdees;
+import com.royaumedesidees.item.LanterneDiogeneItem;
 import com.royaumedesidees.item.TolleLegeItem;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -18,9 +19,9 @@ public final class ModItems {
     public static final DeferredItem<TolleLegeItem> TOLLE_LEGE = ITEMS.registerItem("tolle_lege",
             TolleLegeItem::new, new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON));
 
-    /** Révèle les Ombres de la Caverne (étape 8). Liée au Royaume. */
-    public static final DeferredItem<Item> LANTERNE_DIOGENE = ITEMS.registerSimpleItem("lanterne_diogene",
-            new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON));
+    /** Révèle les Ombres de la Caverne. Liée au Royaume. */
+    public static final DeferredItem<LanterneDiogeneItem> LANTERNE_DIOGENE = ITEMS.registerItem("lanterne_diogene",
+            LanterneDiogeneItem::new, new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON));
 
     public static final DeferredItem<BlockItem> PIERRE_OMBRE = ITEMS.registerSimpleBlockItem(ModBlocs.PIERRE_OMBRE);
     public static final DeferredItem<BlockItem> PIERRE_OMBRE_TAILLEE = ITEMS.registerSimpleBlockItem(ModBlocs.PIERRE_OMBRE_TAILLEE);

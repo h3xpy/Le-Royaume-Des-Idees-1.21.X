@@ -45,6 +45,20 @@ public class ModLangueEn extends LanguageProvider {
         add("message.royaumedesidees.portail.allume", "\"Take up and read; take up and read.\" The portal opens.");
         add("message.royaumedesidees.portail.dans_royaume", "No more reading here: look for the way out.");
 
+        add("entity.royaumedesidees.ombre", "Shadow");
+        add("message.royaumedesidees.ombre.intouchable", "It is only a shadow: your blow goes straight through.");
+        add("message.royaumedesidees.caverne.enchaine", "You are chained facing the wall, like Plato's prisoners. Break your chains.");
+        add("message.royaumedesidees.caverne.lumiere", "Your eyes, used to the shadows, burn in the daylight.");
+        add("message.royaumedesidees.caverne.lanterne", "By the path, an old lantern was waiting for you. \"I am looking for a man,\" said Diogenes.");
+        add("item.royaumedesidees.lanterne_diogene.effet", "When held: reveals Shadows within 8 blocks.");
+        add("item.royaumedesidees.lanterne_diogene.citation", "\"I am looking for a man.\" (Diogenes of Sinope)");
+        add("tooltip.royaumedesidees.souvenir", "Keepsake of the Kingdom");
+        add("tooltip.royaumedesidees.souvenir.detail", "No effect outside the Kingdom.");
+        add("advancements.royaumedesidees.racine.title", "The Kingdom of Ideas");
+        add("advancements.royaumedesidees.racine.description", "Take up, read, and step through the bookshelf portal.");
+        add("advancements.royaumedesidees.allegorie_vecue.title", "Allegory Lived");
+        add("advancements.royaumedesidees.allegorie_vecue.description", "Leave Plato's Cave and finally see the light (and be dazzled by it).");
+
         add(ModTags.LIE_AU_ROYAUME, "Bound to the Kingdom");
     }
 }

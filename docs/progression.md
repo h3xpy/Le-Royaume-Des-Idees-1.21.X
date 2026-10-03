@@ -18,7 +18,7 @@ v0.1 — Les fondations, en cours.
 | 5. Biomes et Caverne creusée (fige la carte) | Fait ; carte figée le 2026-10-01 |
 | 6. Système de pose des structures | Fait |
 | 7. Portail et livre | Fait |
-| 8. Caverne jouable | À faire |
+| 8. Caverne jouable | Fait |
 | 9. Fin de version (tests, docs, serveur) | À faire |
 
 ## Fait
@@ -29,6 +29,8 @@ v0.1 — Les fondations, en cours.
 - v0.1 étape 4 : dimension `royaumedesidees:royaume` (y de 0 à 384) et générateur de chunks Java `GenerateurRoyaume`, qui ne lit jamais la seed. Relief calculé par `ReliefRoyaume` (bruit de Perlin maison à graines fixes) : île flottante d'environ 1000 blocs de rayon, falaises au bord puis vide. Carte vue du dessus : `docs/images/carte_relief.png`. Biome provisoire `minecraft:the_void` jusqu'à l'étape 5.
 - v0.1 étape 6 : système de pose des structures (`structures/`). Registre `StructuresRoyaume` (identifiant, version, boîte englobante, constructeur Java), sauvegarde `DonneesStructures` dans le dossier de la dimension (`data/royaumedesidees_structures.dat`), pose ou remplacement quand un joueur passe à moins de 96 blocs (contrôle une fois par seconde), commandes opérateur `/royaume structures` et `/royaume structures reposer <id>`. Structures : `caverne` (écran du mur des ombres, muret, feu, poteaux et chaînes) et `portail_retour` (cadre en Pierre d'Ombre à la sortie du tunnel).
 - v0.1 étape 7 : portail du Royaume. Clic droit avec Tolle, Lege sur un cadre de bibliothèques complet : l'intérieur se remplit de portail (le livre n'est pas consommé). Aller vers le point d'arrivée fixe de la Caverne, retour par le portail de Pierre d'Ombre vers le portail de départ (mémorisé pour chaque joueur, conservé à la mort), ou vers le point d'apparition du monde s'il a disparu. Le portail s'éteint si son cadre est cassé. Tolle, Lege dans environ 15 % des coffres de village (vérifié : 151 sur 1000). Portail silencieux ; musique du Royaume à la place (voir les décisions).
+
+- v0.1 étape 8 : Caverne jouable. Première entrée enchaînée (cage de 17 Chaînes de la Caverne autour du joueur), entrées suivantes libres à côté. Entité `ombre` : silhouette noire semi-transparente, intouchable, révélée en prisonnier par la Lanterne de Diogène tenue à moins de 8 blocs, attaque faiblement (1 dégât), 10 PV, lâche 1 ou 2 Pierres d'Ombre. Six Ombres entretenues devant le mur tant qu'un joueur est dans la Caverne. Sortie à l'air libre au débouché du tunnel : aveuglement 5 s, message, succès « Allégorie vécue » (onglet de succès du Royaume), Lanterne à la première sortie. Infobulle « Souvenir du Royaume » hors de la dimension pour tous les objets du tag `lie_au_royaume`.
 
 ## Décisions
 
@@ -87,6 +89,10 @@ v0.1 — Les fondations, en cours.
 - 2026-10-01 : seuls les joueurs passent le portail (ni mobs ni objets). Comme au Nether, il faut y rester environ 4 secondes, et c'est immédiat en créatif (mêmes règles de jeu que le portail du Nether).
 - 2026-10-01 : on ne peut pas allumer de portail dans le Royaume : le livre répond « Ici, on ne lit plus : on cherche la sortie. » Le seul portail du Royaume est celui de retour.
 - 2026-10-01 : le portail est silencieux ; seules des lettres dorées (particules de table d'enchantement) s'en échappent. À la place, la musique `musique_royaume` joue dans les cinq biomes du Royaume (elle remplace celle de Minecraft, 7 secondes après l'arrivée, y compris en créatif, puis revient après 30 secondes à 5 minutes de silence). Le fichier fourni (« tolle lege, tolle lege… », Alexander Garsden, 2019) est probablement sous droit d'auteur : il reste hors du dépôt git, et les .jar construits par GitHub n'ont donc pas de musique.
+- 2026-10-03 : l'Ombre est révélée tant qu'un joueur tient la Lanterne en main (ou dans l'autre main) à moins de 8 blocs ; elle ne l'est jamais hors du Royaume. Non révélée, un coup la traverse avec un peu de fumée et le message « Ce n'est qu'une ombre : ton coup la traverse. » Elle n'a pas d'ombre au sol.
+- 2026-10-03 : la Lanterne est donnée par magie à la première sortie (« une vieille lanterne t'attendait »), pas par un PNJ : Diogène n'arrive qu'en v0.5. Si l'inventaire est plein, elle tombe aux pieds du joueur.
+- 2026-10-03 : la sortie se déclenche à chaque fois qu'un joueur remonte de la Caverne ou du tunnel jusqu'à l'air libre au débouché du tunnel (aveuglement et message à chaque fois, succès et Lanterne la première fois seulement).
+- 2026-10-03 : la visite de développement ferme le jeu toute seule après avoir sauvegardé, pour qu'on ne la prenne pas pour un blocage.
 
 ## Coordonnées réservées des structures
 

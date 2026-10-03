@@ -45,6 +45,20 @@ public class ModLangueFr extends LanguageProvider {
         add("message.royaumedesidees.portail.allume", "« Prends, lis ; prends, lis. » Le portail s'ouvre.");
         add("message.royaumedesidees.portail.dans_royaume", "Ici, on ne lit plus : on cherche la sortie.");
 
+        add("entity.royaumedesidees.ombre", "Ombre");
+        add("message.royaumedesidees.ombre.intouchable", "Ce n'est qu'une ombre : ton coup la traverse.");
+        add("message.royaumedesidees.caverne.enchaine", "Tu es enchaîné face au mur, comme les prisonniers de Platon. Brise tes chaînes.");
+        add("message.royaumedesidees.caverne.lumiere", "Tes yeux, habitués aux ombres, brûlent à la lumière du jour.");
+        add("message.royaumedesidees.caverne.lanterne", "Au bord du chemin, une vieille lanterne t'attendait. « Je cherche un homme », disait Diogène.");
+        add("item.royaumedesidees.lanterne_diogene.effet", "Tenue en main : révèle les Ombres à moins de 8 blocs.");
+        add("item.royaumedesidees.lanterne_diogene.citation", "« Je cherche un homme. » (Diogène de Sinope)");
+        add("tooltip.royaumedesidees.souvenir", "Souvenir du Royaume");
+        add("tooltip.royaumedesidees.souvenir.detail", "Sans effet hors du Royaume.");
+        add("advancements.royaumedesidees.racine.title", "Le Royaume des Idées");
+        add("advancements.royaumedesidees.racine.description", "Prendre, lire, et passer le portail de bibliothèques.");
+        add("advancements.royaumedesidees.allegorie_vecue.title", "Allégorie vécue");
+        add("advancements.royaumedesidees.allegorie_vecue.description", "Sortir de la Caverne de Platon et voir enfin la lumière (et en être ébloui).");
+
         add(ModTags.LIE_AU_ROYAUME, "Lié au Royaume");
     }
 }
