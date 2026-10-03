@@ -59,6 +59,9 @@ public class ModLangueFr extends LanguageProvider {
         add("advancements.royaumedesidees.allegorie_vecue.title", "Allégorie vécue");
         add("advancements.royaumedesidees.allegorie_vecue.description", "Sortir de la Caverne de Platon et voir enfin la lumière (et en être ébloui).");
 
+        add("message.royaumedesidees.ombre.statue", "Ce n'était qu'une statue de bois. Diogène cherche toujours un homme.");
+        add("message.royaumedesidees.caverne.tenebres", "Revenu dans la Caverne, tes yeux pleins de soleil ne voient plus que des ténèbres.");
+
         add(ModTags.LIE_AU_ROYAUME, "Lié au Royaume");
     }
 }

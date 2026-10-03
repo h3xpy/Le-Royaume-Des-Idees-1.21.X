@@ -11,11 +11,13 @@ package com.royaumedesidees.monde;
  * <p>Cette classe n'utilise rien de Minecraft. <b>Ne plus la modifier après la v0.1</b>, comme {@link ReliefRoyaume}.
  */
 public final class CaverneRoyaume {
-    /** Salle : ellipsoïde aplati centré sous (0, 0), sol plat vers y 46, voûte jusqu'à y ≈ 84. */
+    /**
+     * Salle : un dôme posé sur un sol presque plat, centré sous (0, 0). Le sol (vers y 46) s'étend jusqu'aux parois,
+     * à environ 58 blocs du centre, pour qu'on puisse marcher jusqu'au mur des ombres ; la voûte culmine vers y 84.
+     */
     public static final int SOL_Y = 46;
-    public static final int CENTRE_Y = 64;
-    public static final double RAYON = 55;
-    public static final double DEMI_HAUTEUR = 20;
+    public static final double RAYON = 58;
+    public static final double HAUTEUR_VOUTE = 38;
 
     /** Point d'arrivée des joueurs (pieds), tournés vers le nord, face au mur des ombres. */
     public static final int ARRIVEE_X = 0;
@@ -54,15 +56,15 @@ public final class CaverneRoyaume {
     }
 
     private static boolean dansSalle(int x, int y, int z) {
-        // Test rapide : la salle ne dépasse jamais 64 blocs du centre ni la tranche y 40 à 90.
-        if ((long) x * x + (long) z * z > 64L * 64L || y < 40 || y > 90 || y <= sol(x, z)) {
+        // Test rapide : la salle ne dépasse jamais 68 blocs du centre ni la tranche y 40 à 90.
+        if ((long) x * x + (long) z * z > 68L * 68L || y < 40 || y > 90 || y <= sol(x, z)) {
             return false;
         }
-        // Parois irrégulières : le rayon varie d'environ ±15 %, la voûte d'environ ±3 blocs.
+        // Parois irrégulières : le rayon varie d'environ ±15 % (jamais moins de 49 blocs), la voûte d'environ ±3 blocs.
         double rayon = RAYON * (1 + 0.15 * BRUIT_PAROI.fbm(x / 25.0, z / 25.0, 3));
-        double demiHauteur = DEMI_HAUTEUR + 3 * BRUIT_PAROI.fbm((x + 300) / 12.0, (z - 300) / 12.0, 2);
+        double hauteur = HAUTEUR_VOUTE + 3 * BRUIT_PAROI.fbm((x + 300) / 12.0, (z - 300) / 12.0, 2);
         double horizontal = ((double) x * x + (double) z * z) / (rayon * rayon);
-        double vertical = (y - CENTRE_Y) / demiHauteur;
+        double vertical = (y - SOL_Y) / hauteur;
         return horizontal + vertical * vertical < 1;
     }
 

@@ -73,8 +73,8 @@ v0.1 — Les fondations : code terminé, en attente des tests en jeu (`docs/test
   - Puy de Dôme : température choisie pour que la neige ne tombe qu'au-dessus de y ≈ 264.
 - 2026-10-01 : pas de grottes ni de minerais générés dans le Royaume, à part la Caverne de Platon.
 - 2026-10-01 : la Caverne de Platon (`CaverneRoyaume`, coupe : `docs/images/coupe_caverne.png`) suit l'allégorie :
-  - une salle sombre (roche des abîmes, tuf, basalte) sous le centre, d'environ 55 blocs de rayon, sol vers y 46, voûte jusqu'à y ≈ 84 ;
-  - les prisonniers arrivent en (0, 47, -20), tournés vers le nord, face au mur des ombres (paroi nord, vers z = -50) ; le feu est réservé derrière eux, vers (0, 10) ;
+  - une salle sombre (roche des abîmes, tuf, basalte) sous le centre : un dôme posé sur un sol presque plat (y 46) qui s'étend jusqu'aux parois, à environ 58 blocs du centre, voûte jusqu'à y ≈ 84. (Corrigé le 2026-10-03 : la première forme, en ballon couché, n'avait de sol plat que sur 24 blocs de rayon, et les Ombres apparaissaient dans la roche devant le mur.) Le biome de la Caverne est un cylindre de 70 blocs de rayon entre y 38 et 92 ;
+  - les prisonniers arrivent en (0, 47, -20), tournés vers le nord, face au mur des ombres (paroi nord, vers z = -50) ; le feu brûle derrière eux et en hauteur, sur une butte de roche en (0, 10), 4 blocs au-dessus du sol ;
   - derrière le feu, une rampe de roche monte du sol de la salle jusqu'à un tunnel de 5 blocs de large qui serpente vers le sud (un bloc de montée pour deux d'avancée) et débouche à l'air libre vers (0, 125), à y ≈ 91 ;
   - les parois du tunnel s'éclaircissent en montant (roche des abîmes, tuf, pierre, puis calcite près de la sortie) : on remonte littéralement vers la lumière ;
   - le mobilier (chaînes, mur des ombres, feu) sera posé par le système de structures à l'étape 6.
@@ -90,6 +90,9 @@ v0.1 — Les fondations : code terminé, en attente des tests en jeu (`docs/test
 - 2026-10-01 : seuls les joueurs passent le portail (ni mobs ni objets). Comme au Nether, il faut y rester environ 4 secondes, et c'est immédiat en créatif (mêmes règles de jeu que le portail du Nether).
 - 2026-10-01 : on ne peut pas allumer de portail dans le Royaume : le livre répond « Ici, on ne lit plus : on cherche la sortie. » Le seul portail du Royaume est celui de retour.
 - 2026-10-01 : le portail est silencieux ; seules des lettres dorées (particules de table d'enchantement) s'en échappent. À la place, la musique `musique_royaume` joue dans les cinq biomes du Royaume (elle remplace celle de Minecraft, 7 secondes après l'arrivée, y compris en créatif, puis revient après 30 secondes à 5 minutes de silence). Le fichier fourni (« tolle lege, tolle lege… », Alexander Garsden, 2019) est probablement sous droit d'auteur : il reste hors du dépôt git, et les .jar construits par GitHub n'ont donc pas de musique.
+- 2026-10-03 (relecture de l'allégorie) : les Ombres sont, comme chez Platon, les ombres de statues de bois portées derrière le muret. Non révélées, elles glissent le long de l'écran du mur nord, aplaties contre la paroi, toujours tournées vers les prisonniers et une fois et demie plus grandes que la statue (une ombre portée par un feu proche est agrandie). Révélées par la Lanterne, elles se détachent du mur : ce sont des statues de bois sculptées. Les détruire affiche « Ce n'était qu'une statue de bois. Diogène cherche toujours un homme. »
+- 2026-10-03 : en redescendant dans la Caverne après être sorti à la lumière, 10 secondes de ténèbres et le message « Revenu dans la Caverne, tes yeux pleins de soleil ne voient plus que des ténèbres. » (Platon : le prisonnier qui redescend a « les yeux pleins de ténèbres »).
+- 2026-10-03 : structure `caverne` passée en version 2 (feu sur une butte) : elle sera reposée d'elle-même dans les mondes où la version 1 a été posée.
 - 2026-10-03 : l'Ombre est révélée tant qu'un joueur tient la Lanterne en main (ou dans l'autre main) à moins de 8 blocs ; elle ne l'est jamais hors du Royaume. Non révélée, un coup la traverse avec un peu de fumée et le message « Ce n'est qu'une ombre : ton coup la traverse. » Elle n'a pas d'ombre au sol.
 - 2026-10-03 : la Lanterne est donnée par magie à la première sortie (« une vieille lanterne t'attendait »), pas par un PNJ : Diogène n'arrive qu'en v0.5. Si l'inventaire est plein, elle tombe aux pieds du joueur.
 - 2026-10-03 : la sortie se déclenche à chaque fois qu'un joueur remonte de la Caverne ou du tunnel jusqu'à l'air libre au débouché du tunnel (aveuglement et message à chaque fois, succès et Lanterne la première fois seulement).
@@ -159,6 +162,13 @@ Les points d'intérêt sont regroupés à moins de 300 blocs du centre. La moiti
 | Collège de Clermont | Collège jésuite de Paris, au cœur de la querelle des Provinciales | Camp des Jésuites au sud de Port-Royal |
 | Vol des poires | En réalité à Thagaste, dans la jeunesse d'Augustin, et non à Milan | Placé au Jardin de Milan par la conception (choix de jeu, à signaler dans les textes) |
 | Cité de Dieu | Œuvre d'Augustin écrite après le sac de Rome en 410 | Ville céleste au plus haut de la dimension |
+| Caverne : les prisonniers | Enchaînés depuis l'enfance, face à la paroi du fond (*République*, livre VII) | Arrivée enchaînée face à l'écran du mur des ombres |
+| Caverne : le feu | Il brûle derrière les prisonniers, en hauteur | Feu sur une butte de roche derrière eux |
+| Caverne : le muret | Entre le feu et les prisonniers, un chemin longé d'un muret, comme le paravent des montreurs de marionnettes | Muret entre l'arrivée et le feu |
+| Caverne : les ombres | Ombres de statues d'hommes et d'animaux, en bois et en pierre, portées le long du muret et projetées sur la paroi | Ombres plates et agrandies qui glissent sur l'écran ; révélées, ce sont des statues de bois (seulement des hommes : le modèle ne permet pas d'animaux) |
+| Caverne : la sortie | Le prisonnier libéré monte une pente rude et longue, ébloui par le soleil | Rampe et tunnel qui s'éclaircit, aveuglement à la sortie |
+| Caverne : le retour | Redescendu, il a « les yeux pleins de ténèbres » | Ténèbres en redescendant dans la salle |
+| Lanterne de Diogène | Diogène cherchait « un homme » en plein jour avec une lanterne | La Lanterne révèle que les ombres ne sont que des statues : toujours pas d'homme |
 
 ## Problèmes connus
 

@@ -24,10 +24,10 @@ public class SourceBiomesRoyaume extends BiomeSource {
             Biome.CODEC.fieldOf("hippone").forGetter(source -> source.hippone)
     ).apply(instance, SourceBiomesRoyaume::new));
 
-    /** Volume de la Caverne : ellipsoïde centré sous (0, 0), de y ≈ 39 à 91 et d'environ 70 blocs de rayon. */
-    public static final int CAVERNE_Y = 65;
+    /** Volume de la Caverne : cylindre sous (0, 0), de 70 blocs de rayon, entre y 38 et 92 (la salle et sa voûte). */
     public static final int CAVERNE_RAYON = 70;
-    public static final int CAVERNE_DEMI_HAUTEUR = 26;
+    public static final int CAVERNE_Y_MIN = 38;
+    public static final int CAVERNE_Y_MAX = 92;
 
     private final Holder<Biome> caverne;
     private final Holder<Biome> jardin;
@@ -45,9 +45,7 @@ public class SourceBiomesRoyaume extends BiomeSource {
 
     /** Vrai si le bloc (x, y, z) est dans le volume de la Caverne de Platon. */
     public static boolean dansCaverne(int x, int y, int z) {
-        double horizontal = ((double) x * x + (double) z * z) / ((double) CAVERNE_RAYON * CAVERNE_RAYON);
-        double vertical = (double) (y - CAVERNE_Y) / CAVERNE_DEMI_HAUTEUR;
-        return horizontal + vertical * vertical < 1;
+        return y >= CAVERNE_Y_MIN && y <= CAVERNE_Y_MAX && (long) x * x + (long) z * z < (long) CAVERNE_RAYON * CAVERNE_RAYON;
     }
 
     @Override

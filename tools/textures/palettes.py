@@ -100,14 +100,12 @@ LANTERNE = {
     "flamme_coeur": "#fff7dc",
 }
 
-# Vraie forme des Ombres, une fois révélées : un prisonnier de la Caverne.
-PRISONNIER = {
-    "peau": "#c89870",
-    "peau_ombre": "#a87a56",
-    "cheveux": "#3a2a1e",
-    "tunique": "#8a7a5a",
-    "tunique_fonce": "#6a5c42",
-    "corde": "#b8a070",
-    "terre": "#5a4a3a",
-    "yeux": "#1a1410",
+# Vraie forme des Ombres, une fois révélées : une statue de bois, comme les objets que les porteurs font
+# passer derrière le muret dans l'allégorie de Platon (« des statues d'hommes en bois et en pierre »).
+STATUE = {
+    "clair": "#c9a26b",
+    "moyen": "#a67c46",
+    "fonce": "#7a5530",
+    "rainure": "#5a3b20",
+    "yeux": "#2e1e10",
 }

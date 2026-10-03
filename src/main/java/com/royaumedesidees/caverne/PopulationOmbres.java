@@ -4,6 +4,7 @@ import com.royaumedesidees.entite.Ombre;
 import com.royaumedesidees.monde.CaverneRoyaume;
 import com.royaumedesidees.registre.ModEntites;
 import com.royaumedesidees.registre.ModMonde;
+import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.MobSpawnType;
@@ -43,17 +44,29 @@ public final class PopulationOmbres {
         }
     }
 
-    /** Fait apparaître une Ombre au pied de l'écran du mur des ombres. */
+    /** Fait apparaître une Ombre contre l'écran du mur des ombres, sur un sol libre (quelques essais au plus). */
     private static void apparaitre(ServerLevel niveau) {
-        int x = niveau.random.nextIntBetweenInclusive(-16, 16);
-        int z = CaverneRoyaume.MUR_Z + 6 + niveau.random.nextInt(4);
+        for (int essai = 0; essai < 8; essai++) {
+            int x = niveau.random.nextIntBetweenInclusive(-Ombre.X_ECRAN, Ombre.X_ECRAN);
+            BlockPos pieds = new BlockPos(x, CaverneRoyaume.sol(x, Ombre.Z_ECRAN) + 1, Ombre.Z_ECRAN);
+            if (niveau.getBlockState(pieds).isAir() && niveau.getBlockState(pieds.above()).isAir()
+                    && niveau.getBlockState(pieds.below()).isSolidRender(niveau, pieds.below())) {
+                apparaitre(niveau, pieds);
+                return;
+            }
+        }
+    }
+
+    private static void apparaitre(ServerLevel niveau, BlockPos pieds) {
         Ombre ombre = ModEntites.OMBRE.get().create(niveau);
         if (ombre == null) {
             return;
         }
-        ombre.moveTo(x + 0.5, CaverneRoyaume.sol(x, z) + 1, z + 0.5, niveau.random.nextFloat() * 360F, 0F);
-        ombre.restrictTo(Ombre.CENTRE_ERRANCE, Ombre.RAYON_ERRANCE);
+        // Tournée vers l'est ou l'ouest : elle glisse le long de l'écran, de profil.
+        ombre.moveTo(pieds.getX() + 0.5, pieds.getY(), pieds.getZ() + 0.5, niveau.random.nextBoolean() ? 90F : 270F, 0F);
         ombre.finalizeSpawn(niveau, niveau.getCurrentDifficultyAt(ombre.blockPosition()), MobSpawnType.EVENT, null);
-        niveau.addFreshEntity(ombre);
+        boolean ajoutee = niveau.addFreshEntity(ombre);
+        com.royaumedesidees.RoyaumeDesIdees.LOGGER.debug("[ombres] apparition en {} : {}, dans un bloc : {}",
+                ombre.blockPosition().toShortString(), ajoutee, !niveau.getBlockState(ombre.blockPosition()).isAir());
     }
 }

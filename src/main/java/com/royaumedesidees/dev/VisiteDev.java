@@ -63,6 +63,7 @@ public final class VisiteDev {
             }),
             new Etape("lumiere", () -> List.of(String.format(Locale.ROOT, "execute in royaumedesidees:royaume run tp @s 0 %d 128 0 0",
                     ReliefRoyaume.colonne(0, 128).surface() + 1))),
+            new Etape("redescente", () -> List.of("execute in royaumedesidees:royaume run tp @s 0 47 0 180 0")),
             new Etape("retour", () -> List.of(String.format(Locale.ROOT,
                     "execute in royaumedesidees:royaume run tp @s %.1f %d %.1f 0 0", StructuresRoyaume.PORTAIL_X + 1.5,
                     StructuresRoyaume.PORTAIL_Y + 1, StructuresRoyaume.PORTAIL_Z + 0.5))),
@@ -119,8 +120,9 @@ public final class VisiteDev {
         String nom = ETAPES.get(etape).nom();
         RoyaumeDesIdees.LOGGER.info("[visite] {} : dimension {}, position {}, musique du Royaume en cours : {}", nom,
                 jeu.level.dimension().location(), jeu.player.blockPosition().toShortString(), MusiqueRoyaume.joue());
-        RoyaumeDesIdees.LOGGER.info("[visite] {} : chaînes autour {}, aveuglé {}, Lanterne dans l'inventaire {}, infobulle « Souvenir » {}",
-                nom, chainesAutour(jeu), jeu.player.hasEffect(MobEffects.BLINDNESS),
+        long ombres = jeu.level.getEntitiesOfClass(com.royaumedesidees.entite.Ombre.class, jeu.player.getBoundingBox().inflate(80)).size();
+        RoyaumeDesIdees.LOGGER.info("[visite] {} : ombres visibles {}, chaînes autour {}, aveuglé ou ténèbres {}, Lanterne dans l'inventaire {}, infobulle « Souvenir » {}",
+                nom, ombres, chainesAutour(jeu), jeu.player.hasEffect(MobEffects.BLINDNESS) || jeu.player.hasEffect(MobEffects.DARKNESS),
                 jeu.player.getInventory().hasAnyMatching(pile -> pile.is(ModItems.LANTERNE_DIOGENE.get())), infobulleSouvenir(jeu));
         Screenshot.grab(jeu.gameDirectory, "visite_" + nom + ".png", jeu.getMainRenderTarget(), message -> { });
         if (etape + 1 < ETAPES.size()) {

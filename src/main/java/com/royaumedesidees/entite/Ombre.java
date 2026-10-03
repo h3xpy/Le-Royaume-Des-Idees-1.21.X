@@ -3,7 +3,6 @@ package com.royaumedesidees.entite;
 import com.royaumedesidees.caverne.SouvenirRoyaume;
 import com.royaumedesidees.monde.CaverneRoyaume;
 import com.royaumedesidees.registre.ModItems;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -18,25 +17,27 @@ import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
-import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.world.entity.ai.goal.MoveTowardsRestrictionGoal;
-import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 
+import java.util.EnumSet;
+
 /**
- * Une Ombre de la Caverne de Platon : la silhouette d'un prisonnier projetée sur le mur. Tant qu'aucun joueur ne
- * tient la Lanterne de Diogène à moins de 8 blocs, elle est intouchable et ne fait que passer. Révélée par la
- * Lanterne, elle montre sa vraie forme, attaque faiblement et peut être tuée (butin : Pierre d'Ombre).
+ * Une Ombre de la Caverne de Platon. Comme dans l'allégorie, c'est l'ombre d'une statue de bois portée derrière le
+ * muret, projetée à plat sur la paroi : elle glisse le long de l'écran du mur des ombres. Tant qu'aucun joueur ne
+ * tient la Lanterne de Diogène à moins de 8 blocs, elle est intouchable. Révélée par la Lanterne, elle se détache
+ * du mur : ce n'est qu'une statue de bois (Diogène cherchait un homme…), qui attaque faiblement et peut être
+ * détruite (butin : Pierre d'Ombre).
  */
 public class Ombre extends PathfinderMob {
     private static final EntityDataAccessor<Boolean> REVELEE = SynchedEntityData.defineId(Ombre.class, EntityDataSerializers.BOOLEAN);
     public static final double RAYON_LANTERNE = 8;
-    /** Les Ombres errent devant l'écran du mur nord. */
-    public static final BlockPos CENTRE_ERRANCE = new BlockPos(0, CaverneRoyaume.SOL_Y + 1, CaverneRoyaume.MUR_Z + 8);
-    public static final int RAYON_ERRANCE = 16;
+    /** Les Ombres glissent contre l'écran du mur nord, entre x = -17 et 17. */
+    public static final int Z_ECRAN = CaverneRoyaume.MUR_Z + 5;
+    public static final int X_ECRAN = 17;
 
     public Ombre(EntityType<? extends Ombre> type, Level niveau) {
         super(type, niveau);
@@ -75,9 +76,7 @@ public class Ombre extends PathfinderMob {
                 return estRevelee() && super.canContinueToUse();
             }
         });
-        goalSelector.addGoal(4, new MoveTowardsRestrictionGoal(this, 1.0));
-        goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 0.7));
-        goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 8.0F));
+        goalSelector.addGoal(4, new LongerLEcran());
         targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true) {
             @Override
             public boolean canUse() {
@@ -91,9 +90,6 @@ public class Ombre extends PathfinderMob {
         super.aiStep();
         if (level().isClientSide || tickCount % 5 != 0) {
             return;
-        }
-        if (!hasRestriction()) {
-            restrictTo(CENTRE_ERRANCE, RAYON_ERRANCE);
         }
         boolean revelee = lanterneProche();
         entityData.set(REVELEE, revelee);
@@ -134,5 +130,40 @@ public class Ombre extends PathfinderMob {
     @Override
     public boolean removeWhenFarAway(double distance) {
         return false;
+    }
+
+    @Override
+    public void die(DamageSource source) {
+        super.die(source);
+        if (source.getEntity() instanceof Player joueur) {
+            joueur.displayClientMessage(Component.translatable("message.royaumedesidees.ombre.statue"), true);
+        }
+    }
+
+    /**
+     * Tant qu'elle n'est pas révélée, l'Ombre va et vient le long de l'écran, comme les ombres que les porteurs de
+     * statues projettent en marchant derrière le muret. Révélée, elle quitte le mur pour attaquer ; ensuite, elle
+     * y retourne.
+     */
+    private class LongerLEcran extends Goal {
+        LongerLEcran() {
+            setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
+        }
+
+        @Override
+        public boolean canUse() {
+            return !estRevelee() && getNavigation().isDone();
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return !estRevelee() && !getNavigation().isDone();
+        }
+
+        @Override
+        public void start() {
+            int x = getRandom().nextIntBetweenInclusive(-X_ECRAN, X_ECRAN);
+            getNavigation().moveTo(x + 0.5, CaverneRoyaume.sol(x, Z_ECRAN) + 1, Z_ECRAN + 0.5, 0.6);
+        }
     }
 }

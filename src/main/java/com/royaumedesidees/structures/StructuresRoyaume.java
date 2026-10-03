@@ -23,7 +23,10 @@ public final class StructuresRoyaume {
      * Aménagement de la Caverne de Platon : l'écran clair du mur des ombres, éclairé comme par le feu, le muret
      * derrière lequel passent les montreurs de marionnettes, le feu, et les poteaux où sont enchaînés les prisonniers.
      */
-    public static final StructureRoyaume CAVERNE = new StructureRoyaume("caverne", 1,
+    /** Le feu brûle sur une butte de roche, 4 blocs au-dessus du sol, derrière les prisonniers. */
+    public static final int FEU_Y = CaverneRoyaume.SOL_Y + 5;
+
+    public static final StructureRoyaume CAVERNE = new StructureRoyaume("caverne", 2,
             new BoundingBox(-22, 43, CaverneRoyaume.MUR_Z - 2, 22, 66, CaverneRoyaume.FEU_Z + 3),
             StructuresRoyaume::caverne);
 
@@ -92,14 +95,19 @@ public final class StructuresRoyaume {
             pose.poser(x, sol + 1, -2, Blocks.DEEPSLATE_BRICKS);
         }
 
-        // Le feu : un foyer en croix de feux de camp sur un lit de pierre.
+        // Le feu, « loin derrière eux et en hauteur » (Platon) : un foyer en croix sur une butte de roche.
+        for (int x = -2; x <= 2; x++) {
+            for (int dz = -2; dz <= 2; dz++) {
+                if (Math.abs(x) == 2 && Math.abs(dz) == 2) {
+                    continue;
+                }
+                int z = CaverneRoyaume.FEU_Z + dz;
+                pose.remplir(x, CaverneRoyaume.sol(x, z), z, x, FEU_Y - 1, z, Blocks.COBBLED_DEEPSLATE.defaultBlockState());
+            }
+        }
         int[][] foyer = {{0, 0}, {1, 0}, {-1, 0}, {0, 1}, {0, -1}};
         for (int[] d : foyer) {
-            int x = d[0];
-            int z = CaverneRoyaume.FEU_Z + d[1];
-            int sol = CaverneRoyaume.sol(x, z);
-            pose.poser(x, sol, z, Blocks.COBBLED_DEEPSLATE);
-            pose.poser(x, sol + 1, z, Blocks.CAMPFIRE);
+            pose.poser(d[0], FEU_Y, CaverneRoyaume.FEU_Z + d[1], Blocks.CAMPFIRE);
         }
 
         // Les poteaux des prisonniers, de part et d'autre du point d'arrivée, avec leurs chaînes au sol.

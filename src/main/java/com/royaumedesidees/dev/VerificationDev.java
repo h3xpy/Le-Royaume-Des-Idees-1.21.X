@@ -129,7 +129,7 @@ public final class VerificationDev {
             erreurs += notee ? 0 : 1;
             RoyaumeDesIdees.LOGGER.info("[verification] Structure {} posée et notée v{} : {}", structure.id(), structure.version(), notee ? "OK" : "ECHEC");
         }
-        BlockPos feu = new BlockPos(0, CaverneRoyaume.sol(0, CaverneRoyaume.FEU_Z) + 1, CaverneRoyaume.FEU_Z);
+        BlockPos feu = new BlockPos(0, StructuresRoyaume.FEU_Y, CaverneRoyaume.FEU_Z);
         BlockPos ecran = new BlockPos(0, 55, CaverneRoyaume.MUR_Z + 4);
         BlockPos cadre = new BlockPos(StructuresRoyaume.PORTAIL_X, StructuresRoyaume.PORTAIL_Y, StructuresRoyaume.PORTAIL_Z);
         BlockPos interieur = cadre.offset(1, 1, 0);
