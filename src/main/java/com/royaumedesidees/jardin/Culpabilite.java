@@ -1,5 +1,6 @@
 package com.royaumedesidees.jardin;
 
+import com.royaumedesidees.grace.Grace;
 import com.royaumedesidees.registre.ModEffets;
 import com.royaumedesidees.registre.ModPiecesJointes;
 import com.royaumedesidees.registre.ModSons;
@@ -17,8 +18,9 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- * La Culpabilité : un niveau de 0 à 5 par joueur, sauvegardé avec lui et conservé à la mort. Elle suit le joueur
- * partout, Overworld compris. Effets cumulés :
+ * La Culpabilité : un niveau de 0 à 5 par joueur, sauvegardé avec lui et conservé à la mort. Elle n'existe que dans
+ * le Royaume : ailleurs, elle est en pause (ni effet, ni nuage, ni sanglots) et reprend intacte au retour. Effets
+ * cumulés :
  * <ol>
  *   <li>lenteur légère (portée par l'effet {@link CulpabiliteEffet}) ;</li>
  *   <li>un nuage de pluie personnel au-dessus de la tête, visible par tous ;</li>
@@ -41,8 +43,11 @@ public final class Culpabilite {
         return joueur.getData(ModPiecesJointes.CULPABILITE);
     }
 
-    /** Un vol de poire : message de honte à tout le serveur, puis +1 de Culpabilité. */
+    /** Un vol de poire : message de honte à tout le serveur, puis +1 de Culpabilité. Hors du Royaume, ça ne compte pas. */
     public static void volerPoire(ServerPlayer joueur) {
+        if (!Grace.dansRoyaume(joueur)) {
+            return;
+        }
         joueur.server.getPlayerList().broadcastSystemMessage(
                 Component.translatable("message.royaumedesidees.culpabilite.vol_poire", joueur.getDisplayName()), false);
         changer(joueur, 1);
@@ -53,13 +58,21 @@ public final class Culpabilite {
         int avant = niveau(joueur);
         int apres = Math.max(0, Math.min(MAXIMUM, avant + ecart));
         joueur.setData(ModPiecesJointes.CULPABILITE, apres);
-        appliquerEffet(joueur, apres);
+        appliquerEffet(joueur, Grace.dansRoyaume(joueur) ? apres : 0);
         if (avant >= 3 && apres < 3) {
             arreterSanglots(joueur);
         }
         if (apres == MAXIMUM && avant < MAXIMUM) {
             joueur.server.getPlayerList().broadcastSystemMessage(
                     Component.translatable("message.royaumedesidees.culpabilite.ecrase", joueur.getDisplayName()), false);
+        }
+    }
+
+    /** En quittant le Royaume, les sanglots se taisent et l'effet disparaît (il reviendra au retour). */
+    public static void changementDimension(net.neoforged.neoforge.event.entity.player.PlayerEvent.PlayerChangedDimensionEvent evenement) {
+        if (evenement.getEntity() instanceof ServerPlayer joueur && !Grace.dansRoyaume(joueur)) {
+            appliquerEffet(joueur, 0);
+            arreterSanglots(joueur);
         }
     }
 
@@ -96,6 +109,11 @@ public final class Culpabilite {
         }
         int niveau = niveau(joueur);
         if (niveau <= 0) {
+            return;
+        }
+        if (!Grace.dansRoyaume(joueur)) {
+            // En pause hors du Royaume : l'effet est retiré, le niveau reste en mémoire.
+            appliquerEffet(joueur, 0);
             return;
         }
         appliquerEffet(joueur, niveau);

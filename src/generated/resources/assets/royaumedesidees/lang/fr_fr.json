@@ -50,6 +50,7 @@
   "message.royaumedesidees.caverne.lumiere": "Tes yeux, habitués aux ombres, brûlent à la lumière du jour.",
   "message.royaumedesidees.caverne.tenebres": "Revenu dans la Caverne, tes yeux pleins de soleil ne voient plus que des ténèbres.",
   "message.royaumedesidees.confession.allege": "Ta conscience s'allège. Culpabilité restante : %1$s.",
+  "message.royaumedesidees.confession.hors_royaume": "Ici, ta conscience se tait : la Culpabilité et la confession n'existent que dans le Royaume.",
   "message.royaumedesidees.confession.loin": "Il faut un Confessionnal pour se confesser. Il y en a un près de l'Autel, au centre de l'île.",
   "message.royaumedesidees.confession.publique": "%1$s se confesse : « %2$s »",
   "message.royaumedesidees.confession.repetee": "*Claque !* Tu as déjà avoué ça. Augustin a écrit treize livres sans se répéter une seule fois : trouve un autre péché, ou va réfléchir.",

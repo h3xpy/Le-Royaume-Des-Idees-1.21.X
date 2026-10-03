@@ -82,6 +82,7 @@ public class ModLangueEn extends LanguageProvider {
         add("message.royaumedesidees.confession.trop_tot", "Easy: wait %1$s more seconds before your next confession.");
         add("message.royaumedesidees.confession.trop_long", "Your confession is too long (%1$s characters at most). Augustine needed thirteen books.");
         add("message.royaumedesidees.confession.repetee", "*Slap!* You already confessed that. Augustine wrote thirteen books without repeating himself once: find another sin, or go and think it over.");
+        add("message.royaumedesidees.confession.hors_royaume", "Here your conscience is silent: Guilt and confession only exist in the Kingdom.");
         // v0.3 : Grâce et Voies
         add("message.royaumedesidees.grace.gain", "+%1$s Grace (%2$s)");
         add("message.royaumedesidees.grace.don", "Grace is a gift, not a wage.");

@@ -50,6 +50,7 @@
   "message.royaumedesidees.caverne.lumiere": "Your eyes, used to the shadows, burn in the daylight.",
   "message.royaumedesidees.caverne.tenebres": "Back in the Cave, your sun-filled eyes see nothing but darkness.",
   "message.royaumedesidees.confession.allege": "Your conscience feels lighter. Guilt left: %1$s.",
+  "message.royaumedesidees.confession.hors_royaume": "Here your conscience is silent: Guilt and confession only exist in the Kingdom.",
   "message.royaumedesidees.confession.loin": "You need a Confessional to confess. There is one near the Altar, in the centre of the island.",
   "message.royaumedesidees.confession.publique": "%1$s confesses: \"%2$s\"",
   "message.royaumedesidees.confession.repetee": "*Slap!* You already confessed that. Augustine wrote thirteen books without repeating himself once: find another sin, or go and think it over.",

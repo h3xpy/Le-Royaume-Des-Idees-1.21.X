@@ -53,6 +53,7 @@ public class RoyaumeDesIdees {
         NeoForge.EVENT_BUS.addListener(PopulationOmbres::tick);
         NeoForge.EVENT_BUS.addListener(SortieCaverne::tick);
         NeoForge.EVENT_BUS.addListener(Culpabilite::tick);
+        NeoForge.EVENT_BUS.addListener(Culpabilite::changementDimension);
         NeoForge.EVENT_BUS.addListener(Confession::enregistrer);
         // Grâce (v0.3) : synchronisation de la jauge, coups reçus sans riposter.
         modEventBus.addListener((net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent evenement) ->

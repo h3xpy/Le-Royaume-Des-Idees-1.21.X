@@ -51,6 +51,10 @@ public final class Confession {
             contexte.getSource().sendFailure(Component.translatable(CLE + "trop_long", LONGUEUR_MAX));
             return 0;
         }
+        if (!com.royaumedesidees.grace.Grace.dansRoyaume(joueur)) {
+            contexte.getSource().sendFailure(Component.translatable(CLE + "hors_royaume"));
+            return 0;
+        }
         if (!presDUnConfessionnal(joueur)) {
             contexte.getSource().sendFailure(Component.translatable(CLE + "loin"));
             return 0;
