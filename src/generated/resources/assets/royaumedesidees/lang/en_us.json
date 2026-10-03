@@ -18,6 +18,7 @@
   "block.royaumedesidees.pierre_ombre_taillee": "Chiseled Shadow Stone",
   "block.royaumedesidees.planches_figuier": "Fig Planks",
   "block.royaumedesidees.portail_royaume": "Kingdom Portal",
+  "commande.royaumedesidees.grace.valeur": "%1$s: %2$s Grace, %3$s.",
   "commande.royaumedesidees.structures.a_jour": "up to date",
   "commande.royaumedesidees.structures.a_reposer": "will be placed again when a player comes near",
   "commande.royaumedesidees.structures.inconnue": "Unknown structure: %1$s",
@@ -61,6 +62,12 @@
   "message.royaumedesidees.etal.achat": "You honestly buy %1$s pears. They look less tasty.",
   "message.royaumedesidees.etal.ecriteau": "\"One emerald in the box, %1$s pears for you. Or you could just steal them...\"",
   "message.royaumedesidees.figuier.voix": "A child's voice from the house next door: \"Take up and read; take up and read.\"",
+  "message.royaumedesidees.grace.don": "Grace is a gift, not a wage.",
+  "message.royaumedesidees.grace.gain": "+%1$s Grace (%2$s)",
+  "message.royaumedesidees.grace.raison.commande": "command",
+  "message.royaumedesidees.grace.raison.confession": "confession",
+  "message.royaumedesidees.grace.raison.frappe": "struck without striking back",
+  "message.royaumedesidees.grace.rien": "No Grace this time (%1$s). It cannot be earned.",
   "message.royaumedesidees.ombre.intouchable": "It is only a shadow: your blow goes straight through.",
   "message.royaumedesidees.ombre.statue": "It was only a wooden statue. Diogenes is still looking for a man.",
   "message.royaumedesidees.portail.allume": "\"Take up and read; take up and read.\" The portal opens.",
@@ -88,5 +95,8 @@
   "sous_titre.royaumedesidees.sanglots": "Someone sobs",
   "tag.item.royaumedesidees.lie_au_royaume": "Bound to the Kingdom",
   "tooltip.royaumedesidees.souvenir": "Keepsake of the Kingdom",
-  "tooltip.royaumedesidees.souvenir.detail": "No effect outside the Kingdom."
+  "tooltip.royaumedesidees.souvenir.detail": "No effect outside the Kingdom.",
+  "voie.royaumedesidees.aucune": "no Way",
+  "voie.royaumedesidees.coeur": "Way of the Heart",
+  "voie.royaumedesidees.raison": "Way of Reason"
 }

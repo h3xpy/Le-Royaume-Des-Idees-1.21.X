@@ -4,7 +4,17 @@ Journal tenu par Claude Code.
 
 ## Version en cours
 
-v0.3 — Les PNJ : spec `docs/specs/v0.3-pnj.md` validée le 2026-10-03 ; plan en attente d'accord.
+v0.3 — Les PNJ : spec `docs/specs/v0.3-pnj.md` validée le 2026-10-03, en cours.
+
+| Étape | État |
+| --- | --- |
+| 1. La Grâce (données, jauge, gains, commande) | Fait |
+| 2. Socle des PNJ (entité, skins, réponses dans le chat) | À faire |
+| 3. Lieux (Bibliothèque d'Ambroise, Pupitre, cellule de Pascal) | À faire |
+| 4. Augustin jeune, Adéodat, Ambroise, quête de conversion | À faire |
+| 5. Pascal, quête des impôts, effets des Voies | À faire |
+| 6. Sainte Monique | À faire |
+| 7. Fin de version (vérification, tests, docs) | À faire |
 
 v0.2 — Le Jardin : spec `docs/specs/v0.2-jardin.md` validée le 2026-10-03. Code terminé et vérifié automatiquement ; checklist `docs/tests/v0.2.md` à passer par Maxime.
 
@@ -48,6 +58,7 @@ v0.1 — Les fondations : terminée et validée en jeu par Maxime le 2026-10-03 
 - v0.2 étape 2 : structures `confessionnal_centre`, `figuier`, `villa_augustin` et `vergers` (`structures/StructuresJardin.java`), qui suivent le relief. Trois vergers clos de 8 poiriers (Lucius, Sévère, Vérécundus), panneaux traduisibles. Vérification automatique étendue : blocs clés des structures, Culpabilité insensible au lait, et une visite en survie (3 vols → Culpabilité III, `effect clear` et mort sans effet, confession refusée loin puis acceptée, anti-spam, achat à l'Étal).
 - v0.2 étape 3 : structures refaites en version 2. Villa : domus à atrium, impluvium, tablinum (Livres des Platoniciens, table de jeu), chambres, triclinium, cuisine, cellier, toit à compluvium, jardin à colonnade au nord. Vergers : murets moussus, allée, vigne de Patricius, porcherie. Jardin du figuier : haie, grand figuier, exèdre d'Alypius avec l'Épître aux Romains, puits, maison voisine. Confessionnal sous un baldaquin. Deux chemins (`chemin_villa_vergers`, `chemin_villa_figuier`). Outils communs : `Decor` (escaliers, plantes, panneaux, livres, cyprès, animaux) et le raccord des clôtures, murets, escaliers et vitres en fin de pose (`Pose.poserRaccorde`). Confession : 10 s entre deux confessions, claque si le même péché est répété.
 - v0.2 étape 4 : les sanglots ne se superposent plus (un à la fois, 53 s, puis 10 à 40 s de silence ; arrêt quand la Culpabilité retombe sous III ; son lu en flux). Toutes les structures sont posées au démarrage du serveur (8 structures en 1,7 s), la pose de proximité reste en filet de sécurité. Une nouvelle pose de la porcherie remplace ses cochons au lieu d'en ajouter.
+- v0.3 étape 1 : la Grâce (0 à 100, conservée à la mort), dans le Royaume seulement : on n'en gagne pas ailleurs et la jauge (auréole, barre dorée, nombre, « +N » quand elle monte) n'y est pas affichée. Gains : confession +5, se faire frapper par un joueur sans riposter pendant 10 s +1 (5 fois par jour) ; moitié pour la Voie de la Raison ; blague « La grâce est un don, pas un salaire » (10 %, double ou rien). `Grace.depenser` prête pour le changement de Voie, le Totem et l'Autel. Données de joueur de la v0.3 déclarées : `grace`, `voie`, `quete_conversion`, `quete_impots`, `monique_apparue`, `compteurs_jour`. Commande `/royaume grace <joueur> [definir|ajouter <n>]`. Premier paquet réseau du mod (`GracePaquet`).
 
 ## Décisions
 
@@ -120,6 +131,8 @@ v0.1 — Les fondations : terminée et validée en jeu par Maxime le 2026-10-03 
 - 2026-10-03 : des cochons apparaissent avec la porcherie (une fois, à la pose). Le sol de l'enclos est aplani et rien n'est posé contre la clôture, sinon ils s'échappent.
 - 2026-10-03 : les chemins sont des structures séparées dont la boîte ne chevauche aucun bâtiment, car remplacer une structure remet toute sa boîte dans l'état d'origine.
 - 2026-10-03 : à la demande de Maxime, les structures sont là dès la création du monde. Elles restent posées par le système de pose (pas par la génération du monde, comme le veut CLAUDE.md), mais au démarrage du serveur au lieu d'attendre qu'un joueur approche.
+- 2026-10-03 : Maxime veut que les systèmes de la v0.3 (Grâce, Voies, PNJ, Monique) ne fonctionnent que dans le Royaume : pas de jauge dans l'Overworld.
+- 2026-10-03 : la jauge de Grâce est à droite de la barre d'objets, pas au-dessus de la barre d'XP comme l'écrivait la spec : au-dessus, il n'y a pas de place libre (cœurs et nourriture).
 - 2026-10-03 : la console du serveur local reçoit ce qu'on tape dans le terminal (`build.gradle`, tâche `runServer`) : taper `stop` l'arrête proprement. En développement, la licence de Minecraft est acceptée d'office : pas de `eula.txt` à remplir.
 
 ## Coordonnées réservées des structures

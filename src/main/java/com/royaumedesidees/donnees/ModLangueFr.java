@@ -82,6 +82,17 @@ public class ModLangueFr extends LanguageProvider {
         add("message.royaumedesidees.confession.trop_tot", "Doucement : attends encore %1$s secondes avant ta prochaine confession.");
         add("message.royaumedesidees.confession.trop_long", "Ta confession est trop longue (%1$s caractères au plus). Augustin, lui, avait treize livres.");
         add("message.royaumedesidees.confession.repetee", "*Claque !* Tu as déjà avoué ça. Augustin a écrit treize livres sans se répéter une seule fois : trouve un autre péché, ou va réfléchir.");
+        // v0.3 : Grâce et Voies
+        add("message.royaumedesidees.grace.gain", "+%1$s de Grâce (%2$s)");
+        add("message.royaumedesidees.grace.don", "La grâce est un don, pas un salaire.");
+        add("message.royaumedesidees.grace.rien", "Pas de Grâce cette fois (%1$s). Elle ne se mérite pas.");
+        add("message.royaumedesidees.grace.raison.confession", "confession");
+        add("message.royaumedesidees.grace.raison.frappe", "frappé sans riposter");
+        add("message.royaumedesidees.grace.raison.commande", "commande");
+        add("commande.royaumedesidees.grace.valeur", "%1$s : %2$s de Grâce, %3$s.");
+        add("voie.royaumedesidees.aucune", "sans Voie");
+        add("voie.royaumedesidees.raison", "Voie de la Raison");
+        add("voie.royaumedesidees.coeur", "Voie du Cœur");
         add("message.royaumedesidees.confessionnal.mode_emploi", "Pour te confesser, tape /confesse suivi de ton péché.");
         add("message.royaumedesidees.etal.achat", "Tu achètes %1$s poires, honnêtement. Elles ont l'air moins bonnes.");
         add("message.royaumedesidees.etal.ecriteau", "« Une émeraude dans le tronc, %1$s poires pour toi. Ou alors, tu les voles… »");

@@ -79,6 +79,8 @@ public final class Confession {
             return 1;
         }
         Culpabilite.changer(joueur, -1);
+        // Dans le Royaume seulement : se confesser rapporte de la Grâce.
+        com.royaumedesidees.grace.Grace.ajouter(joueur, 5, "confession");
         monde.sendParticles(ParticleTypes.END_ROD, joueur.getX(), joueur.getY() + 1.0, joueur.getZ(), 12, 0.4, 0.6, 0.4, 0.02);
         joueur.sendSystemMessage(Component.translatable(CLE + "allege", Culpabilite.niveau(joueur)));
         return 1;

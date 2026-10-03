@@ -2,6 +2,8 @@ package com.royaumedesidees.registre;
 
 import com.mojang.serialization.Codec;
 import com.royaumedesidees.RoyaumeDesIdees;
+import com.royaumedesidees.grace.CompteursJour;
+import com.royaumedesidees.grace.Voie;
 import com.royaumedesidees.portail.PointRetour;
 import net.neoforged.neoforge.attachment.AttachmentType;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -33,6 +35,32 @@ public final class ModPiecesJointes {
     /** Vrai une fois que le joueur a entendu « Prends, lis » en touchant un figuier. */
     public static final Supplier<AttachmentType<Boolean>> FIGUIER_ENTENDU = PIECES_JOINTES.register("figuier_entendu",
             () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL).copyOnDeath().build());
+
+    // ------------------------------------------------------------------ v0.3 : Grâce, Voies, quêtes, Monique
+
+    /** Grâce, de 0 à 100 (voir {@link com.royaumedesidees.grace.Grace}). */
+    public static final Supplier<AttachmentType<Integer>> GRACE = PIECES_JOINTES.register("grace",
+            () -> AttachmentType.builder(() -> 0).serialize(Codec.INT).copyOnDeath().build());
+
+    /** Voie choisie : aucune, Raison ou Cœur. */
+    public static final Supplier<AttachmentType<Voie>> VOIE = PIECES_JOINTES.register("voie",
+            () -> AttachmentType.builder(() -> Voie.AUCUNE).serialize(Voie.CODEC).copyOnDeath().build());
+
+    /** Étape atteinte dans la quête de conversion d'Augustin (0 = pas commencée). */
+    public static final Supplier<AttachmentType<Integer>> QUETE_CONVERSION = PIECES_JOINTES.register("quete_conversion",
+            () -> AttachmentType.builder(() -> 0).serialize(Codec.INT).copyOnDeath().build());
+
+    /** Étape atteinte dans la quête des impôts de Pascal (0 = pas commencée). */
+    public static final Supplier<AttachmentType<Integer>> QUETE_IMPOTS = PIECES_JOINTES.register("quete_impots",
+            () -> AttachmentType.builder(() -> 0).serialize(Codec.INT).copyOnDeath().build());
+
+    /** Vrai une fois que Monique est apparue pour ce joueur. */
+    public static final Supplier<AttachmentType<Boolean>> MONIQUE_APPARUE = PIECES_JOINTES.register("monique_apparue",
+            () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL).copyOnDeath().build());
+
+    /** Gains de Grâce limités par jour de jeu (Monique nourrie, coups reçus sans riposter). */
+    public static final Supplier<AttachmentType<CompteursJour>> COMPTEURS_JOUR = PIECES_JOINTES.register("compteurs_jour",
+            () -> AttachmentType.builder(() -> CompteursJour.VIDE).serialize(CompteursJour.CODEC).copyOnDeath().build());
 
     private ModPiecesJointes() {
     }

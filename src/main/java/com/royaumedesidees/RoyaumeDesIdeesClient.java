@@ -1,6 +1,7 @@
 package com.royaumedesidees;
 
 import com.royaumedesidees.client.InfobulleSouvenir;
+import com.royaumedesidees.client.JaugeGrace;
 import com.royaumedesidees.client.MusiqueRoyaume;
 import com.royaumedesidees.client.RenduOmbre;
 import com.royaumedesidees.dev.VisiteDev;
@@ -22,6 +23,7 @@ public class RoyaumeDesIdeesClient {
         NeoForge.EVENT_BUS.addListener(MusiqueRoyaume::choisir);
         NeoForge.EVENT_BUS.addListener(MusiqueRoyaume::tick);
         NeoForge.EVENT_BUS.addListener(InfobulleSouvenir::infobulle);
+        modEventBus.addListener(JaugeGrace::enregistrer);
         modEventBus.addListener((EntityRenderersEvent.RegisterLayerDefinitions evenement) ->
                 evenement.registerLayerDefinition(RenduOmbre.COUCHE, RenduOmbre::couche));
         modEventBus.addListener((EntityRenderersEvent.RegisterRenderers evenement) ->

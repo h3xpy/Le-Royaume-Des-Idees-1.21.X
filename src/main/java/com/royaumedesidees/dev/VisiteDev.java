@@ -94,11 +94,16 @@ public final class VisiteDev {
             new Etape("confesse_loin", () -> List.of("confesse J'ai vole des poires")),
             new Etape("mort", () -> List.of("kill @s"), jeu -> {
                 jeu.player.respawn();
+                // Interface visible pour cette étape (Overworld : pas de jauge) et la confession (Royaume : jauge).
+                jeu.options.hideGui = false;
                 return true;
             }),
             new Etape("confession", () -> List.of(tpRoyaume(StructuresJardin.POS_CONFESSIONNAL.offset(-2, 0, 0), 270f, 0f),
                     "confesse J'ai vole des poires pour le plaisir de mal faire")),
-            new Etape("confesse_trop_tot", () -> List.of("confesse Encore une fois")),
+            new Etape("confesse_trop_tot", () -> List.of("confesse Encore une fois"), jeu -> {
+                jeu.options.hideGui = true;
+                return true;
+            }),
             // Le même péché qu'à la première confession : claque attendue (un demi-cœur, un recul, une remarque).
             new Etape("confesse_repetee", () -> List.of("confesse J'ai vole des poires pour le plaisir de mal faire")),
             new Etape("etal", () -> List.of("item replace entity @s weapon.mainhand with minecraft:emerald 2",
@@ -227,6 +232,8 @@ public final class VisiteDev {
                     new net.minecraft.world.phys.AABB(-317, 0, -164, -306, 400, -157)).size();
             RoyaumeDesIdees.LOGGER.info("[visite] porcherie : cochons restés dans l'enclos {} {}", cochons, cochons >= 3 ? "OK" : "ECHEC");
         }
+        RoyaumeDesIdees.LOGGER.info("[visite] {} : Grâce reçue {}, jauge visible {}", nom,
+                com.royaumedesidees.grace.GracePaquet.recue(), com.royaumedesidees.client.JaugeGrace.visible());
         Screenshot.grab(jeu.gameDirectory, "visite_" + nom + ".png", jeu.getMainRenderTarget(), message -> { });
         if (etape + 1 < ETAPES.size()) {
             commencer(jeu, etape + 1);

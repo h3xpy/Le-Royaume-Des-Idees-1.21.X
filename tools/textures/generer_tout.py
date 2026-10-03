@@ -15,9 +15,10 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import blocs_caverne  # noqa: E402
 import entites_caverne  # noqa: E402
 import items_v01  # noqa: E402
+import grace_v03  # noqa: E402
 import jardin_v02  # noqa: E402
 
-GROUPES = [blocs_caverne, items_v01, entites_caverne, jardin_v02]
+GROUPES = [blocs_caverne, items_v01, entites_caverne, jardin_v02, grace_v03]
 
 
 def main():

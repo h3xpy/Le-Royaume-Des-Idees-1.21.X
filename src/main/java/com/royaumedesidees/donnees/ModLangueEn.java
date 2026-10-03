@@ -82,6 +82,17 @@ public class ModLangueEn extends LanguageProvider {
         add("message.royaumedesidees.confession.trop_tot", "Easy: wait %1$s more seconds before your next confession.");
         add("message.royaumedesidees.confession.trop_long", "Your confession is too long (%1$s characters at most). Augustine needed thirteen books.");
         add("message.royaumedesidees.confession.repetee", "*Slap!* You already confessed that. Augustine wrote thirteen books without repeating himself once: find another sin, or go and think it over.");
+        // v0.3 : Grâce et Voies
+        add("message.royaumedesidees.grace.gain", "+%1$s Grace (%2$s)");
+        add("message.royaumedesidees.grace.don", "Grace is a gift, not a wage.");
+        add("message.royaumedesidees.grace.rien", "No Grace this time (%1$s). It cannot be earned.");
+        add("message.royaumedesidees.grace.raison.confession", "confession");
+        add("message.royaumedesidees.grace.raison.frappe", "struck without striking back");
+        add("message.royaumedesidees.grace.raison.commande", "command");
+        add("commande.royaumedesidees.grace.valeur", "%1$s: %2$s Grace, %3$s.");
+        add("voie.royaumedesidees.aucune", "no Way");
+        add("voie.royaumedesidees.raison", "Way of Reason");
+        add("voie.royaumedesidees.coeur", "Way of the Heart");
         add("message.royaumedesidees.confessionnal.mode_emploi", "To confess, type /confesse followed by your sin.");
         add("message.royaumedesidees.etal.achat", "You honestly buy %1$s pears. They look less tasty.");
         add("message.royaumedesidees.etal.ecriteau", "\"One emerald in the box, %1$s pears for you. Or you could just steal them...\"");

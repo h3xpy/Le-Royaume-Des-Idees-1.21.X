@@ -18,6 +18,7 @@
   "block.royaumedesidees.pierre_ombre_taillee": "Pierre d'Ombre taillée",
   "block.royaumedesidees.planches_figuier": "Planches de figuier",
   "block.royaumedesidees.portail_royaume": "Portail du Royaume",
+  "commande.royaumedesidees.grace.valeur": "%1$s : %2$s de Grâce, %3$s.",
   "commande.royaumedesidees.structures.a_jour": "à jour",
   "commande.royaumedesidees.structures.a_reposer": "sera reposée quand un joueur passera à proximité",
   "commande.royaumedesidees.structures.inconnue": "Structure inconnue : %1$s",
@@ -61,6 +62,12 @@
   "message.royaumedesidees.etal.achat": "Tu achètes %1$s poires, honnêtement. Elles ont l'air moins bonnes.",
   "message.royaumedesidees.etal.ecriteau": "« Une émeraude dans le tronc, %1$s poires pour toi. Ou alors, tu les voles… »",
   "message.royaumedesidees.figuier.voix": "Une voix d'enfant, venue de la maison voisine : « Prends, lis ; prends, lis. »",
+  "message.royaumedesidees.grace.don": "La grâce est un don, pas un salaire.",
+  "message.royaumedesidees.grace.gain": "+%1$s de Grâce (%2$s)",
+  "message.royaumedesidees.grace.raison.commande": "commande",
+  "message.royaumedesidees.grace.raison.confession": "confession",
+  "message.royaumedesidees.grace.raison.frappe": "frappé sans riposter",
+  "message.royaumedesidees.grace.rien": "Pas de Grâce cette fois (%1$s). Elle ne se mérite pas.",
   "message.royaumedesidees.ombre.intouchable": "Ce n'est qu'une ombre : ton coup la traverse.",
   "message.royaumedesidees.ombre.statue": "Ce n'était qu'une statue de bois. Diogène cherche toujours un homme.",
   "message.royaumedesidees.portail.allume": "« Prends, lis ; prends, lis. » Le portail s'ouvre.",
@@ -88,5 +95,8 @@
   "sous_titre.royaumedesidees.sanglots": "Quelqu'un sanglote",
   "tag.item.royaumedesidees.lie_au_royaume": "Lié au Royaume",
   "tooltip.royaumedesidees.souvenir": "Souvenir du Royaume",
-  "tooltip.royaumedesidees.souvenir.detail": "Sans effet hors du Royaume."
+  "tooltip.royaumedesidees.souvenir.detail": "Sans effet hors du Royaume.",
+  "voie.royaumedesidees.aucune": "sans Voie",
+  "voie.royaumedesidees.coeur": "Voie du Cœur",
+  "voie.royaumedesidees.raison": "Voie de la Raison"
 }

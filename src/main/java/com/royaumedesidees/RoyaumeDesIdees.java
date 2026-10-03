@@ -6,6 +6,8 @@ import com.royaumedesidees.caverne.SortieCaverne;
 import com.royaumedesidees.commande.CommandesRoyaume;
 import com.royaumedesidees.dev.VerificationDev;
 import com.royaumedesidees.donnees.GenerateurDonnees;
+import com.royaumedesidees.grace.Grace;
+import com.royaumedesidees.grace.GracePaquet;
 import com.royaumedesidees.jardin.Confession;
 import com.royaumedesidees.jardin.Culpabilite;
 import com.royaumedesidees.registre.ModBlocs;
@@ -52,6 +54,15 @@ public class RoyaumeDesIdees {
         NeoForge.EVENT_BUS.addListener(SortieCaverne::tick);
         NeoForge.EVENT_BUS.addListener(Culpabilite::tick);
         NeoForge.EVENT_BUS.addListener(Confession::enregistrer);
+        // Grâce (v0.3) : synchronisation de la jauge, coups reçus sans riposter.
+        modEventBus.addListener((net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent evenement) ->
+                evenement.registrar("1").playToClient(GracePaquet.TYPE, GracePaquet.CODEC, GracePaquet::recevoir));
+        NeoForge.EVENT_BUS.addListener(Grace::connexion);
+        NeoForge.EVENT_BUS.addListener(Grace::changementDimension);
+        NeoForge.EVENT_BUS.addListener(Grace::reapparition);
+        NeoForge.EVENT_BUS.addListener(Grace::degats);
+        NeoForge.EVENT_BUS.addListener(Grace::attaque);
+        NeoForge.EVENT_BUS.addListener(Grace::tick);
         VerificationDev.activerSiDemande();
     }
 
