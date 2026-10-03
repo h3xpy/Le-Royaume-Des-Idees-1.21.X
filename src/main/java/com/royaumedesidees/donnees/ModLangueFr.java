@@ -84,6 +84,11 @@ public class ModLangueFr extends LanguageProvider {
         add("message.royaumedesidees.confessionnal.mode_emploi", "Pour te confesser, tape /confesse suivi de ton péché.");
         add("message.royaumedesidees.etal.achat", "Tu achètes %1$s poires, honnêtement. Elles ont l'air moins bonnes.");
         add("message.royaumedesidees.etal.ecriteau", "« Une émeraude dans le tronc, %1$s poires pour toi. Ou alors, tu les voles… »");
+        add("panneau.royaumedesidees.verger.lucius", "Verger de Lucius");
+        add("panneau.royaumedesidees.verger.severe", "Verger de Sévère");
+        add("panneau.royaumedesidees.verger.verecundus", "Verger de Vérécundus");
+        add("panneau.royaumedesidees.verger.defense", "Défense");
+        add("panneau.royaumedesidees.verger.voler", "de voler !");
         add("message.royaumedesidees.figuier.voix", "Une voix d'enfant, venue de la maison voisine : « Prends, lis ; prends, lis. »");
         add("sous_titre.royaumedesidees.sanglots", "Quelqu'un sanglote");
 

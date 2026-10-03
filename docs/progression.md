@@ -4,7 +4,12 @@ Journal tenu par Claude Code.
 
 ## Version en cours
 
-v0.2 — Le Jardin : spec `docs/specs/v0.2-jardin.md` validée le 2026-10-03, en cours.
+v0.2 — Le Jardin : spec `docs/specs/v0.2-jardin.md` validée le 2026-10-03. Code terminé et vérifié automatiquement ; checklist `docs/tests/v0.2.md` à passer par Maxime.
+
+| Étape | État |
+| --- | --- |
+| 1. Blocs, items, effet, Culpabilité, `/confesse`, textures | Fait |
+| 2. Structures du Jardin, vérification en jeu, tests | Fait ; checklist à passer |
 
 v0.1 — Les fondations : terminée et validée en jeu par Maxime le 2026-10-03 (checklist `docs/tests/v0.1.md` passée, y compris sur serveur local).
 
@@ -35,6 +40,9 @@ v0.1 — Les fondations : terminée et validée en jeu par Maxime le 2026-10-03 
 - v0.1 étape 8 : Caverne jouable. Première entrée enchaînée (cage de 17 Chaînes de la Caverne autour du joueur), entrées suivantes libres à côté. Entité `ombre` : silhouette noire semi-transparente, intouchable, révélée en prisonnier par la Lanterne de Diogène tenue à moins de 8 blocs, attaque faiblement (1 dégât), 10 PV, lâche 1 ou 2 Pierres d'Ombre. Six Ombres entretenues devant le mur tant qu'un joueur est dans la Caverne. Sortie à l'air libre au débouché du tunnel : aveuglement 5 s, message, succès « Allégorie vécue » (onglet de succès du Royaume), Lanterne à la première sortie. Infobulle « Souvenir du Royaume » hors de la dimension pour tous les objets du tag `lie_au_royaume`.
 
 - v0.1 étape 9 : checklist de tests en jeu `docs/tests/v0.1.md`. Le test sur serveur local (`runServer`) reste à faire par Maxime : il demande d'accepter la licence de Minecraft (`run/eula.txt`), ce que Claude ne fait pas à sa place.
+- v0.2 étape 1 : poires (achetée, volée), feuilles de poirier (propriété `poires`, cueillette = vol, repousse lente), bois, planches et feuilles de figuier, Confessionnal (deux blocs de haut, fabricable), Étal du verger (émeraude → 3 poires), effet Culpabilité I à V (lenteur, nuage, sanglots, musique, message), commande `/confesse`, voix « Prends, lis » au figuier, textures `tools/textures/jardin_v02.py`.
+- v0.2 étape 2 : structures `confessionnal_centre`, `figuier`, `villa_augustin` et `vergers` (`structures/StructuresJardin.java`), qui suivent le relief. Trois vergers clos de 8 poiriers (Lucius, Sévère, Vérécundus), panneaux traduisibles. Vérification automatique étendue : blocs clés des structures, Culpabilité insensible au lait, et une visite en survie (3 vols → Culpabilité III, `effect clear` et mort sans effet, confession refusée loin puis acceptée, anti-spam, achat à l'Étal).
+
 ## Décisions
 
 - 2026-10-01 : génération du monde figée dès la v0.1, structures posées par le mod (voir CLAUDE.md).
@@ -99,6 +107,9 @@ v0.1 — Les fondations : terminée et validée en jeu par Maxime le 2026-10-03 
 - 2026-10-03 : la Lanterne est donnée par magie à la première sortie (« une vieille lanterne t'attendait »), pas par un PNJ : Diogène n'arrive qu'en v0.5. Si l'inventaire est plein, elle tombe aux pieds du joueur.
 - 2026-10-03 : la sortie se déclenche à chaque fois qu'un joueur remonte de la Caverne ou du tunnel jusqu'à l'air libre au débouché du tunnel (aveuglement et message à chaque fois, succès et Lanterne la première fois seulement).
 - 2026-10-03 : la visite de développement ferme le jeu toute seule après avoir sauvegardé, pour qu'on ne la prenne pas pour un blocage.
+- 2026-10-03 : les quatre propositions de la spec v0.2 sont acceptées (Étal sans PNJ, sanglots en attendant Monique, Culpabilité partout, figuier décor avec « Prends, lis »).
+- 2026-10-03 : trois vergers au lieu de deux, pour la « vingtaine de poiriers » de la spec. Le troisième appartient à Vérécundus, l'ami milanais d'Augustin (celui qui lui prêta sa villa de Cassiciacum).
+- 2026-10-03 : la visite de développement empêche la pause du jeu solo quand la fenêtre perd le focus (sinon les chunks n'arrivent plus et les clics échouent).
 - 2026-10-03 : la console du serveur local reçoit ce qu'on tape dans le terminal (`build.gradle`, tâche `runServer`) : taper `stop` l'arrête proprement. En développement, la licence de Minecraft est acceptée d'office : pas de `eula.txt` à remplir.
 
 ## Coordonnées réservées des structures
@@ -114,12 +125,12 @@ Carte annotée : `docs/images/carte_relief.png`. Les hauteurs sont celles du sol
 | Sortie de la Caverne | v0.1 | (0, 125) | y ≈ 91 | Débouché du tunnel, à 125 blocs au sud de l'Autel : le passage n'est pas sous l'Autel |
 | Portail de retour (structure `portail_retour`) | v0.1 | x 6 à 9, z 130 | y 91 | À côté de la sortie du tunnel |
 | Autel de la Cité de Dieu | v1.0 | (0, 0) | y 100 | Au-dessus de la Caverne, 25 blocs dégagés autour |
-| Confessionnal | v0.2 | (18, -14) | y 100 | Près de l'Autel, au centre |
+| Confessionnal (structure `confessionnal_centre`) | v0.2 | (18, -14) | y 100 | Près de l'Autel, au centre ; posé |
 | Arène du boss | v1.0 | ciel au-dessus de (0, 0) | y ≈ 330 | Rayon d'environ 50 blocs |
 | Cité de Dieu (ville céleste) | v1.0 | ciel autour de (0, 0) | y 320 à 370 | Rayon d'environ 160 blocs, au-dessus du sommet du Puy |
-| Figuier d'Augustin | v0.2 | (-260, -260) | y 99 | |
-| Villa d'Augustin | v0.2 | (-200, -190) | y 100 | |
-| Vergers de poiriers | v0.2 | autour de (-330, -170) | y 102 | |
+| Figuier d'Augustin (structure `figuier`) | v0.2 | (-260, -260) | y 99 | Posé |
+| Villa d'Augustin (structure `villa_augustin`) | v0.2 | (-200, -190) | y 100 | Posée ; Étal devant l'entrée sud |
+| Vergers de poiriers (structure `vergers`) | v0.2 | x -354 à -306, z -186 à -152 | y 102 | Posés ; trois vergers |
 | Bibliothèque d'Ambroise | v0.3 | (-180, -330) | y 100 | |
 | Abbaye de Port-Royal | v0.4 | (300, -290) | y 84 | Butte sèche au milieu du marais |
 | Collège de Clermont (camp des Jésuites) | v0.4 | (380, -80) | y 99 | Sud de Port-Royal, côté Puy : zone frontière |

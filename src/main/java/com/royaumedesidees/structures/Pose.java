@@ -25,6 +25,11 @@ public final class Pose {
         this.boite = boite;
     }
 
+    /** Le niveau, pour les blocs qui ont besoin d'une entité de bloc (panneaux). */
+    public ServerLevel niveau() {
+        return niveau;
+    }
+
     public void poser(int x, int y, int z, BlockState etat) {
         if (boite.isInside(x, y, z)) {
             niveau.setBlock(pos.set(x, y, z), etat, DRAPEAUX);

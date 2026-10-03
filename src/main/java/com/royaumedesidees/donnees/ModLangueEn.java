@@ -84,6 +84,11 @@ public class ModLangueEn extends LanguageProvider {
         add("message.royaumedesidees.confessionnal.mode_emploi", "To confess, type /confesse followed by your sin.");
         add("message.royaumedesidees.etal.achat", "You honestly buy %1$s pears. They look less tasty.");
         add("message.royaumedesidees.etal.ecriteau", "\"One emerald in the box, %1$s pears for you. Or you could just steal them...\"");
+        add("panneau.royaumedesidees.verger.lucius", "Lucius' Orchard");
+        add("panneau.royaumedesidees.verger.severe", "Severus' Orchard");
+        add("panneau.royaumedesidees.verger.verecundus", "Verecundus' Orchard");
+        add("panneau.royaumedesidees.verger.defense", "No");
+        add("panneau.royaumedesidees.verger.voler", "stealing!");
         add("message.royaumedesidees.figuier.voix", "A child's voice from the house next door: \"Take up and read; take up and read.\"");
         add("sous_titre.royaumedesidees.sanglots", "Someone sobs");
 

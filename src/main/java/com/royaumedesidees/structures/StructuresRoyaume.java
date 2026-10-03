@@ -57,7 +57,9 @@ public final class StructuresRoyaume {
                 StructuresRoyaume::portailRetour);
     }
 
-    public static final List<StructureRoyaume> TOUTES = List.of(CAVERNE, PORTAIL_RETOUR);
+    public static final List<StructureRoyaume> TOUTES = List.of(CAVERNE, PORTAIL_RETOUR,
+            StructuresJardin.CONFESSIONNAL_CENTRE, StructuresJardin.FIGUIER,
+            StructuresJardin.VILLA_AUGUSTIN, StructuresJardin.VERGERS_STRUCTURE);
 
     private StructuresRoyaume() {
     }

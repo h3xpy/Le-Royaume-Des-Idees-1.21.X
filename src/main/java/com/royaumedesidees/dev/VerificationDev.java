@@ -10,6 +10,7 @@ import com.royaumedesidees.registre.ModMonde;
 import com.royaumedesidees.structures.DonneesStructures;
 import com.royaumedesidees.structures.PoseurStructures;
 import com.royaumedesidees.structures.StructureRoyaume;
+import com.royaumedesidees.structures.StructuresJardin;
 import com.royaumedesidees.structures.StructuresRoyaume;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -120,8 +121,9 @@ public final class VerificationDev {
         }
         // Versions lues dans la sauvegarde, avant toute pose (0 = jamais posée dans ce monde).
         DonneesStructures lues = DonneesStructures.de(royaume);
-        RoyaumeDesIdees.LOGGER.info("[verification] Versions lues au chargement : caverne={}, portail_retour={}",
-                lues.version("caverne"), lues.version("portail_retour"));
+        for (StructureRoyaume structure : StructuresRoyaume.TOUTES) {
+            RoyaumeDesIdees.LOGGER.info("[verification] Version lue au chargement : {}={}", structure.id(), lues.version(structure.id()));
+        }
         // Structures : pose forcée, contrôle de quelques blocs, puis casse et repose d'un bloc du cadre.
         for (StructureRoyaume structure : StructuresRoyaume.TOUTES) {
             PoseurStructures.poser(royaume, structure, true);
@@ -141,6 +143,7 @@ public final class VerificationDev {
         PoseurStructures.poser(royaume, StructuresRoyaume.PORTAIL_RETOUR, true);
         erreurs += controle(royaume, cadre, ModBlocs.PIERRE_OMBRE_TAILLEE.get(), "cadre reposé après casse");
 
+        erreurs += verifierJardin(royaume);
         erreurs += verifierPortails(evenement.getServer().overworld());
         erreurs += verifierButinVillage(evenement.getServer().overworld());
 
@@ -152,6 +155,42 @@ public final class VerificationDev {
         }
         RoyaumeDesIdees.LOGGER.info("[verification] (0, 65, 0) biome {} {}", biomeCaverne, caverneOk ? "OK" : "ECHEC");
         RoyaumeDesIdees.LOGGER.info("[verification] Royaume : {}", erreurs == 0 ? "OK" : erreurs + " ECHEC(S)");
+    }
+
+    /** Jardin de Milan (v0.2) : blocs clés des structures, et Culpabilité insensible au lait. */
+    private static int verifierJardin(ServerLevel royaume) {
+        int erreurs = 0;
+        erreurs += controle(royaume, StructuresJardin.POS_CONFESSIONNAL, ModBlocs.CONFESSIONNAL.get(), "Confessionnal (bas)");
+        erreurs += controle(royaume, StructuresJardin.POS_CONFESSIONNAL.above(), ModBlocs.CONFESSIONNAL.get(), "Confessionnal (haut)");
+        erreurs += controle(royaume, StructuresJardin.POS_FIGUIER, ModBlocs.BOIS_FIGUIER.get(), "tronc du figuier");
+        erreurs += controle(royaume, StructuresJardin.POS_LUTRIN, Blocks.LECTERN, "lutrin de la villa");
+        erreurs += controle(royaume, StructuresJardin.POS_ETAL, ModBlocs.ETAL_VERGER.get(), "Étal du verger");
+        erreurs += controle(royaume, StructuresJardin.POS_POIRIER, Blocks.OAK_LOG, "pied du premier poirier");
+        erreurs += controle(royaume, StructuresJardin.POS_PANNEAU, Blocks.OAK_SIGN, "panneau du verger");
+        int poires = 0;
+        int feuilles = 0;
+        for (BlockPos pos : BlockPos.betweenClosed(StructuresJardin.POS_POIRIER.offset(-2, 2, -2), StructuresJardin.POS_POIRIER.offset(2, 6, 2))) {
+            BlockState etat = royaume.getBlockState(pos);
+            if (etat.is(ModBlocs.FEUILLES_POIRIER.get())) {
+                feuilles++;
+                poires += etat.getValue(com.royaumedesidees.bloc.FeuillesPoirierBloc.POIRES) ? 1 : 0;
+            }
+        }
+        boolean poirierOk = feuilles >= 20 && poires >= feuilles / 2;
+        erreurs += poirierOk ? 0 : 1;
+        RoyaumeDesIdees.LOGGER.info("[verification] Premier poirier : {} feuilles dont {} chargées de poires : {}", feuilles, poires, poirierOk ? "OK" : "ECHEC");
+        if (royaume.getBlockEntity(StructuresJardin.POS_PANNEAU) instanceof net.minecraft.world.level.block.entity.SignBlockEntity panneau) {
+            String ligne = panneau.getFrontText().getMessage(0, false).getContents().toString();
+            boolean texteOk = ligne.contains("panneau.royaumedesidees.verger.lucius");
+            erreurs += texteOk ? 0 : 1;
+            RoyaumeDesIdees.LOGGER.info("[verification] Texte du panneau : {} {}", ligne, texteOk ? "OK" : "ECHEC");
+        }
+        java.util.Set<net.neoforged.neoforge.common.EffectCure> remedes = new net.minecraft.world.effect.MobEffectInstance(
+                com.royaumedesidees.registre.ModEffets.CULPABILITE, -1, 0).getCures();
+        boolean laitSansEffet = !remedes.contains(net.neoforged.neoforge.common.EffectCures.MILK);
+        erreurs += laitSansEffet ? 0 : 1;
+        RoyaumeDesIdees.LOGGER.info("[verification] Culpabilité insensible au lait (remèdes {}) : {}", remedes, laitSansEffet ? "OK" : "ECHEC");
+        return erreurs;
     }
 
     /** Tire 1000 coffres de maison de village : Tolle, Lege doit sortir dans environ 15 % d'entre eux. */
