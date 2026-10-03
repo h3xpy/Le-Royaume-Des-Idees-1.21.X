@@ -349,7 +349,7 @@ La carte du Royaume est figée dès la v0.1 ; les versions suivantes n'ajoutent 
 
 1. **Une carte fixe et finie.** Le Royaume est une grande île d'environ 2 000 x 2 000 blocs entourée de vide. Chaque biome occupe une zone définie par ses coordonnées, pas par le hasard. La carte est donc identique à chaque génération.
 2. **Relief et biomes terminés en v0.1.** Tout le terrain des cinq biomes est livré dès la première version, même si les biomes sont encore vides de PNJ.
-3. **Structures posées par le mod, pas par la génération.** Chaque structure a des coordonnées fixes et un numéro de version. Quand un joueur s'approche, le mod vérifie si elle est construite et à jour, et la pose ou la remplace si besoin.
+3. **Structures posées par le mod, pas par la génération.** Chaque structure a des coordonnées fixes et un numéro de version. Au démarrage du serveur, le mod vérifie si elle est construite et à jour, et la pose ou la remplace si besoin : tout est en place avant l'arrivée des joueurs.
 4. **Ne jamais renommer ni supprimer un identifiant.** Un bloc ou un item retiré du mod disparaît des coffres et du monde. Les objets abandonnés restent enregistrés, juste cachés du menu créatif.
 5. **Plan B : la remise à zéro.** La dimension vit dans son propre dossier de sauvegarde. On peut la supprimer serveur éteint sans toucher à l'Overworld ni au Nether. À réserver aux cas graves, en prévenant les joueurs.
 

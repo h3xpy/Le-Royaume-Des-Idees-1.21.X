@@ -4,6 +4,8 @@ Journal tenu par Claude Code.
 
 ## Version en cours
 
+v0.3 — Les PNJ : spec `docs/specs/v0.3-pnj.md` rédigée le 2026-10-03, en attente de validation (six questions).
+
 v0.2 — Le Jardin : spec `docs/specs/v0.2-jardin.md` validée le 2026-10-03. Code terminé et vérifié automatiquement ; checklist `docs/tests/v0.2.md` à passer par Maxime.
 
 | Étape | État |
