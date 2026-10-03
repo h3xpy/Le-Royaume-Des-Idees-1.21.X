@@ -4,7 +4,9 @@ Journal tenu par Claude Code.
 
 ## Version en cours
 
-v0.1 — Les fondations : code terminé, en attente des tests en jeu (`docs/tests/v0.1.md`).
+v0.2 — Le Jardin : spec `docs/specs/v0.2-jardin.md` rédigée, en attente de validation.
+
+v0.1 — Les fondations : terminée et validée en jeu par Maxime le 2026-10-03 (checklist `docs/tests/v0.1.md` passée, y compris sur serveur local).
 
 | Étape | État |
 | --- | --- |
@@ -19,7 +21,7 @@ v0.1 — Les fondations : code terminé, en attente des tests en jeu (`docs/test
 | 6. Système de pose des structures | Fait |
 | 7. Portail et livre | Fait |
 | 8. Caverne jouable | Fait |
-| 9. Fin de version (tests, docs, serveur) | Fait ; checklist `docs/tests/v0.1.md` à passer par Maxime |
+| 9. Fin de version (tests, docs, serveur) | Fait ; checklist passée par Maxime |
 
 ## Fait
 
