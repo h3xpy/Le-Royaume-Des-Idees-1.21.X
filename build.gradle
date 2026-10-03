@@ -107,6 +107,12 @@ neoForge {
     }
 }
 
+// Le Royaume : la console du serveur local (runServer) reçoit ce qu'on tape dans le terminal,
+// pour pouvoir taper « stop » (sauvegarde puis arrêt propre) ou « op <pseudo> ».
+tasks.named('runServer') {
+    standardInput = System.in
+}
+
 // Sets up a dependency configuration called 'localRuntime'.
 // This configuration should be used instead of 'runtimeOnly' to declare
 // a dependency that will be present for runtime testing but that is

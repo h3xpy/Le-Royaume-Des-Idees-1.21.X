@@ -4,7 +4,7 @@ Journal tenu par Claude Code.
 
 ## Version en cours
 
-v0.2 — Le Jardin : spec `docs/specs/v0.2-jardin.md` rédigée, en attente de validation.
+v0.2 — Le Jardin : spec `docs/specs/v0.2-jardin.md` validée le 2026-10-03, en cours.
 
 v0.1 — Les fondations : terminée et validée en jeu par Maxime le 2026-10-03 (checklist `docs/tests/v0.1.md` passée, y compris sur serveur local).
 
@@ -99,6 +99,7 @@ v0.1 — Les fondations : terminée et validée en jeu par Maxime le 2026-10-03 
 - 2026-10-03 : la Lanterne est donnée par magie à la première sortie (« une vieille lanterne t'attendait »), pas par un PNJ : Diogène n'arrive qu'en v0.5. Si l'inventaire est plein, elle tombe aux pieds du joueur.
 - 2026-10-03 : la sortie se déclenche à chaque fois qu'un joueur remonte de la Caverne ou du tunnel jusqu'à l'air libre au débouché du tunnel (aveuglement et message à chaque fois, succès et Lanterne la première fois seulement).
 - 2026-10-03 : la visite de développement ferme le jeu toute seule après avoir sauvegardé, pour qu'on ne la prenne pas pour un blocage.
+- 2026-10-03 : la console du serveur local reçoit ce qu'on tape dans le terminal (`build.gradle`, tâche `runServer`) : taper `stop` l'arrête proprement. En développement, la licence de Minecraft est acceptée d'office : pas de `eula.txt` à remplir.
 
 ## Coordonnées réservées des structures
 
