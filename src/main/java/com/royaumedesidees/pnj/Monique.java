@@ -16,7 +16,9 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.MoveTowardsRestrictionGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -28,34 +30,39 @@ import java.util.UUID;
  * Sainte Monique, la mère d'Augustin, qui a prié et pleuré des années pour sa conversion (« il est impossible que le
  * fils de tant de larmes périsse », Confessions, III, 12).
  * <p>
- * Chaque joueur a sa Monique : elle apparaît à son premier péché dans le Royaume et le suit partout dans la
- * dimension (voir {@link SuiviMonique}). Elle pleure tant qu'il n'a pas la Voie du Cœur, plus fort à partir de la
- * Culpabilité III : ce sont ses sanglots qu'on entend, là où elle est. Invincible ; frappée, elle pleure plus fort.
- * Nourrie, elle rapporte de la Grâce une fois par jour. Elle n'est jamais sauvegardée : quand son joueur quitte le
- * Royaume ou le serveur, elle s'en va, et elle revient avec lui.
+ * Il n'y a qu'une Monique sur le serveur. Elle vit au jardin de la villa d'Augustin, et va pleurer auprès du plus grand
+ * pécheur du Royaume (voir {@link SuiviMonique}) : elle le suit, se téléporte s'il s'éloigne, et pleure, plus fort à
+ * partir de sa Culpabilité III. Quand plus personne n'a besoin d'elle, elle rentre prier au jardin, en silence.
+ * Invincible ; frappée, elle pleure plus fort. Tout le monde peut la nourrir, une fois par jour, contre de la Grâce.
+ * Elle n'est jamais sauvegardée : elle réapparaît au jardin ou auprès de son pécheur.
  */
 public class Monique extends PnjRoyaume {
     /** Durée du plus long des trois extraits de sanglots (5,2 s), arrondie : jamais deux sanglots à la fois. */
     private static final int DUREE_SANGLOT = 110;
 
-    private UUID proprietaire;
+    private UUID cible;
     private long prochainSanglot;
 
     public Monique(EntityType<? extends Monique> type, Level niveau) {
         super(type, niveau, ChatFormatting.LIGHT_PURPLE);
     }
 
-    public void setProprietaire(ServerPlayer joueur) {
-        this.proprietaire = joueur.getUUID();
+    /** Le pécheur auprès de qui elle pleure (null : elle prie au jardin). */
+    public UUID cible() {
+        return cible;
     }
 
-    public UUID proprietaire() {
-        return proprietaire;
+    public void setCible(ServerPlayer joueur) {
+        this.cible = joueur == null ? null : joueur.getUUID();
+        if (cible == null && maison() != null) {
+            restrictTo(maison(), 3);
+        } else {
+            clearRestriction();
+        }
     }
 
-    private ServerPlayer joueur() {
-        return proprietaire == null || !(level() instanceof ServerLevel monde) ? null
-                : (ServerPlayer) monde.getPlayerByUUID(proprietaire);
+    ServerPlayer joueurCible() {
+        return cible == null || !(level() instanceof ServerLevel monde) ? null : (ServerPlayer) monde.getPlayerByUUID(cible);
     }
 
     @Override
@@ -71,15 +78,16 @@ public class Monique extends PnjRoyaume {
     @Override
     protected void registerGoals() {
         goalSelector.addGoal(0, new FloatGoal(this));
-        goalSelector.addGoal(1, new SuivreSonFils());
+        goalSelector.addGoal(1, new SuivreLePecheur());
+        goalSelector.addGoal(2, new MoveTowardsRestrictionGoal(this, 0.6));
+        goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 0.3));
         goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 8.0F));
         goalSelector.addGoal(7, new RandomLookAroundGoal(this));
     }
 
-    /** Vrai tant que son joueur n'a pas la Voie du Cœur. */
+    /** Vrai tant qu'elle accompagne un pécheur. */
     public boolean pleure() {
-        ServerPlayer joueur = joueur();
-        return joueur != null && Grace.voie(joueur) != Voie.COEUR;
+        return joueurCible() != null;
     }
 
     @Override
@@ -88,24 +96,24 @@ public class Monique extends PnjRoyaume {
         if (!(level() instanceof ServerLevel monde)) {
             return;
         }
-        ServerPlayer joueur = joueur();
-        if (joueur == null || joueur.level() != monde || joueur.isSpectator()) {
-            discard();
+        ServerPlayer joueur = joueurCible();
+        if (joueur == null) {
+            if (cible != null) {
+                setCible(null);
+            }
             return;
         }
-        if (pleure()) {
-            if (tickCount % 15 == 0) {
-                monde.sendParticles(ParticleTypes.FALLING_WATER, getX(), getEyeY() - 0.15, getZ(), 2, 0.15, 0.05, 0.15, 0.0);
-            }
-            if (monde.getGameTime() >= prochainSanglot) {
-                sangloter(monde, joueur, false);
-            }
+        if (tickCount % 15 == 0) {
+            monde.sendParticles(ParticleTypes.FALLING_WATER, getX(), getEyeY() - 0.15, getZ(), 2, 0.15, 0.05, 0.15, 0.0);
+        }
+        if (monde.getGameTime() >= prochainSanglot) {
+            sangloter(monde, Culpabilite.niveau(joueur) >= 3);
         }
     }
 
-    /** Un sanglot, puis un silence de 8 à 20 secondes ; plus fort si le joueur croule sous la Culpabilité. */
-    private void sangloter(ServerLevel monde, ServerPlayer joueur, boolean plusFort) {
-        float volume = plusFort || Culpabilite.niveau(joueur) >= 3 ? 1.2F : 0.6F;
+    /** Un sanglot, puis un silence de 8 à 20 secondes. */
+    private void sangloter(ServerLevel monde, boolean plusFort) {
+        float volume = plusFort ? 1.2F : 0.6F;
         monde.playSound(null, getX(), getY(), getZ(), ModSons.SANGLOTS.get(), SoundSource.NEUTRAL, volume, 0.95F + getRandom().nextFloat() * 0.1F);
         prochainSanglot = monde.getGameTime() + DUREE_SANGLOT + 160 + getRandom().nextInt(240);
     }
@@ -114,25 +122,25 @@ public class Monique extends PnjRoyaume {
     protected void reagirCoup(ServerPlayer joueur) {
         parler(joueur, "coup");
         if (level() instanceof ServerLevel monde && monde.getGameTime() >= prochainSanglot - 240) {
-            sangloter(monde, joueur, true);
+            sangloter(monde, true);
         }
     }
 
     @Override
     protected void parleAvec(ServerPlayer joueur) {
         ItemStack main = joueur.getMainHandItem();
-        if (joueur.getUUID().equals(proprietaire) && main.has(DataComponents.FOOD)) {
+        if (main.has(DataComponents.FOOD)) {
             nourrir(joueur, main);
-            return;
-        }
-        if (!joueur.getUUID().equals(proprietaire)) {
-            parler(joueur, "pas_mon_fils");
+        } else if (joueur.getUUID().equals(cible)) {
+            parler(joueur, "bonjour");
+        } else if (Grace.voie(joueur) == Voie.COEUR) {
+            parler(joueur, "apaisee");
         } else {
-            parler(joueur, pleure() ? "bonjour" : "apaisee");
+            parler(joueur, pleure() ? "pas_mon_fils" : "priere");
         }
     }
 
-    /** Nourrir Monique : +3 de Grâce, une fois par jour de jeu. Après, elle accepte, mais ça ne rapporte rien. */
+    /** Nourrir Monique : +3 de Grâce, une fois par jour de jeu et par joueur. Après, elle remercie, sans plus. */
     private void nourrir(ServerPlayer joueur, ItemStack nourriture) {
         nourriture.consume(1, joueur);
         heal(4.0F);
@@ -149,23 +157,23 @@ public class Monique extends PnjRoyaume {
         Grace.ajouter(joueur, 3, "monique");
     }
 
-    /** Suit son joueur à pas lents ; s'il est trop loin ou hors de vue, elle le rejoint d'un coup. */
-    private class SuivreSonFils extends Goal {
+    /** Suit son pécheur à pas lents ; s'il est trop loin, elle le rejoint d'un coup. */
+    private class SuivreLePecheur extends Goal {
         private int prochainChemin;
 
-        SuivreSonFils() {
+        SuivreLePecheur() {
             setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
         }
 
         @Override
         public boolean canUse() {
-            ServerPlayer joueur = joueur();
+            ServerPlayer joueur = joueurCible();
             return joueur != null && distanceToSqr(joueur) > 9.0;
         }
 
         @Override
         public boolean canContinueToUse() {
-            ServerPlayer joueur = joueur();
+            ServerPlayer joueur = joueurCible();
             return joueur != null && distanceToSqr(joueur) > 4.0;
         }
 
@@ -176,7 +184,7 @@ public class Monique extends PnjRoyaume {
 
         @Override
         public void tick() {
-            ServerPlayer joueur = joueur();
+            ServerPlayer joueur = joueurCible();
             if (joueur == null) {
                 return;
             }

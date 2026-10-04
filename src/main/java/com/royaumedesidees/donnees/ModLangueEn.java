@@ -107,10 +107,16 @@ public class ModLangueEn extends LanguageProvider {
         add("pnj.royaumedesidees.ambroise.bonjour", "*Ambrose looks up from his book, then down again, without a word.*");
         add("pnj.royaumedesidees.ambroise.coup", "*Ambrose turns a page, without a word.*");
         add("pnj.royaumedesidees.monique.coup", "*Monica weeps louder.*");
-        add("message.royaumedesidees.monique.arrive", "§dSaint Monica§r joins you, in tears. She will not leave you until you are converted.");
+        add("message.royaumedesidees.monique.arrive", "§dSaint Monica§r hurries to you, in tears: you are the greatest sinner in the Kingdom.");
+        add("message.royaumedesidees.monique.revient", "§dMonica§r comes back to pray for you: no one here has a heavier soul.");
+        add("message.royaumedesidees.monique.quitte", "§dMonica§r leaves you for %1$s, who needs her more than you.");
+        add("message.royaumedesidees.monique.rentre", "§dMonica§r dries her tears and goes back to pray in the villa garden.");
+        add("pnj.royaumedesidees.monique.pas_mon_fils", "It is not for you that I weep today. But I will pray for you too.");
+        add("pnj.royaumedesidees.monique.priere", "*Monica prays in silence.* As long as no one sins, I can pray in peace.");
+        add("panneau.royaumedesidees.direction.bibliotheque.1", "To Ambrose's");
+        add("panneau.royaumedesidees.direction.bibliotheque.2", "library");
         add("pnj.royaumedesidees.monique.bonjour", "*Monica weeps.* So many tears… The son of so many tears cannot perish.");
         add("pnj.royaumedesidees.monique.apaisee", "*Monica smiles, at peace.* My prayers are answered. I can go in peace.");
-        add("pnj.royaumedesidees.monique.pas_mon_fils", "You are not my son. But I will pray for you too.");
         add("pnj.royaumedesidees.monique.nourrie", "*Monica eats in silence, then blesses you.*");
         add("pnj.royaumedesidees.monique.repue", "Thank you, but I have already eaten today. Keep it for the poor.");
         add("message.royaumedesidees.grace.raison.monique", "Monica fed");
@@ -119,6 +125,7 @@ public class ModLangueEn extends LanguageProvider {
         add("message.royaumedesidees.pascal.merci", "Pascal thanks %1$s for hitting him.");
         // v0.3 : Bibliothèque d'Ambroise, cellule de Pascal
         add("block.royaumedesidees.pupitre_ambroise", "Ambrose's Lectern");
+        add("tooltip.royaumedesidees.actif_partout", "Also works outside the Kingdom");
         add("message.royaumedesidees.silence.chut", "Hush. Ambrose is reading.");
         add("panneau.royaumedesidees.bibliotheque.1", "Silentium.");
         add("panneau.royaumedesidees.bibliotheque.2", "Here Ambrose");

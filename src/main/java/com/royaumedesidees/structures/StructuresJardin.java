@@ -478,7 +478,7 @@ public final class StructuresJardin {
     private static final int VILLA_BAS = solMin(VX - 16, VZ - 30, VX + 16, VZ + 16);
 
     /** La maison milanaise d'Augustin : domus à atrium, jardin à colonnade au nord, Étal du verger devant l'entrée. */
-    public static final StructureRoyaume VILLA_AUGUSTIN = new StructureRoyaume("villa_augustin", 2,
+    public static final StructureRoyaume VILLA_AUGUSTIN = new StructureRoyaume("villa_augustin", 3,
             new BoundingBox(VX - 16, VILLA_BAS - 2, VZ - 30, VX + 16, VILLA_SOL + 14, VZ + 16),
             StructuresJardin::villa);
 
@@ -915,6 +915,8 @@ public final class StructuresJardin {
         // Bouts de chemin jusqu'au bord du domaine, où les chemins du Jardin prennent le relais.
         CheminsJardin.tracer(pose, new double[][]{{VX - 11.5, VZ - 2.5}, {VX - 16.5, VZ - 2.5}}, 1.2, 61, false);
         CheminsJardin.tracer(pose, new double[][]{{VX + 0.5, VZ - 23.5}, {VX + 0.5, VZ - 30.5}}, 1.2, 62, false);
+        // Branche vers la Bibliothèque d'Ambroise, au nord-est.
+        CheminsJardin.tracer(pose, new double[][]{{VX + 0.5, VZ - 27.5}, {VX + 6.0, VZ - 29.5}, {VX + 12.5, VZ - 30.5}}, 1.2, 65, false);
         CheminsJardin.tracer(pose, new double[][]{{VX + 0.5, VZ + 14.5}, {VX + 0.5, VZ + 16.5}}, 2.2, 63, false);
 
         // Cyprès de part et d'autre des escaliers sud et nord.
@@ -940,8 +942,10 @@ public final class StructuresJardin {
         // Panneaux de direction aux deux sorties.
         Decor.panneau(pose, Blocks.SPRUCE_SIGN, VX - 13, sol(VX - 13, VZ - 5) + 1, VZ - 5, 4,
                 "panneau.royaumedesidees.direction.vergers.1", "panneau.royaumedesidees.direction.vergers.2");
-        Decor.panneau(pose, Blocks.SPRUCE_SIGN, VX + 2, sol(VX + 2, VZ - 27) + 1, VZ - 27, 8,
+        Decor.panneau(pose, Blocks.SPRUCE_SIGN, VX - 2, sol(VX - 2, VZ - 27) + 1, VZ - 27, 8,
                 "panneau.royaumedesidees.direction.figuier.1", "panneau.royaumedesidees.direction.figuier.2");
+        Decor.panneau(pose, Blocks.SPRUCE_SIGN, VX + 6, sol(VX + 6, VZ - 27) + 1, VZ - 27, 8,
+                "panneau.royaumedesidees.direction.bibliotheque.1", "panneau.royaumedesidees.direction.bibliotheque.2");
     }
 
     // ================================================================== Vergers
@@ -1133,6 +1137,8 @@ public final class StructuresJardin {
     public static final BlockPos POS_LUTRIN = new BlockPos(VX - 1, VILLA_SOL, VZ - 8);
     public static final BlockPos POS_ETAL = new BlockPos(VX + 3, VILLA_SOL, VZ + 12);
     public static final BlockPos POS_ATRIUM = new BlockPos(VX, VILLA_SOL, VZ + 3);
+    /** Où vit Monique : l'allée du jardin à colonnade, près de la porte de la maison. */
+    public static final BlockPos POS_JARDIN = new BlockPos(VX, VILLA_SOL, VZ - 13);
     /** Maison d'Adéodat : le tablinum, où sont les livres de son père. */
     public static final BlockPos POS_TABLINUM = new BlockPos(VX, VILLA_SOL, VZ - 7);
     /** Pied du premier poirier du verger de Lucius. */

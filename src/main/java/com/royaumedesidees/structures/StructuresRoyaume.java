@@ -61,7 +61,7 @@ public final class StructuresRoyaume {
             StructuresJardin.CONFESSIONNAL_CENTRE, StructuresJardin.FIGUIER,
             StructuresJardin.VILLA_AUGUSTIN, StructuresJardin.VERGERS_STRUCTURE,
             CheminsJardin.CHEMIN_VILLA_VERGERS, CheminsJardin.CHEMIN_VILLA_FIGUIER,
-            StructuresPnj.BIBLIOTHEQUE_AMBROISE, StructuresPnj.PORT_ROYAL);
+            StructuresPnj.BIBLIOTHEQUE_AMBROISE, StructuresPnj.PORT_ROYAL, CheminsJardin.CHEMIN_VILLA_BIBLIOTHEQUE);
 
     private StructuresRoyaume() {
     }

@@ -107,10 +107,16 @@ public class ModLangueFr extends LanguageProvider {
         add("pnj.royaumedesidees.ambroise.bonjour", "*Ambroise lève les yeux de son livre, puis les rabaisse, sans un mot.*");
         add("pnj.royaumedesidees.ambroise.coup", "*Ambroise tourne une page, sans un mot.*");
         add("pnj.royaumedesidees.monique.coup", "*Monique pleure plus fort.*");
-        add("message.royaumedesidees.monique.arrive", "§dSainte Monique§r te rejoint, en larmes. Elle ne te lâchera plus tant que tu ne seras pas converti.");
+        add("message.royaumedesidees.monique.arrive", "§dSainte Monique§r accourt vers toi, en larmes : tu es le plus grand pécheur du Royaume.");
+        add("message.royaumedesidees.monique.revient", "§dMonique§r revient prier pour toi : personne ici n'a l'âme plus lourde.");
+        add("message.royaumedesidees.monique.quitte", "§dMonique§r te quitte pour %1$s, qui en a plus besoin que toi.");
+        add("message.royaumedesidees.monique.rentre", "§dMonique§r sèche ses larmes et rentre prier au jardin de la villa.");
+        add("pnj.royaumedesidees.monique.pas_mon_fils", "Ce n'est pas pour toi que je pleure aujourd'hui. Mais je prierai aussi pour toi.");
+        add("pnj.royaumedesidees.monique.priere", "*Monique prie en silence.* Tant que personne ne pèche, je peux prier en paix.");
+        add("panneau.royaumedesidees.direction.bibliotheque.1", "À la bibliothèque");
+        add("panneau.royaumedesidees.direction.bibliotheque.2", "d'Ambroise");
         add("pnj.royaumedesidees.monique.bonjour", "*Monique pleure.* Tant de larmes… Il est impossible que le fils de tant de larmes périsse.");
         add("pnj.royaumedesidees.monique.apaisee", "*Monique sourit, apaisée.* Mes prières sont exaucées. Je peux m'en aller en paix.");
-        add("pnj.royaumedesidees.monique.pas_mon_fils", "Tu n'es pas mon fils. Mais je prierai aussi pour toi.");
         add("pnj.royaumedesidees.monique.nourrie", "*Monique mange en silence, puis te bénit.*");
         add("pnj.royaumedesidees.monique.repue", "Merci, mais j'ai déjà mangé aujourd'hui. Garde ça pour les pauvres.");
         add("message.royaumedesidees.grace.raison.monique", "Monique nourrie");
@@ -119,6 +125,7 @@ public class ModLangueFr extends LanguageProvider {
         add("message.royaumedesidees.pascal.merci", "Pascal remercie %1$s de l'avoir frappé.");
         // v0.3 : Bibliothèque d'Ambroise, cellule de Pascal
         add("block.royaumedesidees.pupitre_ambroise", "Pupitre d'Ambroise");
+        add("tooltip.royaumedesidees.actif_partout", "Fonctionne aussi hors du Royaume");
         add("message.royaumedesidees.silence.chut", "Chut. Ambroise lit.");
         add("panneau.royaumedesidees.bibliotheque.1", "Silentium.");
         add("panneau.royaumedesidees.bibliotheque.2", "Ici, Ambroise");

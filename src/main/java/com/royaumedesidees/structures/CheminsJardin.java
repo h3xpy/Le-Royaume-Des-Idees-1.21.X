@@ -31,6 +31,13 @@ public final class CheminsJardin {
     private static final double[][] VILLA_FIGUIER = {
             {-199.5, -220.5}, {-205.0, -231.0}, {-219.0, -238.0}, {-232.0, -246.0}, {-239.0, -253.5}, {-242.5, -255.0}};
 
+    /** De la porte nord de la villa (branche est) au portail de l'atrium de la Bibliothèque d'Ambroise. */
+    private static final double[][] VILLA_BIBLIOTHEQUE = {
+            {-187.5, -221.0}, {-185.5, -240.0}, {-182.0, -262.0}, {-180.5, -284.0}, {-179.5, -302.5}};
+
+    public static final StructureRoyaume CHEMIN_VILLA_BIBLIOTHEQUE = new StructureRoyaume("chemin_villa_bibliotheque", 1,
+            boite(VILLA_BIBLIOTHEQUE, -192, -170, -302, -221), pose -> tracer(pose, VILLA_BIBLIOTHEQUE, 1.3, 73, true));
+
     public static final StructureRoyaume CHEMIN_VILLA_VERGERS = new StructureRoyaume("chemin_villa_vergers", 1,
             boite(VILLA_VERGERS, -293, -217), pose -> tracer(pose, VILLA_VERGERS, 1.3, 71, true));
 
@@ -39,6 +46,13 @@ public final class CheminsJardin {
 
     /** Premier bloc du chemin des vergers (pour la vérification). */
     public static final BlockPos POS_CHEMIN = new BlockPos(-220, Decor.sol(-220, -194), -194);
+
+    /** Boîte d'un chemin bornée en x et en z (pour ne toucher ni la villa ni la bibliothèque). */
+    private static BoundingBox boite(double[][] points, int xMin, int xMax, int zMin, int zMax) {
+        int y1 = Decor.solMin(xMin, zMin, xMax, zMax) - 2;
+        int y2 = Decor.solMax(xMin, zMin, xMax, zMax) + 18;
+        return new BoundingBox(xMin, y1, zMin, xMax, y2, zMax);
+    }
 
     /** Boîte d'un chemin, bornée en x pour ne jamais toucher les structures voisines. */
     private static BoundingBox boite(double[][] points, int xMin, int xMax) {

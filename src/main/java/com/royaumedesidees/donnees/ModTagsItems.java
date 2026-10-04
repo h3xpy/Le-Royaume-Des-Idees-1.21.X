@@ -23,6 +23,8 @@ public class ModTagsItems extends ItemTagsProvider {
     @Override
     protected void addTags(HolderLookup.Provider registres) {
         tag(ModTags.LIE_AU_ROYAUME).add(ModItems.LANTERNE_DIOGENE.get());
+        // Exceptions à « Royaume seulement » : leur effet marche aussi dans l'Overworld.
+        tag(ModTags.ACTIF_HORS_ROYAUME).add(ModItems.PUPITRE_AMBROISE.get());
         copy(BlockTags.LEAVES, ItemTags.LEAVES);
         copy(BlockTags.LOGS_THAT_BURN, ItemTags.LOGS_THAT_BURN);
         copy(BlockTags.PLANKS, ItemTags.PLANKS);

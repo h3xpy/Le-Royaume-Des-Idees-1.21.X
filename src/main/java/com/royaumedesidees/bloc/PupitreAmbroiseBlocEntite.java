@@ -1,7 +1,10 @@
 package com.royaumedesidees.bloc;
 
 import com.royaumedesidees.registre.ModBlocsEntites;
+import com.royaumedesidees.registre.ModMonde;
+import com.royaumedesidees.registre.ModTags;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -17,7 +20,10 @@ public class PupitreAmbroiseBlocEntite extends BlockEntity {
     @Override
     public void onLoad() {
         super.onLoad();
-        if (level != null && !level.isClientSide) {
+        // Comme tout le Royaume, le pupitre n'agit que dans la dimension, sauf s'il est dans la liste des objets
+        // actifs partout (tag royaumedesidees:actif_hors_royaume).
+        if (level != null && !level.isClientSide && (level.dimension().equals(ModMonde.ROYAUME)
+                || new ItemStack(getBlockState().getBlock()).is(ModTags.ACTIF_HORS_ROYAUME))) {
             ZonesSilence.ajouter(level, worldPosition);
         }
     }
