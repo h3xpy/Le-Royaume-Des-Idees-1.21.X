@@ -91,6 +91,7 @@ public class ModLangueEn extends LanguageProvider {
         add("message.royaumedesidees.grace.raison.frappe", "struck without striking back");
         add("message.royaumedesidees.grace.raison.commande", "command");
         add("commande.royaumedesidees.grace.valeur", "%1$s: %2$s Grace, %3$s.");
+        add("commande.royaumedesidees.quetes.reinitialisees", "Quests, Path and learnt lectern reset for %1$s.");
         add("voie.royaumedesidees.aucune", "no Way");
         add("voie.royaumedesidees.raison", "Way of Reason");
         add("voie.royaumedesidees.coeur", "Way of the Heart");
@@ -210,6 +211,9 @@ public class ModLangueEn extends LanguageProvider {
         add("pnj.royaumedesidees.adeodat.repos", "One challenge at a time. Come back in %1$s seconds, even geniuses breathe.");
         add("pnj.royaumedesidees.adeodat.attends", "I'm waiting for your answer. In the chat.");
         add("message.royaumedesidees.silence.chut", "Hush. Ambrose is reading.");
+        add("message.royaumedesidees.pupitre.pas_appris", "First learn Ambrose's silence: 60 s near his lectern, without writing.");
+        add("message.royaumedesidees.pupitre.appris", "You have learnt to keep silent like Ambrose: you can now craft his lectern (a lectern, a book and a Shadow Stone), which brings silence wherever you place it, even outside the Kingdom.");
+        add("block.royaumedesidees.pupitre_ambroise.recette", "Crafted after 60 seconds of silence near Ambrose's lectern.");
         add("panneau.royaumedesidees.bibliotheque.1", "Silentium.");
         add("panneau.royaumedesidees.bibliotheque.2", "Here Ambrose");
         add("panneau.royaumedesidees.bibliotheque.3", "reads in silence.");

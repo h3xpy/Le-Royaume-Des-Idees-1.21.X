@@ -48,7 +48,7 @@ public final class ReponsesChat {
         }
         evenement.setCanceled(true);
         String texte = evenement.getRawText().trim();
-        joueur.sendSystemMessage(Component.literal("> " + texte).withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC));
+        joueur.displayClientMessage(Component.literal("> " + texte).withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC), true);
         joueur.server.execute(() -> attente.reponse().accept(texte));
     }
 

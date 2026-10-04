@@ -4,7 +4,7 @@ Journal tenu par Claude Code.
 
 ## Version en cours
 
-v0.3 — Les PNJ : spec `docs/specs/v0.3-pnj.md` validée le 2026-10-03, en cours.
+v0.3 — Les PNJ : spec `docs/specs/v0.3-pnj.md` validée le 2026-10-03. Code terminé et vérifié automatiquement le 2026-10-04 ; checklist `docs/tests/v0.3.md` à passer par Maxime.
 
 | Étape | État |
 | --- | --- |
@@ -14,7 +14,7 @@ v0.3 — Les PNJ : spec `docs/specs/v0.3-pnj.md` validée le 2026-10-03, en cour
 | 4. Augustin jeune, Adéodat, Ambroise, quête de conversion | Fait |
 | 5. Pascal, quête des impôts, effets des Voies | Fait |
 | 6. Sainte Monique | Fait (une seule Monique, apaisée quand son pécheur se convertit) |
-| 7. Fin de version (vérification, tests, docs) | À faire |
+| 7. Fin de version (vérification, tests, docs) | Fait ; version du mod passée à 0.3.0 |
 
 v0.2 — Le Jardin : spec `docs/specs/v0.2-jardin.md` validée le 2026-10-03. Code terminé et vérifié automatiquement ; checklist `docs/tests/v0.2.md` à passer par Maxime.
 
@@ -59,6 +59,8 @@ v0.1 — Les fondations : terminée et validée en jeu par Maxime le 2026-10-03 
 - v0.2 étape 3 : structures refaites en version 2. Villa : domus à atrium, impluvium, tablinum (Livres des Platoniciens, table de jeu), chambres, triclinium, cuisine, cellier, toit à compluvium, jardin à colonnade au nord. Vergers : murets moussus, allée, vigne de Patricius, porcherie. Jardin du figuier : haie, grand figuier, exèdre d'Alypius avec l'Épître aux Romains, puits, maison voisine. Confessionnal sous un baldaquin. Deux chemins (`chemin_villa_vergers`, `chemin_villa_figuier`). Outils communs : `Decor` (escaliers, plantes, panneaux, livres, cyprès, animaux) et le raccord des clôtures, murets, escaliers et vitres en fin de pose (`Pose.poserRaccorde`). Confession : 10 s entre deux confessions, claque si le même péché est répété.
 - v0.2 étape 4 : les sanglots ne se superposent plus (un à la fois, 53 s, puis 10 à 40 s de silence ; arrêt quand la Culpabilité retombe sous III ; son lu en flux). Toutes les structures sont posées au démarrage du serveur (8 structures en 1,7 s), la pose de proximité reste en filet de sécurité. Une nouvelle pose de la porcherie remplace ses cochons au lieu d'en ajouter.
 - v0.3, avant l'étape 2 : la Culpabilité devient elle aussi réservée au Royaume (pause hors de la dimension, confession refusée ailleurs, cueillette hors du Royaume sans vol). Vérifié en jeu : 0 dans l'Overworld, niveau retrouvé au retour.
+- v0.3 étape 7 : checklist `docs/tests/v0.3.md`, commande opérateur `/royaume quetes <joueur> reinitialiser` (rejouer les quêtes), `mod_version` à 0.3.0. Visite automatique : craft du pupitre vide avant le silence puis accepté, Livre des Confessions qui soigne dans l'Overworld, les deux quêtes de bout en bout avec la boîte de dialogue.
+- v0.3, retours de Maxime après l'étape 5 : les PNJ parlent dans une boîte de dialogue en haut de l'écran (nom en couleur, réplique dessous, file d'attente d'au moins 3 s par réplique ; les questions de Pascal et d'Adéodat restent affichées tant qu'on peut répondre) au lieu du chat, qui garde les étapes de quête, les astuces et les annonces au serveur ; l'écho des réponses passe au-dessus de la barre d'objets. Les messages au-dessus de la barre d'objets restent 7 s au lieu de 3 (mixin client sur `Gui`). Le Pupitre d'Ambroise ne se fabrique qu'après 60 s de silence près de son pupitre (donnée `pupitre_appris`, recette ajoutée au livre de recettes ; le résultat du craft reste vide avant, par un mixin sur la grille de craft ; acquis d'office pour qui avait déjà passé l'étape du silence). Le Livre des Confessions marche aussi hors du Royaume. Le rire d'Augustin utilise `augustin_rire.ogg`.
 - v0.3 étape 5 : quête des impôts de Rouen (`QueteImpots`, donnée `quete_impots`), vérifiée en jeu : trois additions en livres, sols et deniers à donner dans le chat (la première est celle des comptes du lutrin de la cellule), Voie de la Raison et 20 de Grâce à la fin. Effets des Voies dans le Royaume seulement (`grace/Voies`) : minage +15 % (Raison) ou −15 % (Cœur), Voie après le pseudo dans la liste TAB, annonce au serveur ; changer de Voie coûte 50 de Grâce, auprès de Pascal ou d'Ambroise.
 - v0.3, découvrabilité (demande de Maxime : tout doit pouvoir se découvrir en jeu) : commande `/quete` (journal des quêtes, ouverte à tous, avec les lieux et leurs coordonnées), astuces affichées une fois (première entrée dans le Royaume, première Culpabilité, première Grâce ; donnée `astuces`), rappel en entrant dans la zone de silence, infobulles sur Tolle, Lege, le Confessionnal, le Pupitre, l'Étal et les feuilles de poirier, étapes de quête qui disent où aller, figuier qui répond quand on s'y accroupit trop tôt (et sa zone élargie à 9 blocs : toute la couronne). Déroulé des quêtes dans `docs/quetes.md`. Ambroise tourne des pages (son de Minecraft) en lisant, quand on lui parle et quand on le frappe ; Augustin rit (rire de la sorcière, plus aigu). Monique rattrape son pécheur s'il s'éloigne de plus de 32 blocs (sinon elle restait figée là où le serveur ne la faisait plus vivre).
 - v0.3 étape 4 : quête de conversion (`QueteConversion`, donnée `quete_conversion`) vérifiée de bout en bout en jeu : 3 poires volées avec Augustin jeune (qui accourt quand on vole près de lui, sauf dans le silence d'Ambroise ; il vit désormais dans l'allée des vergers), 60 s de silence près du pupitre d'Ambroise (une ligne de chat tentée remet le compteur à zéro), larmes sous le figuier (accroupi 5 s) puis voix d'enfant en notes de flûte depuis la fenêtre de la maison voisine, lecture de l'Épître aux Romains au lutrin de l'exèdre d'Alypius, baptême par Ambroise : Voie du Cœur annoncée au serveur, Livre des Confessions (soigne de 4 cœurs les joueurs à 6 blocs, une fois par minute, Royaume et convertis seulement), Sceau de la Conversion (tag `royaumedesidees:sceaux`, pour l'Autel en v1.0), +20 de Grâce ; Monique pleure de joie et rentre au jardin. Changer de Voie au baptême coûte 50 de Grâce à un joueur de la Raison. Défis d'Adéodat (addition ou multiplication, 15 s, +2 de Grâce, humiliation publique si raté, un défi par minute). Textures `tools/textures/quete_v03.py`.
@@ -139,8 +141,10 @@ v0.1 — Les fondations : terminée et validée en jeu par Maxime le 2026-10-03 
 - 2026-10-03 : des cochons apparaissent avec la porcherie (une fois, à la pose). Le sol de l'enclos est aplani et rien n'est posé contre la clôture, sinon ils s'échappent.
 - 2026-10-03 : les chemins sont des structures séparées dont la boîte ne chevauche aucun bâtiment, car remplacer une structure remet toute sa boîte dans l'état d'origine.
 - 2026-10-03 : à la demande de Maxime, les structures sont là dès la création du monde. Elles restent posées par le système de pose (pas par la génération du monde, comme le veut CLAUDE.md), mais au démarrage du serveur au lieu d'attendre qu'un joueur approche.
+- 2026-10-04 : les PNJ ne parlent plus dans le chat mais dans une boîte de dialogue (demande de Maxime : trop de messages). Le chat garde ce qu'il faut pouvoir relire : étapes de quête, astuces, annonces au serveur. `/quete` redit l'étape en cours.
+- 2026-10-04 : premier mixin du mod (`royaumedesidees.mixins.json`) : la grille de craft (Pupitre d'Ambroise) et la durée des messages de la barre d'objets. NeoForge n'a pas d'évènement pour refuser un craft.
 - 2026-10-04 : tout doit pouvoir se découvrir en jeu (Maxime) : pour chaque nouvelle mécanique, un message, une infobulle ou une ligne de `/quete` doit dire quoi faire et où. Le déroulé de chaque quête est résumé dans `docs/quetes.md`, et dans le compte rendu à Maxime.
-- 2026-10-04 : les sons d'Ambroise (page) et d'Augustin (rire) sont ceux de Minecraft : rien à fournir. Les évènements `ambroise_page` et `augustin_rire` restent déclarés (identifiants définitifs).
+- 2026-10-04 : le son d'Ambroise (page) est celui de Minecraft : rien à fournir. Le rire d'Augustin est `augustin_rire.ogg`, fourni par Maxime. Les évènements `ambroise_page` et `augustin_rire` restent déclarés (identifiants définitifs).
 - 2026-10-04 : Augustin jeune vit dans l'allée des vergers (et non dans l'atrium de la villa) : il doit accourir quand on vole une poire à moins de 32 blocs de lui, et le jeune Augustin vole des poires près de la vigne de son père (Confessions, II). Un ancien Augustin resté à l'atrium s'efface tout seul.
 - 2026-10-04 : la voix d'enfant (« Prends, lis ») est jouée en notes de flûte depuis la fenêtre de la maison voisine, en attendant un vrai son.
 - 2026-10-04 : une seule Monique sur le serveur, comme dans l'histoire. Elle vit au jardin de la villa et va pleurer auprès du plus grand pécheur du Royaume (joueur sans la Voie du Cœur, avec le plus de Culpabilité). Elle ne change que pour un pécheur strictement plus coupable ; chacun est prévenu (« Monique te quitte pour X, qui en a plus besoin que toi »). Sans pécheur, elle rentre prier au jardin. Tout le monde peut la nourrir (une fois par jour chacun).
@@ -232,7 +236,8 @@ Tout ce que le mod ajoute ne fonctionne que dans le Royaume, sauf ces exceptions
 
 | Objet | Depuis | Ce qui marche partout |
 | --- | --- | --- |
-| Pupitre d'Ambroise | v0.3 | Sa zone de silence (chat muet, monstres sourds) |
+| Pupitre d'Ambroise | v0.3 | Sa zone de silence (chat muet, monstres sourds) ; se fabrique après 60 s de silence près du pupitre d'Ambroise |
+| Livre des Confessions | v0.3 | Le soin des joueurs proches (Voie du Cœur seulement) |
 
 ## Problèmes connus
 

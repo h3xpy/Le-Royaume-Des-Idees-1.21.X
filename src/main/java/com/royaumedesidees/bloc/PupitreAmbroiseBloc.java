@@ -74,9 +74,29 @@ public class PupitreAmbroiseBloc extends HorizontalDirectionalBlock implements E
         }
     }
 
+    /**
+     * Appelé après chaque changement de la grille de craft (voir {@code CraftingMenuMixin}) : si le résultat est un
+     * pupitre et que le joueur n'a pas encore tenu le silence d'Ambroise, le résultat reste vide.
+     */
+    public static void verifierCraft(net.minecraft.world.inventory.AbstractContainerMenu menu, net.minecraft.server.level.ServerPlayer joueur,
+                                     net.minecraft.world.inventory.ResultContainer resultat) {
+        if (!resultat.getItem(0).is(com.royaumedesidees.registre.ModItems.PUPITRE_AMBROISE.get())
+                || joueur.getData(com.royaumedesidees.registre.ModPiecesJointes.PUPITRE_APPRIS)) {
+            return;
+        }
+        net.minecraft.world.item.ItemStack vide = net.minecraft.world.item.ItemStack.EMPTY;
+        resultat.setItem(0, vide);
+        menu.setRemoteSlot(0, vide);
+        joueur.connection.send(new net.minecraft.network.protocol.game.ClientboundContainerSetSlotPacket(menu.containerId,
+                menu.incrementStateId(), 0, vide));
+        joueur.displayClientMessage(net.minecraft.network.chat.Component.translatable("message.royaumedesidees.pupitre.pas_appris")
+                .withStyle(net.minecraft.ChatFormatting.GRAY), true);
+    }
+
     @Override
     public void appendHoverText(net.minecraft.world.item.ItemStack pile, net.minecraft.world.item.Item.TooltipContext contexte,
                                 java.util.List<net.minecraft.network.chat.Component> lignes, net.minecraft.world.item.TooltipFlag options) {
         lignes.add(net.minecraft.network.chat.Component.translatable("block.royaumedesidees.pupitre_ambroise.aide").withStyle(net.minecraft.ChatFormatting.GRAY));
+        lignes.add(net.minecraft.network.chat.Component.translatable("block.royaumedesidees.pupitre_ambroise.recette").withStyle(net.minecraft.ChatFormatting.DARK_GRAY));
     }
 }

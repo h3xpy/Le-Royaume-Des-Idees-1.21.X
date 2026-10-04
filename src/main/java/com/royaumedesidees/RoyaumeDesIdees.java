@@ -68,7 +68,10 @@ public class RoyaumeDesIdees {
         NeoForge.EVENT_BUS.addListener(Confession::enregistrer);
         // Grâce (v0.3) : synchronisation de la jauge, coups reçus sans riposter.
         modEventBus.addListener((net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent evenement) ->
-                evenement.registrar("1").playToClient(GracePaquet.TYPE, GracePaquet.CODEC, GracePaquet::recevoir));
+                evenement.registrar("1")
+                        .playToClient(GracePaquet.TYPE, GracePaquet.CODEC, GracePaquet::recevoir)
+                        .playToClient(com.royaumedesidees.pnj.ParolePaquet.TYPE, com.royaumedesidees.pnj.ParolePaquet.CODEC,
+                                com.royaumedesidees.pnj.ParolePaquet::recevoir));
         NeoForge.EVENT_BUS.addListener(Grace::connexion);
         NeoForge.EVENT_BUS.addListener(Grace::changementDimension);
         NeoForge.EVENT_BUS.addListener(Grace::reapparition);

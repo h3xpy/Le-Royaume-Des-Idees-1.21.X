@@ -5,7 +5,6 @@ import com.royaumedesidees.registre.ModItems;
 import com.royaumedesidees.structures.StructuresJardin;
 import net.minecraft.ChatFormatting;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
@@ -36,9 +35,10 @@ public class AugustinJeune extends PnjRoyaume {
         parler(joueur, "coup");
     }
 
-    /** Un éclat de rire de jeune homme : le rire de la sorcière de Minecraft, joué plus aigu. */
+    /** Un éclat de rire de jeune homme ({@code augustin_rire.ogg}, fourni par Maxime). */
     private void rire(float volume) {
-        level().playSound(null, this, SoundEvents.WITCH_CELEBRATE, SoundSource.NEUTRAL, volume, 1.35F + getRandom().nextFloat() * 0.15F);
+        level().playSound(null, this, com.royaumedesidees.registre.ModSons.AUGUSTIN_RIRE.get(), SoundSource.NEUTRAL, volume,
+                0.95F + getRandom().nextFloat() * 0.1F);
     }
 
     /** Court rejoindre un voleur de poires. */

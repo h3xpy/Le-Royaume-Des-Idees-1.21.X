@@ -134,13 +134,32 @@ public final class VisiteDev {
                 return parlerA(jeu, "ambroise") && parlerA(jeu, "adeodat");
             }),
             // Quête de conversion (v0.3), de bout en bout : Augustin, trois poires, le silence, le figuier, Romains, le baptême.
-            new Etape("quete_augustin", () -> List.of("gamemode survival", tpRoyaume(com.royaumedesidees.structures.StructuresJardin.POS_ALLEE_VERGERS, 0f, 0f)),
+            new Etape("quete_augustin", () -> List.of("gamemode survival", "royaume quetes @s reinitialiser", tpRoyaume(com.royaumedesidees.structures.StructuresJardin.POS_ALLEE_VERGERS, 0f, 0f)),
                     jeu -> parlerA(jeu, "augustin_jeune")),
             new Etape("quete_vol_1", () -> List.of(tpRoyaume(posVerger(), 135f, -60f)), VisiteDev::cueillir),
             new Etape("quete_vol_2", () -> List.of(), VisiteDev::cueillir),
             new Etape("quete_vol_3", () -> List.of(), VisiteDev::cueillir),
+            // Pupitre d'Ambroise : le craft ne donne rien avant le silence, puis donne le pupitre (grille 2×2 de l'inventaire).
+            new Etape("craft_avant", () -> List.of("item replace entity @s hotbar.0 with minecraft:lectern",
+                    "item replace entity @s hotbar.1 with minecraft:book", "item replace entity @s hotbar.2 with royaumedesidees:pierre_ombre"),
+                    jeu -> {
+                        jeu.options.hideGui = false;
+                        net.minecraft.world.inventory.InventoryMenu menu = jeu.player.inventoryMenu;
+                        for (int i = 0; i < 3; i++) {
+                            jeu.gameMode.handleInventoryMouseClick(menu.containerId, 36 + i, 0, net.minecraft.world.inventory.ClickType.PICKUP, jeu.player);
+                            jeu.gameMode.handleInventoryMouseClick(menu.containerId, 1 + i, 0, net.minecraft.world.inventory.ClickType.PICKUP, jeu.player);
+                        }
+                        return true;
+                    }),
             new Etape("quete_silence", () -> List.of(tpRoyaume(com.royaumedesidees.structures.StructuresPnj.POS_AMBROISE.offset(0, 0, 3), 180f, 0f)),
                     null, 66 * 20),
+            new Etape("craft_apres", () -> List.of(), jeu -> {
+                // On reprend la Pierre d'Ombre et on la repose : la grille est recalculée.
+                net.minecraft.world.inventory.InventoryMenu menu = jeu.player.inventoryMenu;
+                jeu.gameMode.handleInventoryMouseClick(menu.containerId, 3, 0, net.minecraft.world.inventory.ClickType.PICKUP, jeu.player);
+                jeu.gameMode.handleInventoryMouseClick(menu.containerId, 3, 0, net.minecraft.world.inventory.ClickType.PICKUP, jeu.player);
+                return true;
+            }),
             new Etape("quete_figuier", () -> List.of(tpRoyaume(com.royaumedesidees.structures.StructuresJardin.POS_FIGUIER.offset(2, 0, 1), 200f, 10f)),
                     jeu -> {
                         jeu.options.keyShift.setDown(true);
@@ -171,6 +190,15 @@ public final class VisiteDev {
             new Etape("adeodat_defi", () -> List.of(tpRoyaume(com.royaumedesidees.structures.StructuresJardin.POS_TABLINUM.offset(0, 0, 1), 180f, 0f)),
                     jeu -> parlerA(jeu, "adeodat")),
             new Etape("adeodat_reponse", () -> List.of(), VisiteDev::repondreAdeodat),
+            // Le Livre des Confessions marche aussi hors du Royaume (plus d'une minute après sa première lecture).
+            new Etape("livre_hors_royaume", () -> {
+                BlockPos portail = VerificationDev.portailTest;
+                // À 6 blocs du portail, pour ne pas y entrer.
+                return portail == null ? List.of() : List.of(String.format(Locale.ROOT,
+                        "execute in minecraft:overworld run tp @s %.1f %d %.1f 0 0", portail.getX() + 6.5, portail.getY(), portail.getZ() + 6.5),
+                        "damage @s 8 minecraft:generic", "item replace entity @s weapon.mainhand with royaumedesidees:livre_confessions");
+            }, jeu -> !jeu.player.getCooldowns().isOnCooldown(ModItems.LIVRE_CONFESSIONS.get())
+                    && jeu.gameMode.useItem(jeu.player, InteractionHand.MAIN_HAND).consumesAction()),
             // Bibliothèque d'Ambroise : on entre, on essaie de parler (le chat doit être muet), Ambroise est chez lui.
             new Etape("bibliotheque_silence", () -> List.of(tpRoyaume(com.royaumedesidees.structures.StructuresPnj.POS_AMBROISE.offset(0, 0, 4), 180f, 5f)),
                     jeu -> {
@@ -325,14 +353,15 @@ public final class VisiteDev {
     public static void activerSiDemande() {
         if (Boolean.getBoolean(RoyaumeDesIdees.MODID + ".visite")) {
             NeoForge.EVENT_BUS.addListener(VisiteDev::tick);
-            NeoForge.EVENT_BUS.addListener((net.neoforged.neoforge.client.event.ClientChatReceivedEvent evenement) -> {
+            com.royaumedesidees.pnj.ParolePaquet.ecouteur = texte -> {
+                RoyaumeDesIdees.LOGGER.info("[visite] dialogue : {}", texte);
                 java.util.regex.Matcher m = java.util.regex.Pattern.compile("(\\d+) ([+×]) (\\d+)")
-                        .matcher(evenement.getMessage().getString());
+                        .matcher(texte);
                 if (m.find()) {
                     questionAdeodat = m.group(0);
                 }
                 java.util.regex.Matcher montants = java.util.regex.Pattern.compile("(\\d+) livres (\\d+) sols (\\d+) deniers")
-                        .matcher(evenement.getMessage().getString());
+                        .matcher(texte);
                 java.util.List<Integer> lus = new java.util.ArrayList<>();
                 while (montants.find()) {
                     lus.add((Integer.parseInt(montants.group(1)) * 20 + Integer.parseInt(montants.group(2))) * 12
@@ -341,7 +370,7 @@ public final class VisiteDev {
                 if (lus.size() == 3) {
                     sommePascal = new int[]{lus.get(0), lus.get(1), lus.get(2)};
                 }
-            });
+            };
         }
     }
 
@@ -365,7 +394,15 @@ public final class VisiteDev {
             jeu.getConnection().sendCommand("time set 6000");
             jeu.getConnection().sendCommand("weather clear");
             jeu.getConnection().sendCommand("royaume structures");
-            commencer(jeu, 0);
+            // -Droyaumedesidees.visite.depuis=<étape> : reprend la visite à cette étape (vérification ciblée).
+            String depuis = System.getProperty(RoyaumeDesIdees.MODID + ".visite.depuis", "");
+            int premiere = 0;
+            for (int i = 0; i < ETAPES.size(); i++) {
+                if (ETAPES.get(i).nom().equals(depuis)) {
+                    premiere = i;
+                }
+            }
+            commencer(jeu, premiere);
             return;
         }
         Etape courante = ETAPES.get(etape);
@@ -410,6 +447,13 @@ public final class VisiteDev {
             RoyaumeDesIdees.LOGGER.info("[visite] {} : nom TAB « {} », vitesse de minage {}", nom,
                     info == null || info.getTabListDisplayName() == null ? "-" : info.getTabListDisplayName().getString(),
                     jeu.player.getAttributeValue(net.minecraft.world.entity.ai.attributes.Attributes.BLOCK_BREAK_SPEED));
+        }
+        if (nom.startsWith("craft")) {
+            RoyaumeDesIdees.LOGGER.info("[visite] {} : résultat du craft « {} »", nom,
+                    jeu.player.inventoryMenu.getSlot(0).getItem().getHoverName().getString());
+        }
+        if (nom.startsWith("livre")) {
+            RoyaumeDesIdees.LOGGER.info("[visite] {} : vie {}, dimension {}", nom, jeu.player.getHealth(), jeu.level.dimension().location());
         }
         if (nom.startsWith("quete") || nom.startsWith("livre") || nom.startsWith("adeodat")) {
             RoyaumeDesIdees.LOGGER.info("[visite] {} : Livre des Confessions {}, Sceau {}", nom,

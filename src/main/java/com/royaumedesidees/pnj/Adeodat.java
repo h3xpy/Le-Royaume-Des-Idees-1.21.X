@@ -56,7 +56,7 @@ public class Adeodat extends PnjRoyaume {
             resultat = a * b;
             operation = a + " × " + b;
         }
-        parler(joueur, "defi", operation, DELAI_REPONSE / 20);
+        parlerPendant(joueur, DELAI_REPONSE, "defi", operation, DELAI_REPONSE / 20);
         ReponsesChat.attendre(joueur, DELAI_REPONSE, reponse -> corriger(joueur, reponse, resultat),
                 () -> rate(joueur, resultat));
     }

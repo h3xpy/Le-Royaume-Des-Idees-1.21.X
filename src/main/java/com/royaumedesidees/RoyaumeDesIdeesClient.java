@@ -25,6 +25,7 @@ public class RoyaumeDesIdeesClient {
         NeoForge.EVENT_BUS.addListener(MusiqueRoyaume::tick);
         NeoForge.EVENT_BUS.addListener(InfobulleSouvenir::infobulle);
         modEventBus.addListener(JaugeGrace::enregistrer);
+        modEventBus.addListener(com.royaumedesidees.client.BoiteDialogue::enregistrer);
         modEventBus.addListener((EntityRenderersEvent.RegisterLayerDefinitions evenement) ->
                 evenement.registerLayerDefinition(RenduOmbre.COUCHE, RenduOmbre::couche));
         modEventBus.addListener((EntityRenderersEvent.RegisterRenderers evenement) -> {

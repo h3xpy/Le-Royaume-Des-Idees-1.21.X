@@ -125,9 +125,21 @@ public final class QueteConversion {
 
     // ------------------------------------------------------------------ Étapes 2 et 3 : le silence, le figuier
 
+    /** Vrai si le joueur a une raison de tenir le silence : l'étape 2 de la quête, ou apprendre à faire le pupitre. */
+    private static boolean silenceUtile(ServerPlayer joueur) {
+        return etat(joueur) == SILENCE || !joueur.getData(ModPiecesJointes.PUPITRE_APPRIS);
+    }
+
+    /** 60 s de silence près du pupitre : on sait fabriquer le Pupitre d'Ambroise (recette ajoutée au livre de recettes). */
+    private static void apprendrePupitre(ServerPlayer joueur) {
+        joueur.setData(ModPiecesJointes.PUPITRE_APPRIS, true);
+        joueur.awardRecipesByKey(java.util.List.of(com.royaumedesidees.RoyaumeDesIdees.id("pupitre_ambroise")));
+        joueur.sendSystemMessage(Component.translatable("message.royaumedesidees.pupitre.appris").withStyle(ChatFormatting.AQUA));
+    }
+
     /** Une ligne de chat tentée dans le silence d'Ambroise : le compteur repart de zéro. */
     public static void chatTente(ServerPlayer joueur) {
-        if (SILENCE_TENU.remove(joueur.getUUID()) != null && etat(joueur) == SILENCE) {
+        if (SILENCE_TENU.remove(joueur.getUUID()) != null && silenceUtile(joueur)) {
             joueur.displayClientMessage(Component.translatable(CLE + "silence_rompu").withStyle(ChatFormatting.GRAY), true);
         }
     }
@@ -137,7 +149,11 @@ public final class QueteConversion {
             return;
         }
         int etat = etat(joueur);
-        if (etat == SILENCE) {
+        if (etat > SILENCE && !joueur.getData(ModPiecesJointes.PUPITRE_APPRIS)) {
+            // Silence déjà tenu pour la quête avant que le pupitre ne s'apprenne ainsi.
+            apprendrePupitre(joueur);
+        }
+        if (silenceUtile(joueur)) {
             if (ZonesSilence.dansZone(joueur)) {
                 int tenu = SILENCE_TENU.merge(joueur.getUUID(), 1, Integer::sum);
                 if (tenu % 200 == 0 && tenu < DUREE_SILENCE) {
@@ -146,7 +162,12 @@ public final class QueteConversion {
                 }
                 if (tenu >= DUREE_SILENCE) {
                     SILENCE_TENU.remove(joueur.getUUID());
-                    passer(joueur, FIGUIER, "figuier");
+                    if (!joueur.getData(ModPiecesJointes.PUPITRE_APPRIS)) {
+                        apprendrePupitre(joueur);
+                    }
+                    if (etat == SILENCE) {
+                        passer(joueur, FIGUIER, "figuier");
+                    }
                 }
             } else {
                 SILENCE_TENU.remove(joueur.getUUID());

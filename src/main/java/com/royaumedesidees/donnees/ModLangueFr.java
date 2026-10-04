@@ -91,6 +91,7 @@ public class ModLangueFr extends LanguageProvider {
         add("message.royaumedesidees.grace.raison.frappe", "frappé sans riposter");
         add("message.royaumedesidees.grace.raison.commande", "commande");
         add("commande.royaumedesidees.grace.valeur", "%1$s : %2$s de Grâce, %3$s.");
+        add("commande.royaumedesidees.quetes.reinitialisees", "Quêtes, Voie et pupitre appris remis à zéro pour %1$s.");
         add("voie.royaumedesidees.aucune", "sans Voie");
         add("voie.royaumedesidees.raison", "Voie de la Raison");
         add("voie.royaumedesidees.coeur", "Voie du Cœur");
@@ -210,6 +211,9 @@ public class ModLangueFr extends LanguageProvider {
         add("pnj.royaumedesidees.adeodat.repos", "Un défi à la fois. Reviens dans %1$s secondes, même les génies respirent.");
         add("pnj.royaumedesidees.adeodat.attends", "J'attends ta réponse. Dans le chat.");
         add("message.royaumedesidees.silence.chut", "Chut. Ambroise lit.");
+        add("message.royaumedesidees.pupitre.pas_appris", "Apprends d'abord le silence d'Ambroise : 60 s près de son pupitre, sans écrire.");
+        add("message.royaumedesidees.pupitre.appris", "Tu as appris à te taire comme Ambroise : tu sais maintenant fabriquer son pupitre (un lutrin, un livre et une Pierre d'Ombre), qui fait le silence où tu le poses, même hors du Royaume.");
+        add("block.royaumedesidees.pupitre_ambroise.recette", "Se fabrique après 60 secondes de silence près du pupitre d'Ambroise.");
         add("panneau.royaumedesidees.bibliotheque.1", "Silentium.");
         add("panneau.royaumedesidees.bibliotheque.2", "Ici, Ambroise");
         add("panneau.royaumedesidees.bibliotheque.3", "lit en silence.");

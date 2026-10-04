@@ -45,7 +45,8 @@ public class ModRecettes extends RecipeProvider {
                 .requires(Items.LECTERN)
                 .requires(Items.BOOK)
                 .requires(ModItems.PIERRE_OMBRE.get())
-                .unlockedBy(getHasName(ModItems.PIERRE_OMBRE.get()), has(ModItems.PIERRE_OMBRE.get()))
+                // Appris par le silence d'Ambroise (QueteConversion) ; le livre de recettes l'affiche aussi à qui a un pupitre.
+                .unlockedBy(getHasName(ModItems.PUPITRE_AMBROISE.get()), has(ModItems.PUPITRE_AMBROISE.get()))
                 .save(sortie);
 
         // 4 Pierres d'Ombre en carré donnent 4 Pierres taillées, comme les briques de pierre.

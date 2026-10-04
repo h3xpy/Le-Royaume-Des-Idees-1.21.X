@@ -17,8 +17,8 @@ import net.minecraft.world.level.Level;
 
 /**
  * Le Livre des Confessions, outil de la Voie du Cœur : un clic droit soigne de 4 cœurs tous les joueurs à moins de
- * 6 blocs (soi compris), une fois par minute. Dans le Royaume seulement (objet lié au Royaume), et pour les convertis
- * seulement : le livre ne parle qu'aux cœurs qui ont suivi la Voie d'Augustin.
+ * 6 blocs (soi compris), une fois par minute. Il marche aussi hors du Royaume (tag {@code actif_hors_royaume}), mais
+ * pour les convertis seulement : le livre ne parle qu'aux cœurs qui ont suivi la Voie d'Augustin.
  */
 public class LivreConfessionsItem extends ItemAvecCitation {
     private static final double RAYON = 6.0;
@@ -34,11 +34,6 @@ public class LivreConfessionsItem extends ItemAvecCitation {
         ItemStack livre = joueur.getItemInHand(main);
         if (!(joueur instanceof ServerPlayer serveur) || !(niveau instanceof ServerLevel monde)) {
             return InteractionResultHolder.sidedSuccess(livre, niveau.isClientSide);
-        }
-        if (!Grace.dansRoyaume(serveur)) {
-            serveur.displayClientMessage(Component.translatable("message.royaumedesidees.livre_confessions.souvenir")
-                    .withStyle(ChatFormatting.GRAY), true);
-            return InteractionResultHolder.fail(livre);
         }
         if (Grace.voie(serveur) != Voie.COEUR) {
             serveur.displayClientMessage(Component.translatable("message.royaumedesidees.livre_confessions.muet")

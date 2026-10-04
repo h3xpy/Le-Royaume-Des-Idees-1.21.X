@@ -22,10 +22,10 @@ public class ModTagsItems extends ItemTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.Provider registres) {
-        tag(ModTags.LIE_AU_ROYAUME).add(ModItems.LANTERNE_DIOGENE.get(), ModItems.LIVRE_CONFESSIONS.get());
+        tag(ModTags.LIE_AU_ROYAUME).add(ModItems.LANTERNE_DIOGENE.get());
         tag(ModTags.SCEAUX).add(ModItems.SCEAU_CONVERSION.get());
         // Exceptions à « Royaume seulement » : leur effet marche aussi dans l'Overworld.
-        tag(ModTags.ACTIF_HORS_ROYAUME).add(ModItems.PUPITRE_AMBROISE.get());
+        tag(ModTags.ACTIF_HORS_ROYAUME).add(ModItems.PUPITRE_AMBROISE.get(), ModItems.LIVRE_CONFESSIONS.get());
         copy(BlockTags.LEAVES, ItemTags.LEAVES);
         copy(BlockTags.LOGS_THAT_BURN, ItemTags.LOGS_THAT_BURN);
         copy(BlockTags.PLANKS, ItemTags.PLANKS);

@@ -98,7 +98,7 @@ public final class QueteImpots {
 
     private static void poser(Pascal pascal, ServerPlayer joueur, int n) {
         List<Montant> montants = somme(joueur, n);
-        pascal.parler(joueur, "impots.somme", n, SOMMES, montants.get(0).texte(), montants.get(1).texte(), montants.get(2).texte(),
+        pascal.parlerPendant(joueur, DELAI_REPONSE, "impots.somme", n, SOMMES, montants.get(0).texte(), montants.get(1).texte(), montants.get(2).texte(),
                 DELAI_REPONSE / 20);
         int total = montants.stream().mapToInt(Montant::enDeniers).sum();
         ReponsesChat.attendre(joueur, DELAI_REPONSE, reponse -> corriger(pascal, joueur, n, total, reponse),

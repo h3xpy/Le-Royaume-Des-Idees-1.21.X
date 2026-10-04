@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_pierre_ombre": {
+    "has_pupitre_ambroise": {
       "conditions": {
         "items": [
           {
-            "items": "royaumedesidees:pierre_ombre"
+            "items": "royaumedesidees:pupitre_ambroise"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_pierre_ombre"
+      "has_pupitre_ambroise"
     ]
   ],
   "rewards": {

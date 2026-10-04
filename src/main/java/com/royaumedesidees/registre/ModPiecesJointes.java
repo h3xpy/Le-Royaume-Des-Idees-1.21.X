@@ -54,6 +54,10 @@ public final class ModPiecesJointes {
     public static final Supplier<AttachmentType<Integer>> QUETE_IMPOTS = PIECES_JOINTES.register("quete_impots",
             () -> AttachmentType.builder(() -> 0).serialize(Codec.INT).copyOnDeath().build());
 
+    /** Vrai une fois que le joueur a tenu 60 s de silence près du pupitre d'Ambroise : il sait fabriquer le pupitre. */
+    public static final Supplier<AttachmentType<Boolean>> PUPITRE_APPRIS = PIECES_JOINTES.register("pupitre_appris",
+            () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL).copyOnDeath().build());
+
     /** Vrai une fois que Monique est apparue pour ce joueur. */
     public static final Supplier<AttachmentType<Boolean>> MONIQUE_APPARUE = PIECES_JOINTES.register("monique_apparue",
             () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL).copyOnDeath().build());

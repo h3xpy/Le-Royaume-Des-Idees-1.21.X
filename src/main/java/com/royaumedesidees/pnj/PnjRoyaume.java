@@ -27,6 +27,7 @@ import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -38,8 +39,8 @@ import java.util.UUID;
  * <ul>
  *   <li>ne disparaît jamais et reste autour de sa maison (un point et un rayon, sauvegardés) ;</li>
  *   <li>regarde les joueurs proches, et affiche toujours son nom ;</li>
- *   <li>parle dans le chat, son nom en couleur, avec des répliques traduisibles
- *       ({@code pnj.royaumedesidees.<id>.<réplique>}) ;</li>
+ *   <li>parle dans une boîte de dialogue en haut de l'écran (pas dans le chat), son nom en couleur, avec des
+ *       répliques traduisibles ({@code pnj.royaumedesidees.<id>.<réplique>}) ;</li>
  *   <li>est invulnérable : un coup de joueur ne lui fait rien, mais il réagit à sa façon ({@link #reagirCoup}).
  *       Seul {@code /kill} l'atteint. En v0.4, des PNJ « mortels » ({@link #estMortel}) donneront de la Culpabilité.</li>
  * </ul>
@@ -121,7 +122,7 @@ public class PnjRoyaume extends PathfinderMob {
 
     // ------------------------------------------------------------------ Paroles
 
-    /** Une réplique, précédée du nom du PNJ en couleur. */
+    /** Une réplique, précédée du nom du PNJ en couleur, pour le chat (annonces au serveur). */
     public MutableComponent ligne(String replique, Object... arguments) {
         return Component.empty()
                 .append(getName().copy().withStyle(couleur, ChatFormatting.BOLD))
@@ -129,20 +130,31 @@ public class PnjRoyaume extends PathfinderMob {
                 .append(Component.translatable("pnj.royaumedesidees." + id() + "." + replique, arguments));
     }
 
+    /** Une réplique dans la boîte de dialogue du joueur (voir {@link ParolePaquet}). */
     public void parler(ServerPlayer joueur, String replique, Object... arguments) {
-        joueur.sendSystemMessage(ligne(replique, arguments));
+        parlerPendant(joueur, 0, replique, arguments);
+    }
+
+    /** Une réplique qui reste affichée {@code ticks} ticks : une question à laquelle il faut répondre. */
+    public void parlerPendant(ServerPlayer joueur, int ticks, String replique, Object... arguments) {
+        PacketDistributor.sendToPlayer(joueur, new ParolePaquet(nom(),
+                Component.translatable("pnj.royaumedesidees." + id() + "." + replique, arguments), ticks));
     }
 
     /** Une réplique pour tous les joueurs à portée de voix. */
     public void parlerAlentour(String replique, double rayon, Object... arguments) {
         if (level() instanceof ServerLevel monde) {
-            Component texte = ligne(replique, arguments);
             for (ServerPlayer joueur : monde.players()) {
                 if (joueur.distanceToSqr(this) <= rayon * rayon) {
-                    joueur.sendSystemMessage(texte);
+                    parler(joueur, replique, arguments);
                 }
             }
         }
+    }
+
+    /** Le nom du PNJ, en gras et dans sa couleur. */
+    public MutableComponent nom() {
+        return getName().copy().withStyle(couleur, ChatFormatting.BOLD);
     }
 
     /** Clic droit d'un joueur : à redéfinir par chaque PNJ (quêtes, défis). Par défaut, il salue. */

@@ -26,6 +26,8 @@ import java.util.Optional;
  *   <li>{@code /royaume structures} : liste les structures, leur version posée et attendue ;</li>
  *   <li>{@code /royaume structures reposer <id>} : force la repose d'une structure ;</li>
  *   <li>{@code /royaume grace <joueur> [definir|ajouter <n>]} : lit ou règle la Grâce d'un joueur (pour les tests).</li>
+ *   <li>{@code /royaume quetes <joueur> reinitialiser} : remet à zéro les quêtes, la Voie et le pupitre appris (pour
+ *       rejouer les quêtes dans un monde où on les a déjà faites).</li>
  * </ul>
  */
 public final class CommandesRoyaume {
@@ -52,7 +54,11 @@ public final class CommandesRoyaume {
                                                 .executes(contexte -> grace(contexte, "definir"))))
                                 .then(Commands.literal("ajouter")
                                         .then(Commands.argument("n", IntegerArgumentType.integer(1, Grace.MAXIMUM))
-                                                .executes(contexte -> grace(contexte, "ajouter")))))));
+                                                .executes(contexte -> grace(contexte, "ajouter"))))))
+                .then(Commands.literal("quetes")
+                        .then(Commands.argument("joueur", EntityArgument.player())
+                                .then(Commands.literal("reinitialiser")
+                                        .executes(CommandesRoyaume::reinitialiserQuetes)))));
     }
 
     private static int grace(CommandContext<CommandSourceStack> contexte, String action) throws com.mojang.brigadier.exceptions.CommandSyntaxException {
@@ -66,6 +72,19 @@ public final class CommandesRoyaume {
         contexte.getSource().sendSuccess(() -> Component.translatable("commande.royaumedesidees.grace.valeur",
                 joueur.getDisplayName(), Grace.valeur(joueur), Component.translatable("voie.royaumedesidees." + Grace.voie(joueur).getSerializedName())), false);
         return Grace.valeur(joueur);
+    }
+
+    private static int reinitialiserQuetes(CommandContext<CommandSourceStack> contexte) throws com.mojang.brigadier.exceptions.CommandSyntaxException {
+        ServerPlayer joueur = EntityArgument.getPlayer(contexte, "joueur");
+        joueur.setData(com.royaumedesidees.registre.ModPiecesJointes.QUETE_CONVERSION, 0);
+        joueur.setData(com.royaumedesidees.registre.ModPiecesJointes.QUETE_IMPOTS, 0);
+        joueur.setData(com.royaumedesidees.registre.ModPiecesJointes.PUPITRE_APPRIS, false);
+        joueur.setData(com.royaumedesidees.registre.ModPiecesJointes.VOIE, com.royaumedesidees.grace.Voie.AUCUNE);
+        joueur.resetRecipes(joueur.server.getRecipeManager().byKey(com.royaumedesidees.RoyaumeDesIdees.id("pupitre_ambroise")).stream().toList());
+        joueur.server.getPlayerList().broadcastAll(new net.minecraft.network.protocol.game.ClientboundPlayerInfoUpdatePacket(
+                net.minecraft.network.protocol.game.ClientboundPlayerInfoUpdatePacket.Action.UPDATE_DISPLAY_NAME, joueur));
+        contexte.getSource().sendSuccess(() -> Component.translatable("commande.royaumedesidees.quetes.reinitialisees", joueur.getDisplayName()), true);
+        return 1;
     }
 
     private static int lister(CommandContext<CommandSourceStack> contexte) {
