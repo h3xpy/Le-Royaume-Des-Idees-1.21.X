@@ -54,6 +54,8 @@ public final class QueteConversion {
 
     private static final Map<UUID, Integer> SILENCE_TENU = new HashMap<>();
     private static final Map<UUID, Integer> LARMES = new HashMap<>();
+    /** Sous le figuier : jusqu'à 9 blocs du tronc (toute la couronne). */
+    private static final double RAYON_FIGUIER = 9.0;
 
     private QueteConversion() {
     }
@@ -149,13 +151,23 @@ public final class QueteConversion {
             } else {
                 SILENCE_TENU.remove(joueur.getUUID());
             }
-        } else if (etat == FIGUIER) {
-            BlockPos figuier = StructuresJardin.POS_FIGUIER;
-            double dx = joueur.getX() - (figuier.getX() + 0.5);
-            double dz = joueur.getZ() - (figuier.getZ() + 0.5);
-            boolean dessous = dx * dx + dz * dz <= 36 && Math.abs(joueur.getY() - figuier.getY()) <= 3;
-            if (dessous && joueur.isShiftKeyDown()) {
+        }
+        BlockPos figuier = StructuresJardin.POS_FIGUIER;
+        double dx = joueur.getX() - (figuier.getX() + 0.5);
+        double dz = joueur.getZ() - (figuier.getZ() + 0.5);
+        boolean sousLeFiguier = dx * dx + dz * dz <= RAYON_FIGUIER * RAYON_FIGUIER && Math.abs(joueur.getY() - figuier.getY()) <= 4;
+        if (sousLeFiguier && joueur.isShiftKeyDown() && etat != FIGUIER && etat < ROMAINS && joueur.tickCount % 40 == 0) {
+            // Pleurer sous le figuier trop tôt : le figuier le dit, pour qu'on sache que c'est le bon endroit.
+            joueur.displayClientMessage(Component.translatable(CLE + (etat == AUCUNE ? "figuier_inconnu" : "figuier_trop_tot"))
+                    .withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC), true);
+        }
+        if (etat == FIGUIER) {
+            if (sousLeFiguier && joueur.isShiftKeyDown()) {
                 int larmes = LARMES.merge(joueur.getUUID(), 1, Integer::sum);
+                if (larmes % 20 == 0 && larmes < DUREE_LARMES) {
+                    joueur.displayClientMessage(Component.translatable(CLE + "larmes", larmes / 20, DUREE_LARMES / 20)
+                            .withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC), true);
+                }
                 if (larmes % 10 == 0) {
                     joueur.serverLevel().sendParticles(ParticleTypes.FALLING_WATER, joueur.getX(), joueur.getEyeY() - 0.2,
                             joueur.getZ(), 3, 0.2, 0.05, 0.2, 0.0);
@@ -201,6 +213,16 @@ public final class QueteConversion {
     /** Ambroise baptise le joueur s'il est prêt. Renvoie faux si ce n'est pas le moment (Ambroise répond alors par un geste). */
     public static boolean bapteme(Ambroise ambroise, ServerPlayer joueur) {
         int etat = etat(joueur);
+        if (etat >= FINIE && Grace.voie(joueur) == Voie.RAISON) {
+            // Déjà baptisé, passé à la Raison : revenir au Cœur coûte 50 de Grâce.
+            if (Grace.depenser(joueur, Grace.PRIX_CHANGER_VOIE)) {
+                ambroise.parler(joueur, "retour_coeur");
+                com.royaumedesidees.grace.Voies.choisir(joueur, Voie.COEUR);
+            } else {
+                ambroise.parler(joueur, "pas_assez_de_grace", Grace.PRIX_CHANGER_VOIE);
+            }
+            return true;
+        }
         if (etat == SILENCE && ZonesSilence.dansZone(joueur)) {
             ambroise.parler(joueur, "silence");
             return true;
@@ -213,7 +235,6 @@ public final class QueteConversion {
             return true;
         }
         ServerLevel monde = joueur.serverLevel();
-        joueur.setData(ModPiecesJointes.VOIE, Voie.COEUR);
         joueur.setData(ModPiecesJointes.QUETE_CONVERSION, FINIE);
         ambroise.parler(joueur, "bapteme");
         monde.sendParticles(ParticleTypes.SPLASH, joueur.getX(), joueur.getEyeY() + 0.5, joueur.getZ(), 40, 0.3, 0.2, 0.3, 0.1);
@@ -223,9 +244,7 @@ public final class QueteConversion {
         }
         joueur.server.getPlayerList().broadcastSystemMessage(
                 Component.translatable("message.royaumedesidees.bapteme.annonce", joueur.getDisplayName()).withStyle(ChatFormatting.GOLD), false);
-        joueur.server.getPlayerList().broadcastSystemMessage(
-                Component.translatable("message.royaumedesidees.voie.annonce", joueur.getDisplayName(),
-                        Component.translatable("voie.royaumedesidees.coeur")), false);
+        com.royaumedesidees.grace.Voies.choisir(joueur, Voie.COEUR);
         donner(joueur, new ItemStack(ModItems.LIVRE_CONFESSIONS.get()));
         donner(joueur, new ItemStack(ModItems.SCEAU_CONVERSION.get()));
         Grace.ajouter(joueur, 20, "quete");

@@ -64,5 +64,6 @@ public class TolleLegeItem extends Item {
     @Override
     public void appendHoverText(ItemStack pile, TooltipContext contexte, List<Component> lignes, TooltipFlag options) {
         lignes.add(Component.translatable(getDescriptionId() + ".citation").withStyle(ChatFormatting.ITALIC, ChatFormatting.GRAY));
+        lignes.add(Component.translatable(getDescriptionId() + ".effet").withStyle(ChatFormatting.GRAY));
     }
 }

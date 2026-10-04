@@ -63,6 +63,8 @@ public final class VisiteDev {
 
     /** Dernière question d'Adéodat lue dans le chat (« 47 + 38 », « 23 × 7 »). */
     private static volatile String questionAdeodat;
+    /** Les trois montants de la dernière somme de Pascal, en deniers. */
+    private static volatile int[] sommePascal;
 
     private static final List<Etape> ETAPES = List.of(
             new Etape("aller", () -> {
@@ -156,6 +158,15 @@ public final class VisiteDev {
                     }),
             new Etape("livre", () -> List.of("damage @s 8 minecraft:generic", "item replace entity @s weapon.mainhand with royaumedesidees:livre_confessions"),
                     jeu -> jeu.gameMode.useItem(jeu.player, InteractionHand.MAIN_HAND).consumesAction()),
+            // Le journal des quêtes, puis la quête des impôts de Pascal (Grâce mise à 80 pour payer le changement de Voie).
+            new Etape("journal", () -> List.of("quete")),
+            new Etape("impots", () -> List.of("royaume grace @s definir 80",
+                    tpRoyaume(com.royaumedesidees.structures.StructuresPnj.POS_PASCAL.offset(0, 0, 1), 180f, 0f)),
+                    jeu -> parlerA(jeu, "pascal")),
+            new Etape("impots_1", () -> List.of(), VisiteDev::repondrePascal),
+            new Etape("impots_2", () -> List.of(), VisiteDev::repondrePascal),
+            new Etape("impots_3", () -> List.of(), VisiteDev::repondrePascal),
+            new Etape("journal_fin", () -> List.of("quete")),
             // Un défi d'Adéodat, résolu en lisant la question dans le chat.
             new Etape("adeodat_defi", () -> List.of(tpRoyaume(com.royaumedesidees.structures.StructuresJardin.POS_TABLINUM.offset(0, 0, 1), 180f, 0f)),
                     jeu -> parlerA(jeu, "adeodat")),
@@ -248,6 +259,19 @@ public final class VisiteDev {
         return new BlockPos(x, ReliefRoyaume.colonne(x, z).surface() + 1, z);
     }
 
+    private static boolean repondrePascal(Minecraft jeu) {
+        int[] somme = sommePascal;
+        if (somme == null) {
+            return false;
+        }
+        sommePascal = null;
+        int total = somme[0] + somme[1] + somme[2];
+        String reponse = (total / 240) + " livres " + (total / 12) % 20 + " sols " + total % 12 + " deniers";
+        RoyaumeDesIdees.LOGGER.info("[visite] somme de Pascal : {}", reponse);
+        jeu.player.connection.sendChat(reponse);
+        return true;
+    }
+
     private static boolean repondreAdeodat(Minecraft jeu) {
         String question = questionAdeodat;
         if (question == null) {
@@ -306,6 +330,16 @@ public final class VisiteDev {
                         .matcher(evenement.getMessage().getString());
                 if (m.find()) {
                     questionAdeodat = m.group(0);
+                }
+                java.util.regex.Matcher montants = java.util.regex.Pattern.compile("(\\d+) livres (\\d+) sols (\\d+) deniers")
+                        .matcher(evenement.getMessage().getString());
+                java.util.List<Integer> lus = new java.util.ArrayList<>();
+                while (montants.find()) {
+                    lus.add((Integer.parseInt(montants.group(1)) * 20 + Integer.parseInt(montants.group(2))) * 12
+                            + Integer.parseInt(montants.group(3)));
+                }
+                if (lus.size() == 3) {
+                    sommePascal = new int[]{lus.get(0), lus.get(1), lus.get(2)};
                 }
             });
         }
@@ -371,6 +405,12 @@ public final class VisiteDev {
                 jeu.player.getBoundingBox().inflate(48));
         RoyaumeDesIdees.LOGGER.info("[visite] {} : Monique présente {}, distance {}", nom, moniques.size(),
                 moniques.isEmpty() ? "-" : String.format(Locale.ROOT, "%.1f", moniques.get(0).distanceTo(jeu.player)));
+        if (nom.startsWith("impots") || nom.startsWith("journal")) {
+            net.minecraft.client.multiplayer.PlayerInfo info = jeu.getConnection().getPlayerInfo(jeu.player.getUUID());
+            RoyaumeDesIdees.LOGGER.info("[visite] {} : nom TAB « {} », vitesse de minage {}", nom,
+                    info == null || info.getTabListDisplayName() == null ? "-" : info.getTabListDisplayName().getString(),
+                    jeu.player.getAttributeValue(net.minecraft.world.entity.ai.attributes.Attributes.BLOCK_BREAK_SPEED));
+        }
         if (nom.startsWith("quete") || nom.startsWith("livre") || nom.startsWith("adeodat")) {
             RoyaumeDesIdees.LOGGER.info("[visite] {} : Livre des Confessions {}, Sceau {}", nom,
                     compter(jeu, ModItems.LIVRE_CONFESSIONS.get()), compter(jeu, ModItems.SCEAU_CONVERSION.get()));

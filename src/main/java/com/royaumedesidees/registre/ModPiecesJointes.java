@@ -62,6 +62,10 @@ public final class ModPiecesJointes {
     public static final Supplier<AttachmentType<CompteursJour>> COMPTEURS_JOUR = PIECES_JOINTES.register("compteurs_jour",
             () -> AttachmentType.builder(() -> CompteursJour.VIDE).serialize(CompteursJour.CODEC).copyOnDeath().build());
 
+    /** Astuces déjà montrées au joueur (un bit par astuce, voir {@link com.royaumedesidees.pnj.Astuces}). */
+    public static final Supplier<AttachmentType<Integer>> ASTUCES = PIECES_JOINTES.register("astuces",
+            () -> AttachmentType.builder(() -> 0).serialize(Codec.INT).copyOnDeath().build());
+
     private ModPiecesJointes() {
     }
 }

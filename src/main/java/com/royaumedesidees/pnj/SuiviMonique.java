@@ -74,6 +74,12 @@ public final class SuiviMonique {
         }
 
         ServerPlayer ancienne = monique.joueurCible();
+        if (nouvelle != null && monique.distanceToSqr(nouvelle) > 32 * 32) {
+            // Son pécheur est parti loin (téléportation, course) : là où elle est restée, le serveur ne la fait plus
+            // bouger. On la ramène auprès de lui.
+            BlockPos pres = placePres(nouvelle);
+            monique.teleportTo(pres.getX() + 0.5, pres.getY(), pres.getZ() + 0.5);
+        }
         if (ancienne == nouvelle) {
             return;
         }

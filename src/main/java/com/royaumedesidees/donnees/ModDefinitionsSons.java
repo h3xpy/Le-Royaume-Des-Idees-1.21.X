@@ -34,7 +34,8 @@ public class ModDefinitionsSons extends SoundDefinitionsProvider {
         fichiers.trackGenerated(RoyaumeDesIdees.id("musique_culpabilite"), PackType.CLIENT_RESOURCES, ".ogg", "sounds");
         add(ModSons.MUSIQUE_CULPABILITE, definition().with(sound(RoyaumeDesIdees.id("musique_culpabilite")).stream()));
 
-        // Sons des PNJ (v0.3), à fournir.
+        // Sons des PNJ (v0.3). Le jeu joue aujourd'hui les sons de Minecraft (page tournée, rire) : ces deux
+        // évènements restent déclarés (identifiants définitifs) pour qui voudrait un jour en fournir d'autres.
         for (String nom : new String[]{"augustin_rire", "ambroise_page"}) {
             fichiers.trackGenerated(RoyaumeDesIdees.id(nom), PackType.CLIENT_RESOURCES, ".ogg", "sounds");
         }

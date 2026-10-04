@@ -75,4 +75,10 @@ public class EtalVergerBloc extends HorizontalDirectionalBlock {
         }
         return InteractionResult.sidedSuccess(niveau.isClientSide);
     }
+
+    @Override
+    public void appendHoverText(net.minecraft.world.item.ItemStack pile, net.minecraft.world.item.Item.TooltipContext contexte,
+                                java.util.List<net.minecraft.network.chat.Component> lignes, net.minecraft.world.item.TooltipFlag options) {
+        lignes.add(net.minecraft.network.chat.Component.translatable("block.royaumedesidees.etal_verger.aide").withStyle(net.minecraft.ChatFormatting.GRAY));
+    }
 }

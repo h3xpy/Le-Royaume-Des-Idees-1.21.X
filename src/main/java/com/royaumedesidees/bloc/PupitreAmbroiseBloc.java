@@ -73,4 +73,10 @@ public class PupitreAmbroiseBloc extends HorizontalDirectionalBlock implements E
                     (hasard.nextFloat() - 0.5) * 2.0, -0.6 - hasard.nextFloat() * 0.6, (hasard.nextFloat() - 0.5) * 2.0);
         }
     }
+
+    @Override
+    public void appendHoverText(net.minecraft.world.item.ItemStack pile, net.minecraft.world.item.Item.TooltipContext contexte,
+                                java.util.List<net.minecraft.network.chat.Component> lignes, net.minecraft.world.item.TooltipFlag options) {
+        lignes.add(net.minecraft.network.chat.Component.translatable("block.royaumedesidees.pupitre_ambroise.aide").withStyle(net.minecraft.ChatFormatting.GRAY));
+    }
 }

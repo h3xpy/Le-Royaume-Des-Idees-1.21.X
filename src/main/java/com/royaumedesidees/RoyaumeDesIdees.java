@@ -9,9 +9,12 @@ import com.royaumedesidees.dev.VerificationDev;
 import com.royaumedesidees.donnees.GenerateurDonnees;
 import com.royaumedesidees.grace.Grace;
 import com.royaumedesidees.grace.GracePaquet;
+import com.royaumedesidees.grace.Voies;
 import com.royaumedesidees.jardin.Confession;
 import com.royaumedesidees.jardin.Culpabilite;
+import com.royaumedesidees.pnj.Astuces;
 import com.royaumedesidees.pnj.Echeancier;
+import com.royaumedesidees.pnj.JournalQuetes;
 import com.royaumedesidees.pnj.MaisonsPnj;
 import com.royaumedesidees.pnj.QueteConversion;
 import com.royaumedesidees.pnj.ReponsesChat;
@@ -82,6 +85,11 @@ public class RoyaumeDesIdees {
         NeoForge.EVENT_BUS.addListener(QueteConversion::tick);
         NeoForge.EVENT_BUS.addListener(QueteConversion::lutrin);
         NeoForge.EVENT_BUS.addListener(Echeancier::tick);
+        // Tout se découvre en jeu : astuces, journal /quete. Les Voies : effets et liste TAB.
+        NeoForge.EVENT_BUS.addListener(Astuces::tick);
+        NeoForge.EVENT_BUS.addListener(JournalQuetes::enregistrer);
+        NeoForge.EVENT_BUS.addListener(Voies::tick);
+        NeoForge.EVENT_BUS.addListener(Voies::nomTab);
         // Zone de silence du Pupitre d'Ambroise : chat muet, monstres sourds.
         NeoForge.EVENT_BUS.addListener(ZonesSilence::chat);
         NeoForge.EVENT_BUS.addListener(ZonesSilence::cible);

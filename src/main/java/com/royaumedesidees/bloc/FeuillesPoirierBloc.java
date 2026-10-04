@@ -77,4 +77,10 @@ public class FeuillesPoirierBloc extends LeavesBlock {
         }
         return InteractionResult.CONSUME;
     }
+
+    @Override
+    public void appendHoverText(net.minecraft.world.item.ItemStack pile, net.minecraft.world.item.Item.TooltipContext contexte,
+                                java.util.List<net.minecraft.network.chat.Component> lignes, net.minecraft.world.item.TooltipFlag options) {
+        lignes.add(net.minecraft.network.chat.Component.translatable("block.royaumedesidees.feuilles_poirier.aide").withStyle(net.minecraft.ChatFormatting.GRAY));
+    }
 }

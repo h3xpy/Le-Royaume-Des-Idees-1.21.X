@@ -78,6 +78,9 @@ public final class Grace {
         definir(joueur, avant + gain);
         int gagne = valeur(joueur) - avant;
         joueur.displayClientMessage(Component.translatable(CLE + "gain", gagne, cause).withStyle(ChatFormatting.GOLD), true);
+        if (gagne > 0) {
+            com.royaumedesidees.pnj.Astuces.montrer(joueur, com.royaumedesidees.pnj.Astuces.GRACE, "grace");
+        }
         return gagne;
     }
 

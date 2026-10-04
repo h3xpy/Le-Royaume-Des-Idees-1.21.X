@@ -1,10 +1,11 @@
 package com.royaumedesidees.pnj;
 
 import com.royaumedesidees.registre.ModItems;
-import com.royaumedesidees.registre.ModSons;
+
 import com.royaumedesidees.structures.StructuresJardin;
 import net.minecraft.ChatFormatting;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
@@ -31,8 +32,13 @@ public class AugustinJeune extends PnjRoyaume {
 
     @Override
     protected void reagirCoup(ServerPlayer joueur) {
-        level().playSound(null, this, ModSons.AUGUSTIN_RIRE.get(), SoundSource.NEUTRAL, 1.0F, 1.0F);
+        rire(1.0F);
         parler(joueur, "coup");
+    }
+
+    /** Un éclat de rire de jeune homme : le rire de la sorcière de Minecraft, joué plus aigu. */
+    private void rire(float volume) {
+        level().playSound(null, this, SoundEvents.WITCH_CELEBRATE, SoundSource.NEUTRAL, volume, 1.35F + getRandom().nextFloat() * 0.15F);
     }
 
     /** Court rejoindre un voleur de poires. */
@@ -41,7 +47,7 @@ public class AugustinJeune extends PnjRoyaume {
         finCourse = level().getGameTime() + 200;
         getNavigation().moveTo(joueur, 0.8);
         getLookControl().setLookAt(joueur);
-        level().playSound(null, this, ModSons.AUGUSTIN_RIRE.get(), SoundSource.NEUTRAL, 0.8F, 1.1F);
+        rire(0.8F);
     }
 
     @Override

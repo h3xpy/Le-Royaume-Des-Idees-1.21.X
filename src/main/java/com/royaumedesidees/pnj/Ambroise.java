@@ -1,8 +1,8 @@
 package com.royaumedesidees.pnj;
 
-import com.royaumedesidees.registre.ModSons;
 import net.minecraft.ChatFormatting;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
@@ -23,13 +23,21 @@ public class Ambroise extends PnjRoyaume {
     @Override
     protected void parleAvec(ServerPlayer joueur) {
         if (!QueteConversion.bapteme(this, joueur)) {
+            level().playSound(null, this, SoundEvents.BOOK_PAGE_TURN, SoundSource.NEUTRAL, 1.0F, 1.0F);
             super.parleAvec(joueur);
         }
     }
 
+    /** Il lit : de temps en temps, on l'entend tourner une page. */
+    @Override
+    protected net.minecraft.sounds.SoundEvent getAmbientSound() {
+        return SoundEvents.BOOK_PAGE_TURN;
+    }
+
     @Override
     protected void reagirCoup(ServerPlayer joueur) {
-        level().playSound(null, this, ModSons.AMBROISE_PAGE.get(), SoundSource.NEUTRAL, 1.0F, 1.0F);
+        // Le bruit de page de Minecraft : on l'entend sans avoir de fichier à fournir.
+        level().playSound(null, this, SoundEvents.BOOK_PAGE_TURN, SoundSource.NEUTRAL, 1.0F, 1.0F);
         parler(joueur, "coup");
     }
 }

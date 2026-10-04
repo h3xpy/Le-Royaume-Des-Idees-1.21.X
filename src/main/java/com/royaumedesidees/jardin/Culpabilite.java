@@ -50,6 +50,9 @@ public final class Culpabilite {
         int avant = niveau(joueur);
         int apres = Math.max(0, Math.min(MAXIMUM, avant + ecart));
         joueur.setData(ModPiecesJointes.CULPABILITE, apres);
+        if (apres > avant && Grace.dansRoyaume(joueur)) {
+            com.royaumedesidees.pnj.Astuces.montrer(joueur, com.royaumedesidees.pnj.Astuces.CULPABILITE, "culpabilite");
+        }
         appliquerEffet(joueur, Grace.dansRoyaume(joueur) ? apres : 0);
         if (apres == MAXIMUM && avant < MAXIMUM) {
             joueur.server.getPlayerList().broadcastSystemMessage(
