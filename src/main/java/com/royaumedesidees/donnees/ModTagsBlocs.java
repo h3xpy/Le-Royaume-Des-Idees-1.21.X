@@ -29,6 +29,6 @@ public class ModTagsBlocs extends BlockTagsProvider {
         tag(BlockTags.LOGS_THAT_BURN).add(ModBlocs.BOIS_FIGUIER.get());
         tag(BlockTags.PLANKS).add(ModBlocs.PLANCHES_FIGUIER.get());
         tag(BlockTags.MINEABLE_WITH_AXE).add(ModBlocs.BOIS_FIGUIER.get(), ModBlocs.PLANCHES_FIGUIER.get(),
-                ModBlocs.CONFESSIONNAL.get(), ModBlocs.ETAL_VERGER.get());
+                ModBlocs.CONFESSIONNAL.get(), ModBlocs.ETAL_VERGER.get(), ModBlocs.PUPITRE_AMBROISE.get());
     }
 }

@@ -32,7 +32,7 @@ public final class VerificationDev {
     private static final int[][] POINTS = {
             {0, 0},        // plaine au-dessus de la Caverne
             {-260, -260},  // Jardin de Milan
-            {300, -290},   // butte de l'abbaye, au fond de la vallée de Port-Royal
+            {300, -300},   // butte de l'abbaye (au sud de la cellule de Pascal), au fond de la vallée de Port-Royal
             {250, -250},   // marais de Port-Royal
             {260, 260},    // sommet enneigé du dôme
             {305, 305},    // limite de la neige (Poêle de Descartes)
@@ -172,6 +172,9 @@ public final class VerificationDev {
         erreurs += controle(royaume, StructuresJardin.POS_POIRIER, Blocks.OAK_LOG, "pied du premier poirier");
         erreurs += controle(royaume, StructuresJardin.POS_PANNEAU, Blocks.OAK_WALL_SIGN, "panneau du verger");
         erreurs += controle(royaume, StructuresJardin.POS_CONFESSIONNAL.above(8), Blocks.BELL, "cloche du baldaquin");
+        erreurs += controle(royaume, com.royaumedesidees.structures.StructuresPnj.POS_PUPITRE,
+                com.royaumedesidees.registre.ModBlocs.PUPITRE_AMBROISE.get(), "Pupitre d'Ambroise");
+        erreurs += livrePose(royaume, com.royaumedesidees.structures.StructuresPnj.POS_PASCAL.offset(0, 0, -2), "comptes de Rouen (cellule de Pascal)");
         erreurs += livrePose(royaume, StructuresJardin.POS_LUTRIN, "livres des Platoniciens (tablinum)");
         erreurs += livrePose(royaume, StructuresJardin.POS_LUTRIN_FIGUIER, "épître aux Romains (exèdre d'Alypius)");
         BlockState chemin = royaume.getBlockState(com.royaumedesidees.structures.CheminsJardin.POS_CHEMIN);

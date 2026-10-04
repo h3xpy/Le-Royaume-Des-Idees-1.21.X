@@ -1,0 +1,11 @@
+{
+  "parent": "minecraft:block/lectern",
+  "textures": {
+    "base": "royaumedesidees:block/pupitre_ambroise_base",
+    "bottom": "minecraft:block/dark_oak_planks",
+    "front": "royaumedesidees:block/pupitre_ambroise_front",
+    "particle": "royaumedesidees:block/pupitre_ambroise_sides",
+    "sides": "royaumedesidees:block/pupitre_ambroise_sides",
+    "top": "royaumedesidees:block/pupitre_ambroise_top"
+  }
+}

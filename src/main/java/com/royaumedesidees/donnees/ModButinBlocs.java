@@ -25,6 +25,7 @@ public class ModButinBlocs extends net.minecraft.data.loot.BlockLootSubProvider 
         dropSelf(ModBlocs.PLANCHES_FIGUIER.get());
         add(ModBlocs.CONFESSIONNAL.get(), createDoorTable(ModBlocs.CONFESSIONNAL.get()));
         dropSelf(ModBlocs.ETAL_VERGER.get());
+        dropSelf(ModBlocs.PUPITRE_AMBROISE.get());
     }
 
     @Override

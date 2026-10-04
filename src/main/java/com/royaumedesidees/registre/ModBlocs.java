@@ -6,6 +6,7 @@ import com.royaumedesidees.bloc.EtalVergerBloc;
 import com.royaumedesidees.bloc.FeuillesFiguierBloc;
 import com.royaumedesidees.bloc.FeuillesPoirierBloc;
 import com.royaumedesidees.bloc.PortailRoyaumeBloc;
+import com.royaumedesidees.bloc.PupitreAmbroiseBloc;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RotatedPillarBlock;
@@ -71,6 +72,10 @@ public final class ModBlocs {
     /** Étal du verger : une émeraude contre 3 poires achetées. */
     public static final DeferredBlock<EtalVergerBloc> ETAL_VERGER = BLOCS.registerBlock("etal_verger",
             EtalVergerBloc::new, BlockBehaviour.Properties.ofFullCopy(Blocks.BARREL));
+
+    /** Pupitre d'Ambroise (v0.3) : lutrin qui crée une zone de silence de 8 blocs. */
+    public static final DeferredBlock<PupitreAmbroiseBloc> PUPITRE_AMBROISE = BLOCS.registerBlock("pupitre_ambroise",
+            PupitreAmbroiseBloc::new, BlockBehaviour.Properties.ofFullCopy(Blocks.LECTERN).noOcclusion());
 
     /** Pierre sombre, aussi dure que la pierre vanilla ; il faut une pioche pour la récupérer. */
     private static BlockBehaviour.Properties proprietesPierreOmbre() {

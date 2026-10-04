@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:lectern"
+    },
+    {
+      "item": "minecraft:book"
+    },
+    {
+      "item": "royaumedesidees:pierre_ombre"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "royaumedesidees:pupitre_ambroise"
+  }
+}

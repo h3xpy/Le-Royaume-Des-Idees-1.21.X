@@ -1133,6 +1133,8 @@ public final class StructuresJardin {
     public static final BlockPos POS_LUTRIN = new BlockPos(VX - 1, VILLA_SOL, VZ - 8);
     public static final BlockPos POS_ETAL = new BlockPos(VX + 3, VILLA_SOL, VZ + 12);
     public static final BlockPos POS_ATRIUM = new BlockPos(VX, VILLA_SOL, VZ + 3);
+    /** Maison d'Adéodat : le tablinum, où sont les livres de son père. */
+    public static final BlockPos POS_TABLINUM = new BlockPos(VX, VILLA_SOL, VZ - 7);
     /** Pied du premier poirier du verger de Lucius. */
     public static final BlockPos POS_POIRIER = new BlockPos(VERGERS[0][0] + 3, sol(VERGERS[0][0] + 3, VERGERS[0][1] + 3) + 1, VERGERS[0][1] + 3);
     /** Panneau du verger de Lucius, accroché au muret sud, à droite du portail. */

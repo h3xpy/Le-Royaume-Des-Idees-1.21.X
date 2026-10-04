@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "royaumedesidees:block/pupitre_ambroise",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "royaumedesidees:block/pupitre_ambroise"
+    },
+    "facing=south": {
+      "model": "royaumedesidees:block/pupitre_ambroise",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "royaumedesidees:block/pupitre_ambroise",
+      "y": 270
+    }
+  }
+}

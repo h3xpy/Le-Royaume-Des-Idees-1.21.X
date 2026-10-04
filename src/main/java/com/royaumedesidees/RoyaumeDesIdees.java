@@ -1,6 +1,7 @@
 package com.royaumedesidees;
 
 import com.mojang.logging.LogUtils;
+import com.royaumedesidees.bloc.ZonesSilence;
 import com.royaumedesidees.caverne.PopulationOmbres;
 import com.royaumedesidees.caverne.SortieCaverne;
 import com.royaumedesidees.commande.CommandesRoyaume;
@@ -10,9 +11,11 @@ import com.royaumedesidees.grace.Grace;
 import com.royaumedesidees.grace.GracePaquet;
 import com.royaumedesidees.jardin.Confession;
 import com.royaumedesidees.jardin.Culpabilite;
+import com.royaumedesidees.pnj.MaisonsPnj;
 import com.royaumedesidees.pnj.ReponsesChat;
 import com.royaumedesidees.pnj.SuiviMonique;
 import com.royaumedesidees.registre.ModBlocs;
+import com.royaumedesidees.registre.ModBlocsEntites;
 import com.royaumedesidees.registre.ModEffets;
 import com.royaumedesidees.registre.ModEntites;
 import com.royaumedesidees.registre.ModItems;
@@ -46,6 +49,7 @@ public class RoyaumeDesIdees {
         ModPiecesJointes.PIECES_JOINTES.register(modEventBus);
         ModEntites.ENTITES.register(modEventBus);
         ModEffets.EFFETS.register(modEventBus);
+        ModBlocsEntites.BLOCS_ENTITES.register(modEventBus);
         modEventBus.addListener(ModEntites::attributs);
 
         modEventBus.addListener(GenerateurDonnees::generer);
@@ -67,9 +71,15 @@ public class RoyaumeDesIdees {
         NeoForge.EVENT_BUS.addListener(Grace::attaque);
         NeoForge.EVENT_BUS.addListener(Grace::tick);
         // PNJ (v0.3) : réponses données dans le chat.
-        NeoForge.EVENT_BUS.addListener(ReponsesChat::chat);
+        // Les réponses attendues par un PNJ passent avant la zone de silence d'Ambroise.
+        NeoForge.EVENT_BUS.addListener(net.neoforged.bus.api.EventPriority.HIGH, ReponsesChat::chat);
         NeoForge.EVENT_BUS.addListener(ReponsesChat::tick);
         NeoForge.EVENT_BUS.addListener(SuiviMonique::tick);
+        NeoForge.EVENT_BUS.addListener(MaisonsPnj::tick);
+        // Zone de silence du Pupitre d'Ambroise : chat muet, monstres sourds.
+        NeoForge.EVENT_BUS.addListener(ZonesSilence::chat);
+        NeoForge.EVENT_BUS.addListener(ZonesSilence::cible);
+        NeoForge.EVENT_BUS.addListener(ZonesSilence::tick);
         VerificationDev.activerSiDemande();
     }
 

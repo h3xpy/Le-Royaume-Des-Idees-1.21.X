@@ -124,7 +124,17 @@ public final class VisiteDev {
                 jeu.options.hideGui = true;
                 return parlerA(jeu, "ambroise") && parlerA(jeu, "adeodat");
             }),
+            // Bibliothèque d'Ambroise : on entre, on essaie de parler (le chat doit être muet), Ambroise est chez lui.
+            new Etape("bibliotheque_silence", () -> List.of(tpRoyaume(com.royaumedesidees.structures.StructuresPnj.POS_AMBROISE.offset(0, 0, 4), 180f, 5f)),
+                    jeu -> {
+                        jeu.player.connection.sendChat("Bonjour, Ambroise !");
+                        return true;
+                    }),
+            new Etape("cellule_pascal", () -> List.of(tpRoyaume(com.royaumedesidees.structures.StructuresPnj.POS_PASCAL.offset(0, 0, 1), 180f, 10f))),
             vue("villa", -226, 0, -164, 225f, 22f, true),
+            vue("bibliotheque", -168, -10, -306, 155f, 18f, false),
+            vue("bibliotheque_nef", -180, com.royaumedesidees.structures.StructuresPnj.POS_ENTREE_BIBLIOTHEQUE.getY() + 1, -324, 180f, 6f, false),
+            vue("cellule", 309, -6, -280, 135f, 18f, false),
             vue("villa_dessus", -200, StructuresJardin.VILLA_SOL + 32, -152, 180f, 48f, false),
             vue("atrium", -200, StructuresJardin.VILLA_SOL + 1, -183, 180f, 8f, false),
             vue("tablinum", -200, StructuresJardin.VILLA_SOL + 1, -192, 180f, 18f, false),
@@ -280,7 +290,7 @@ public final class VisiteDev {
                     new net.minecraft.world.phys.AABB(-317, 0, -164, -306, 400, -157)).size();
             RoyaumeDesIdees.LOGGER.info("[visite] porcherie : cochons restés dans l'enclos {} {}", cochons, cochons >= 3 ? "OK" : "ECHEC");
         }
-        if (nom.startsWith("pnj")) {
+        if (nom.startsWith("pnj") || nom.startsWith("bibliotheque") || nom.startsWith("cellule")) {
             for (com.royaumedesidees.pnj.PnjRoyaume pnj : jeu.level.getEntitiesOfClass(com.royaumedesidees.pnj.PnjRoyaume.class,
                     jeu.player.getBoundingBox().inflate(16))) {
                 RoyaumeDesIdees.LOGGER.info("[visite] {} : PNJ {} vie {}", nom, pnj.id(), pnj.getHealth());

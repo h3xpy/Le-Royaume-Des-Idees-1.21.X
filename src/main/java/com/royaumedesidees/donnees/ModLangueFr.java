@@ -117,6 +117,19 @@ public class ModLangueFr extends LanguageProvider {
         add("pnj.royaumedesidees.pascal.bonjour", "Le cœur a ses raisons que la raison ne connaît point. Mais les comptes de mon père, eux, n'en ont aucune.");
         add("pnj.royaumedesidees.pascal.coup", "Merci. *Il serre sa ceinture.*");
         add("message.royaumedesidees.pascal.merci", "Pascal remercie %1$s de l'avoir frappé.");
+        // v0.3 : Bibliothèque d'Ambroise, cellule de Pascal
+        add("block.royaumedesidees.pupitre_ambroise", "Pupitre d'Ambroise");
+        add("message.royaumedesidees.silence.chut", "Chut. Ambroise lit.");
+        add("panneau.royaumedesidees.bibliotheque.1", "Silentium.");
+        add("panneau.royaumedesidees.bibliotheque.2", "Ici, Ambroise");
+        add("panneau.royaumedesidees.bibliotheque.3", "lit en silence.");
+        add("panneau.royaumedesidees.port_royal.1", "Port-Royal");
+        add("panneau.royaumedesidees.port_royal.2", "Abbaye en");
+        add("panneau.royaumedesidees.port_royal.3", "construction");
+        add("livre.royaumedesidees.hexaemeron.page1", "Hexaemeron\n\nLes six jours de la Création, prêchés par Ambroise à Milan.\n\nAugustin venait l'écouter, d'abord pour sa belle parole, puis pour ce qu'il disait.");
+        add("livre.royaumedesidees.hexaemeron.page2", "« Quand il lisait, ses yeux couraient sur les pages et son cœur en cherchait le sens, mais sa voix et sa langue se reposaient. »\n\n(Confessions, VI, 3)");
+        add("livre.royaumedesidees.comptes.page1", "Élection de Rouen\nTaille de 1641\n\n   3 livres 7 sols 4 deniers\n+ 12 livres 15 sols 9 deniers\n+  2 livres 19 sols 11 deniers\n= ?\n\n20 sols font une livre,\n12 deniers font un sol.");
+        add("livre.royaumedesidees.comptes.page2", "Mon père y passe ses nuits.\n\nIl faudrait une machine pour faire ces additions.\n\nB. P., 19 ans");
         add("sous_titre.royaumedesidees.augustin_rire", "Augustin rit");
         add("sous_titre.royaumedesidees.ambroise_page", "Une page tourne");
         add("message.royaumedesidees.confessionnal.mode_emploi", "Pour te confesser, tape /confesse suivi de ton péché.");

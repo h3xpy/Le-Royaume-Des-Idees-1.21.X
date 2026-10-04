@@ -117,6 +117,19 @@ public class ModLangueEn extends LanguageProvider {
         add("pnj.royaumedesidees.pascal.bonjour", "The heart has its reasons which reason does not know. My father's accounts, however, have none.");
         add("pnj.royaumedesidees.pascal.coup", "Thank you. *He tightens his belt.*");
         add("message.royaumedesidees.pascal.merci", "Pascal thanks %1$s for hitting him.");
+        // v0.3 : Bibliothèque d'Ambroise, cellule de Pascal
+        add("block.royaumedesidees.pupitre_ambroise", "Ambrose's Lectern");
+        add("message.royaumedesidees.silence.chut", "Hush. Ambrose is reading.");
+        add("panneau.royaumedesidees.bibliotheque.1", "Silentium.");
+        add("panneau.royaumedesidees.bibliotheque.2", "Here Ambrose");
+        add("panneau.royaumedesidees.bibliotheque.3", "reads in silence.");
+        add("panneau.royaumedesidees.port_royal.1", "Port-Royal");
+        add("panneau.royaumedesidees.port_royal.2", "Abbey under");
+        add("panneau.royaumedesidees.port_royal.3", "construction");
+        add("livre.royaumedesidees.hexaemeron.page1", "Hexaemeron\n\nThe six days of Creation, preached by Ambrose in Milan.\n\nAugustine came to hear him, first for his fine words, then for what he said.");
+        add("livre.royaumedesidees.hexaemeron.page2", "\"When he read, his eyes ran over the pages and his heart sought out the meaning, but his voice and tongue were at rest.\"\n\n(Confessions, VI, 3)");
+        add("livre.royaumedesidees.comptes.page1", "Election of Rouen\nTaille of 1641\n\n   3 livres 7 sols 4 deniers\n+ 12 livres 15 sols 9 deniers\n+  2 livres 19 sols 11 deniers\n= ?\n\n20 sols make a livre,\n12 deniers make a sol.");
+        add("livre.royaumedesidees.comptes.page2", "My father spends his nights on these.\n\nOne would need a machine to do such sums.\n\nB. P., aged 19");
         add("sous_titre.royaumedesidees.augustin_rire", "Augustine laughs");
         add("sous_titre.royaumedesidees.ambroise_page", "A page turns");
         add("message.royaumedesidees.confessionnal.mode_emploi", "To confess, type /confesse followed by your sin.");

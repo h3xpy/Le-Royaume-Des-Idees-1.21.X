@@ -32,6 +32,7 @@ public final class ModOngletsCreatifs {
                 sortie.accept(ModItems.FEUILLES_FIGUIER.get());
                 sortie.accept(ModItems.CONFESSIONNAL.get());
                 sortie.accept(ModItems.ETAL_VERGER.get());
+                sortie.accept(ModItems.PUPITRE_AMBROISE.get());
             })
             .build());
 

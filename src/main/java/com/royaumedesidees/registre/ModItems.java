@@ -44,6 +44,7 @@ public final class ModItems {
     public static final DeferredItem<BlockItem> FEUILLES_FIGUIER = ITEMS.registerSimpleBlockItem(ModBlocs.FEUILLES_FIGUIER);
     public static final DeferredItem<BlockItem> CONFESSIONNAL = ITEMS.registerSimpleBlockItem(ModBlocs.CONFESSIONNAL);
     public static final DeferredItem<BlockItem> ETAL_VERGER = ITEMS.registerSimpleBlockItem(ModBlocs.ETAL_VERGER);
+    public static final DeferredItem<BlockItem> PUPITRE_AMBROISE = ITEMS.registerSimpleBlockItem(ModBlocs.PUPITRE_AMBROISE);
 
     private ModItems() {
     }

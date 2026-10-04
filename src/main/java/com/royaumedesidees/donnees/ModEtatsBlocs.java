@@ -69,5 +69,16 @@ public class ModEtatsBlocs extends BlockStateProvider {
                 modLoc("block/etal_verger_face"), modLoc("block/etal_verger_dessus"));
         horizontalBlock(ModBlocs.ETAL_VERGER.get(), etal);
         simpleBlockItem(ModBlocs.ETAL_VERGER.get(), etal);
+
+        // Pupitre d'Ambroise : la forme du lutrin de Minecraft, avec nos textures de noyer et d'or.
+        ModelFile pupitre = models().withExistingParent("pupitre_ambroise", mcLoc("block/lectern"))
+                .texture("particle", modLoc("block/pupitre_ambroise_sides"))
+                .texture("bottom", mcLoc("block/dark_oak_planks"))
+                .texture("base", modLoc("block/pupitre_ambroise_base"))
+                .texture("front", modLoc("block/pupitre_ambroise_front"))
+                .texture("sides", modLoc("block/pupitre_ambroise_sides"))
+                .texture("top", modLoc("block/pupitre_ambroise_top"));
+        horizontalBlock(ModBlocs.PUPITRE_AMBROISE.get(), pupitre);
+        simpleBlockItem(ModBlocs.PUPITRE_AMBROISE.get(), pupitre);
     }
 }

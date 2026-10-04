@@ -40,6 +40,14 @@ public class ModRecettes extends RecipeProvider {
                 .unlockedBy(getHasName(Items.BELL), has(Items.BELL))
                 .save(sortie);
 
+        // Pupitre d'Ambroise : un lutrin, un livre, et de la Pierre d'Ombre (lire en silence, c'est lire dans l'ombre).
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.DECORATIONS, ModItems.PUPITRE_AMBROISE.get())
+                .requires(Items.LECTERN)
+                .requires(Items.BOOK)
+                .requires(ModItems.PIERRE_OMBRE.get())
+                .unlockedBy(getHasName(ModItems.PIERRE_OMBRE.get()), has(ModItems.PIERRE_OMBRE.get()))
+                .save(sortie);
+
         // 4 Pierres d'Ombre en carré donnent 4 Pierres taillées, comme les briques de pierre.
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModItems.PIERRE_OMBRE_TAILLEE.get(), 4)
                 .pattern("##")
