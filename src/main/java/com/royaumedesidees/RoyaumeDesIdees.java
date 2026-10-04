@@ -11,7 +11,9 @@ import com.royaumedesidees.grace.Grace;
 import com.royaumedesidees.grace.GracePaquet;
 import com.royaumedesidees.jardin.Confession;
 import com.royaumedesidees.jardin.Culpabilite;
+import com.royaumedesidees.pnj.Echeancier;
 import com.royaumedesidees.pnj.MaisonsPnj;
+import com.royaumedesidees.pnj.QueteConversion;
 import com.royaumedesidees.pnj.ReponsesChat;
 import com.royaumedesidees.pnj.SuiviMonique;
 import com.royaumedesidees.registre.ModBlocs;
@@ -76,6 +78,10 @@ public class RoyaumeDesIdees {
         NeoForge.EVENT_BUS.addListener(ReponsesChat::tick);
         NeoForge.EVENT_BUS.addListener(SuiviMonique::tick);
         NeoForge.EVENT_BUS.addListener(MaisonsPnj::tick);
+        // Quête de conversion (v0.3) : silence, larmes sous le figuier, lecture de Romains ; actions différées.
+        NeoForge.EVENT_BUS.addListener(QueteConversion::tick);
+        NeoForge.EVENT_BUS.addListener(QueteConversion::lutrin);
+        NeoForge.EVENT_BUS.addListener(Echeancier::tick);
         // Zone de silence du Pupitre d'Ambroise : chat muet, monstres sourds.
         NeoForge.EVENT_BUS.addListener(ZonesSilence::chat);
         NeoForge.EVENT_BUS.addListener(ZonesSilence::cible);

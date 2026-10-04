@@ -100,6 +100,10 @@ public class PnjRoyaume extends PathfinderMob {
         return maison;
     }
 
+    public int rayonMaison() {
+        return rayonMaison;
+    }
+
     /** Objet tenu en main, qui ne tombe jamais (le livre d'Ambroise, la poire d'Augustin…). */
     protected void tenir(ItemStack objet) {
         setItemSlot(EquipmentSlot.MAINHAND, objet);

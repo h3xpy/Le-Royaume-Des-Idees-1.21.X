@@ -3,6 +3,7 @@ package com.royaumedesidees.registre;
 import com.royaumedesidees.RoyaumeDesIdees;
 import com.royaumedesidees.item.ItemAvecCitation;
 import com.royaumedesidees.item.LanterneDiogeneItem;
+import com.royaumedesidees.item.LivreConfessionsItem;
 import com.royaumedesidees.item.TolleLegeItem;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.BlockItem;
@@ -45,6 +46,15 @@ public final class ModItems {
     public static final DeferredItem<BlockItem> CONFESSIONNAL = ITEMS.registerSimpleBlockItem(ModBlocs.CONFESSIONNAL);
     public static final DeferredItem<BlockItem> ETAL_VERGER = ITEMS.registerSimpleBlockItem(ModBlocs.ETAL_VERGER);
     public static final DeferredItem<BlockItem> PUPITRE_AMBROISE = ITEMS.registerSimpleBlockItem(ModBlocs.PUPITRE_AMBROISE);
+
+    // --- v0.3 : la quête de conversion ---
+
+    /** Outil de la Voie du Cœur : soigne les joueurs proches, une fois par minute. Lié au Royaume. */
+    public static final DeferredItem<LivreConfessionsItem> LIVRE_CONFESSIONS = ITEMS.registerItem("livre_confessions",
+            LivreConfessionsItem::new, new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON));
+    /** Premier des quatre Sceaux de l'Autel de la Cité de Dieu (v1.0). */
+    public static final DeferredItem<ItemAvecCitation> SCEAU_CONVERSION = ITEMS.registerItem("sceau_conversion",
+            ItemAvecCitation::new, new Item.Properties().stacksTo(1).rarity(Rarity.RARE).fireResistant());
 
     private ModItems() {
     }

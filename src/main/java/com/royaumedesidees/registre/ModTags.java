@@ -15,6 +15,9 @@ public final class ModTags {
      */
     public static final TagKey<Item> ACTIF_HORS_ROYAUME = TagKey.create(Registries.ITEM, RoyaumeDesIdees.id("actif_hors_royaume"));
 
+    /** Les quatre Sceaux, que l'Autel de la Cité de Dieu recevra (v1.0). */
+    public static final TagKey<Item> SCEAUX = TagKey.create(Registries.ITEM, RoyaumeDesIdees.id("sceaux"));
+
     private ModTags() {
     }
 }

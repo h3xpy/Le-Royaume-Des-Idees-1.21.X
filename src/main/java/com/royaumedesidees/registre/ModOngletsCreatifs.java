@@ -33,6 +33,8 @@ public final class ModOngletsCreatifs {
                 sortie.accept(ModItems.CONFESSIONNAL.get());
                 sortie.accept(ModItems.ETAL_VERGER.get());
                 sortie.accept(ModItems.PUPITRE_AMBROISE.get());
+                sortie.accept(ModItems.LIVRE_CONFESSIONS.get());
+                sortie.accept(ModItems.SCEAU_CONVERSION.get());
             })
             .build());
 

@@ -41,6 +41,8 @@ public final class Culpabilite {
         joueur.server.getPlayerList().broadcastSystemMessage(
                 Component.translatable("message.royaumedesidees.culpabilite.vol_poire", joueur.getDisplayName()), false);
         changer(joueur, 1);
+        // Augustin jeune accourt (s'il est près) et le vol compte pour la quête de conversion.
+        com.royaumedesidees.pnj.QueteConversion.poireVolee(joueur);
     }
 
     /** Ajoute (ou retire, si {@code ecart} est négatif) des niveaux, entre 0 et 5, et met l'effet à jour. */

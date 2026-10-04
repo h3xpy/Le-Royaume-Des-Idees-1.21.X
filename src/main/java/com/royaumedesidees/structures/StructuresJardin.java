@@ -1146,5 +1146,9 @@ public final class StructuresJardin {
     /** Panneau du verger de Lucius, accroché au muret sud, à droite du portail. */
     public static final BlockPos POS_PANNEAU = new BlockPos(VERGERS[0][0] + VERGER_LARGEUR / 2 + 2,
             sol(VERGERS[0][0] + VERGER_LARGEUR / 2 + 2, VERGERS[0][1] + VERGER_PROFONDEUR) + 1, VERGERS[0][1] + VERGER_PROFONDEUR + 1);
+    /** Maison d'Augustin jeune : l'allée des vergers, entre la vigne de son père et les poiriers des voisins. */
+    public static final BlockPos POS_ALLEE_VERGERS = new BlockPos(-322, sol(-322, -169) + 1, -169);
+    /** Fenêtre de la maison voisine du figuier, d'où vient la voix d'enfant (« Prends, lis »). */
+    public static final BlockPos POS_VOIX_ENFANT = new BlockPos(FX - 2, MY + 1, MZ2);
     public static final BlockPos POS_PORCHERIE = new BlockPos(-312, PORCHERIE_Y + 1, -161);
 }

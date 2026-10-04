@@ -16,17 +16,18 @@ import java.util.List;
 import java.util.function.Supplier;
 
 /**
- * Où vit chaque PNJ, et le retour chez lui s'il manque. Toutes les 5 secondes, pour chaque maison dont la structure est
- * posée et dont les entités sont chargées (un joueur est dans le coin) : s'il n'y a aucun PNJ de ce type à moins de
- * 48 blocs, un nouveau apparaît chez lui. C'est ainsi que les PNJ sont placés la première fois, et qu'ils reviennent
- * après un /kill.
+ * Où vit chaque PNJ, et le retour chez lui s'il manque : Augustin jeune dans l'allée des vergers, Adéodat au tablinum
+ * de la villa, Ambroise devant son pupitre, Pascal dans sa cellule (Monique a son propre suivi, voir
+ * {@link SuiviMonique}). Toutes les 5 secondes, pour chaque maison dont la structure est posée et dont les entités
+ * sont chargées (un joueur est dans le coin) : s'il n'y a aucun PNJ de ce type à moins de 48 blocs, un nouveau apparaît
+ * chez lui. C'est ainsi que les PNJ sont placés la première fois, et qu'ils reviennent après un /kill.
  */
 public final class MaisonsPnj {
     private record Maison(Supplier<? extends EntityType<? extends PnjRoyaume>> type, String structure, BlockPos pos, int rayon) {
     }
 
     private static final List<Maison> MAISONS = List.of(
-            new Maison(ModEntites.AUGUSTIN_JEUNE, "villa_augustin", StructuresJardin.POS_ATRIUM, 7),
+            new Maison(ModEntites.AUGUSTIN_JEUNE, "vergers", StructuresJardin.POS_ALLEE_VERGERS, 10),
             new Maison(ModEntites.ADEODAT, "villa_augustin", StructuresJardin.POS_TABLINUM, 3),
             new Maison(ModEntites.AMBROISE, "bibliotheque_ambroise", StructuresPnj.POS_AMBROISE, 2),
             new Maison(ModEntites.PASCAL, "port_royal", StructuresPnj.POS_PASCAL, 2));

@@ -51,11 +51,18 @@ public final class VisiteDev {
      * Une étape : commandes au début, puis une action éventuelle (clic du joueur, réapparition) tentée à partir de
      * la mi-parcours, toutes les demi-secondes, jusqu'à ce qu'elle réussisse (le temps que les chunks arrivent).
      */
-    private record Etape(String nom, Supplier<List<String>> commandes, Predicate<Minecraft> action) {
+    private record Etape(String nom, Supplier<List<String>> commandes, Predicate<Minecraft> action, int duree) {
+        Etape(String nom, Supplier<List<String>> commandes, Predicate<Minecraft> action) {
+            this(nom, commandes, action, ATTENTE_ETAPE);
+        }
+
         Etape(String nom, Supplier<List<String>> commandes) {
-            this(nom, commandes, null);
+            this(nom, commandes, null, ATTENTE_ETAPE);
         }
     }
+
+    /** Dernière question d'Adéodat lue dans le chat (« 47 + 38 », « 23 × 7 »). */
+    private static volatile String questionAdeodat;
 
     private static final List<Etape> ETAPES = List.of(
             new Etape("aller", () -> {
@@ -124,6 +131,35 @@ public final class VisiteDev {
                 jeu.options.hideGui = true;
                 return parlerA(jeu, "ambroise") && parlerA(jeu, "adeodat");
             }),
+            // Quête de conversion (v0.3), de bout en bout : Augustin, trois poires, le silence, le figuier, Romains, le baptême.
+            new Etape("quete_augustin", () -> List.of("gamemode survival", tpRoyaume(com.royaumedesidees.structures.StructuresJardin.POS_ALLEE_VERGERS, 0f, 0f)),
+                    jeu -> parlerA(jeu, "augustin_jeune")),
+            new Etape("quete_vol_1", () -> List.of(tpRoyaume(posVerger(), 135f, -60f)), VisiteDev::cueillir),
+            new Etape("quete_vol_2", () -> List.of(), VisiteDev::cueillir),
+            new Etape("quete_vol_3", () -> List.of(), VisiteDev::cueillir),
+            new Etape("quete_silence", () -> List.of(tpRoyaume(com.royaumedesidees.structures.StructuresPnj.POS_AMBROISE.offset(0, 0, 3), 180f, 0f)),
+                    null, 66 * 20),
+            new Etape("quete_figuier", () -> List.of(tpRoyaume(com.royaumedesidees.structures.StructuresJardin.POS_FIGUIER.offset(2, 0, 1), 200f, 10f)),
+                    jeu -> {
+                        jeu.options.keyShift.setDown(true);
+                        return true;
+                    }, 10 * 20),
+            new Etape("quete_romains", () -> List.of(tpRoyaume(com.royaumedesidees.structures.StructuresJardin.POS_LUTRIN_FIGUIER.offset(-1, 0, -1), 135f, 30f)),
+                    jeu -> {
+                        jeu.options.keyShift.setDown(false);
+                        return utiliser(jeu, com.royaumedesidees.structures.StructuresJardin.POS_LUTRIN_FIGUIER);
+                    }),
+            new Etape("quete_bapteme", () -> List.of(tpRoyaume(com.royaumedesidees.structures.StructuresPnj.POS_AMBROISE.offset(0, 0, 1), 180f, 0f)),
+                    jeu -> {
+                        jeu.player.closeContainer();
+                        return parlerA(jeu, "ambroise");
+                    }),
+            new Etape("livre", () -> List.of("damage @s 8 minecraft:generic", "item replace entity @s weapon.mainhand with royaumedesidees:livre_confessions"),
+                    jeu -> jeu.gameMode.useItem(jeu.player, InteractionHand.MAIN_HAND).consumesAction()),
+            // Un défi d'Adéodat, résolu en lisant la question dans le chat.
+            new Etape("adeodat_defi", () -> List.of(tpRoyaume(com.royaumedesidees.structures.StructuresJardin.POS_TABLINUM.offset(0, 0, 1), 180f, 0f)),
+                    jeu -> parlerA(jeu, "adeodat")),
+            new Etape("adeodat_reponse", () -> List.of(), VisiteDev::repondreAdeodat),
             // Bibliothèque d'Ambroise : on entre, on essaie de parler (le chat doit être muet), Ambroise est chez lui.
             new Etape("bibliotheque_silence", () -> List.of(tpRoyaume(com.royaumedesidees.structures.StructuresPnj.POS_AMBROISE.offset(0, 0, 4), 180f, 5f)),
                     jeu -> {
@@ -189,15 +225,41 @@ public final class VisiteDev {
 
     /** Clic droit du joueur sur le PNJ le plus proche de ce type. */
     private static boolean parlerA(Minecraft jeu, String id) {
-        return jeu.level.getEntitiesOfClass(com.royaumedesidees.pnj.PnjRoyaume.class, jeu.player.getBoundingBox().inflate(16),
+        return jeu.level.getEntitiesOfClass(com.royaumedesidees.pnj.PnjRoyaume.class, jeu.player.getBoundingBox().inflate(24),
                         pnj -> pnj.id().equals(id)).stream()
                 .min(java.util.Comparator.comparingDouble(pnj -> pnj.distanceToSqr(jeu.player)))
                 .map(pnj -> {
+                    if (pnj.distanceTo(jeu.player) > 2.5F) {
+                        // Trop loin pour le bras du joueur : on le rapproche, et on réessaie au prochain passage.
+                        jeu.getConnection().sendCommand("tp @s " + pnj.getStringUUID());
+                        return false;
+                    }
                     InteractionResult resultat = jeu.gameMode.interact(jeu.player, pnj, InteractionHand.MAIN_HAND);
                     RoyaumeDesIdees.LOGGER.info("[visite] clic droit sur {} : {}", id, resultat);
                     return true;
                 })
                 .orElse(false);
+    }
+
+    /** Sous un poirier du verger de Sévère, à portée d'Augustin (qui vit dans l'allée). */
+    private static BlockPos posVerger() {
+        int x = -325 + 2;
+        int z = -181 + 2;
+        return new BlockPos(x, ReliefRoyaume.colonne(x, z).surface() + 1, z);
+    }
+
+    private static boolean repondreAdeodat(Minecraft jeu) {
+        String question = questionAdeodat;
+        if (question == null) {
+            return false;
+        }
+        String[] morceaux = question.split(" ");
+        int a = Integer.parseInt(morceaux[0]);
+        int b = Integer.parseInt(morceaux[2]);
+        int reponse = morceaux[1].equals("+") ? a + b : a * b;
+        RoyaumeDesIdees.LOGGER.info("[visite] question d'Adéodat : {} = {}", question, reponse);
+        jeu.player.connection.sendChat(Integer.toString(reponse));
+        return true;
     }
 
     private static String tpRoyaume(BlockPos pos, float orientation, float inclinaison) {
@@ -239,6 +301,13 @@ public final class VisiteDev {
     public static void activerSiDemande() {
         if (Boolean.getBoolean(RoyaumeDesIdees.MODID + ".visite")) {
             NeoForge.EVENT_BUS.addListener(VisiteDev::tick);
+            NeoForge.EVENT_BUS.addListener((net.neoforged.neoforge.client.event.ClientChatReceivedEvent evenement) -> {
+                java.util.regex.Matcher m = java.util.regex.Pattern.compile("(\\d+) ([+×]) (\\d+)")
+                        .matcher(evenement.getMessage().getString());
+                if (m.find()) {
+                    questionAdeodat = m.group(0);
+                }
+            });
         }
     }
 
@@ -266,13 +335,13 @@ public final class VisiteDev {
             return;
         }
         Etape courante = ETAPES.get(etape);
-        if (!actionFaite && compteur >= ATTENTE_ETAPE / 2 && compteur % 10 == 0 && courante.action() != null) {
+        if (!actionFaite && compteur >= Math.min(ATTENTE_ETAPE / 2, courante.duree() / 2) && compteur % 10 == 0 && courante.action() != null) {
             actionFaite = courante.action().test(jeu);
-            if (!actionFaite && compteur >= ATTENTE_ETAPE - 10) {
+            if (!actionFaite && compteur >= courante.duree() - 10) {
                 RoyaumeDesIdees.LOGGER.info("[visite] {} : action ECHEC", courante.nom());
             }
         }
-        if (compteur < ATTENTE_ETAPE) {
+        if (compteur < courante.duree()) {
             return;
         }
         String nom = ETAPES.get(etape).nom();
@@ -302,6 +371,10 @@ public final class VisiteDev {
                 jeu.player.getBoundingBox().inflate(48));
         RoyaumeDesIdees.LOGGER.info("[visite] {} : Monique présente {}, distance {}", nom, moniques.size(),
                 moniques.isEmpty() ? "-" : String.format(Locale.ROOT, "%.1f", moniques.get(0).distanceTo(jeu.player)));
+        if (nom.startsWith("quete") || nom.startsWith("livre") || nom.startsWith("adeodat")) {
+            RoyaumeDesIdees.LOGGER.info("[visite] {} : Livre des Confessions {}, Sceau {}", nom,
+                    compter(jeu, ModItems.LIVRE_CONFESSIONS.get()), compter(jeu, ModItems.SCEAU_CONVERSION.get()));
+        }
         RoyaumeDesIdees.LOGGER.info("[visite] {} : Grâce reçue {}, jauge visible {}", nom,
                 com.royaumedesidees.grace.GracePaquet.recue(), com.royaumedesidees.client.JaugeGrace.visible());
         Screenshot.grab(jeu.gameDirectory, "visite_" + nom + ".png", jeu.getMainRenderTarget(), message -> { });

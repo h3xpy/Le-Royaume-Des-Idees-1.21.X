@@ -14,6 +14,8 @@ public class ModModelesItems extends ItemModelProvider {
 
     @Override
     protected void registerModels() {
+        basicItem(ModItems.LIVRE_CONFESSIONS.get());
+        basicItem(ModItems.SCEAU_CONVERSION.get());
         basicItem(ModItems.TOLLE_LEGE.get());
         basicItem(ModItems.LANTERNE_DIOGENE.get());
         basicItem(ModItems.POIRE.get());

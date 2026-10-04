@@ -83,7 +83,10 @@ public final class SuiviMonique {
             nouvelle.setData(ModPiecesJointes.MONIQUE_APPARUE, true);
             nouvelle.sendSystemMessage(Component.translatable("message.royaumedesidees.monique." + (premiereFois ? "arrive" : "revient")));
         }
-        if (ancienne != null && ancienne.level() == monde) {
+        if (ancienne != null && ancienne.level() == monde && Grace.voie(ancienne) == Voie.COEUR) {
+            // Son pécheur s'est converti : elle pleure de joie (Confessions, III, 12).
+            ancienne.sendSystemMessage(Component.translatable("message.royaumedesidees.monique.consolee"));
+        } else if (ancienne != null && ancienne.level() == monde) {
             ancienne.sendSystemMessage(nouvelle != null
                     ? Component.translatable("message.royaumedesidees.monique.quitte", nouvelle.getDisplayName())
                     : Component.translatable("message.royaumedesidees.monique.rentre"));

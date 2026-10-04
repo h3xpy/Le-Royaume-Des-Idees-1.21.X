@@ -19,8 +19,9 @@ import grace_v03  # noqa: E402
 import jardin_v02  # noqa: E402
 import pnj_v03  # noqa: E402
 import bibliotheque_v03  # noqa: E402
+import quete_v03  # noqa: E402
 
-GROUPES = [blocs_caverne, items_v01, entites_caverne, jardin_v02, grace_v03, pnj_v03, bibliotheque_v03]
+GROUPES = [blocs_caverne, items_v01, entites_caverne, jardin_v02, grace_v03, pnj_v03, bibliotheque_v03, quete_v03]
 
 
 def main():

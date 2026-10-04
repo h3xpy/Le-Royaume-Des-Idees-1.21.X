@@ -68,6 +68,7 @@ public final class ZonesSilence {
         ServerPlayer joueur = evenement.getPlayer();
         if (dansZone(joueur)) {
             evenement.setCanceled(true);
+            com.royaumedesidees.pnj.QueteConversion.chatTente(joueur);
             joueur.displayClientMessage(Component.translatable("message.royaumedesidees.silence.chut")
                     .withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC), true);
         }
