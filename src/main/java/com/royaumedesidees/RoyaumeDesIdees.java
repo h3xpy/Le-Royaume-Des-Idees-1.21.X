@@ -11,6 +11,7 @@ import com.royaumedesidees.grace.GracePaquet;
 import com.royaumedesidees.jardin.Confession;
 import com.royaumedesidees.jardin.Culpabilite;
 import com.royaumedesidees.pnj.ReponsesChat;
+import com.royaumedesidees.pnj.SuiviMonique;
 import com.royaumedesidees.registre.ModBlocs;
 import com.royaumedesidees.registre.ModEffets;
 import com.royaumedesidees.registre.ModEntites;
@@ -68,6 +69,7 @@ public class RoyaumeDesIdees {
         // PNJ (v0.3) : réponses données dans le chat.
         NeoForge.EVENT_BUS.addListener(ReponsesChat::chat);
         NeoForge.EVENT_BUS.addListener(ReponsesChat::tick);
+        NeoForge.EVENT_BUS.addListener(SuiviMonique::tick);
         VerificationDev.activerSiDemande();
     }
 

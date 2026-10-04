@@ -20,7 +20,7 @@ public final class ModSons {
     public static final DeferredHolder<SoundEvent, SoundEvent> MUSIQUE_ROYAUME = SONS.register("musique_royaume",
             () -> SoundEvent.createVariableRangeEvent(RoyaumeDesIdees.id("musique_royaume")));
 
-    /** Sanglots lointains autour d'un joueur à la Culpabilité III ou plus. */
+    /** Pleurs de Monique, qui suit les pécheurs (plus forts à la Culpabilité III ou plus). */
     public static final DeferredHolder<SoundEvent, SoundEvent> SANGLOTS = SONS.register("sanglots",
             () -> SoundEvent.createVariableRangeEvent(RoyaumeDesIdees.id("sanglots")));
 
@@ -35,10 +35,6 @@ public final class ModSons {
     /** Page tournée par Ambroise, qui ne parle pas (v0.3). */
     public static final DeferredHolder<SoundEvent, SoundEvent> AMBROISE_PAGE = SONS.register("ambroise_page",
             () -> SoundEvent.createVariableRangeEvent(RoyaumeDesIdees.id("ambroise_page")));
-
-    /** « Merci. » de Pascal, quand on le frappe (v0.3, facultatif). */
-    public static final DeferredHolder<SoundEvent, SoundEvent> PASCAL_MERCI = SONS.register("pascal_merci",
-            () -> SoundEvent.createVariableRangeEvent(RoyaumeDesIdees.id("pascal_merci")));
 
     private ModSons() {
     }

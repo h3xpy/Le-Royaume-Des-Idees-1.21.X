@@ -108,6 +108,9 @@ public final class VisiteDev {
             new Etape("confesse_repetee", () -> List.of("confesse J'ai vole des poires pour le plaisir de mal faire")),
             new Etape("etal", () -> List.of("item replace entity @s weapon.mainhand with minecraft:emerald 2",
                     tpRoyaume(StructuresJardin.POS_ETAL.offset(0, 0, 2), 180f, 35f)), jeu -> utiliser(jeu, StructuresJardin.POS_ETAL)),
+            // Monique (v0.3) : elle a suivi le joueur jusqu'ici ; on la nourrit (+3 de Grâce, une fois par jour).
+            new Etape("monique_nourrir", () -> List.of("item replace entity @s weapon.mainhand with minecraft:bread 2"),
+                    jeu -> parlerA(jeu, "monique")),
             // PNJ (v0.3) : les cinq en rang, face au joueur ; un coup à Pascal, un mot à Augustin.
             // Interface visible pour voir les noms au-dessus des têtes.
             new Etape("pnj", VisiteDev::invoquerPnj, jeu -> {
@@ -153,7 +156,8 @@ public final class VisiteDev {
     private static int etape = -1;
     private static boolean actionFaite;
 
-    private static final String[] PNJ = {"augustin_jeune", "adeodat", "ambroise", "monique", "pascal"};
+    /** Les PNJ invoqués en rang (Monique n'y est pas : elle suit son joueur et s'en va si on l'invoque seule). */
+    private static final String[] PNJ = {"augustin_jeune", "adeodat", "ambroise", "pascal"};
 
     /** Les cinq PNJ en rang, immobiles (sans IA), tournés vers le joueur placé 4 blocs au nord. */
     private static List<String> invoquerPnj() {
@@ -282,6 +286,10 @@ public final class VisiteDev {
                 RoyaumeDesIdees.LOGGER.info("[visite] {} : PNJ {} vie {}", nom, pnj.id(), pnj.getHealth());
             }
         }
+        java.util.List<com.royaumedesidees.pnj.Monique> moniques = jeu.level.getEntitiesOfClass(com.royaumedesidees.pnj.Monique.class,
+                jeu.player.getBoundingBox().inflate(48));
+        RoyaumeDesIdees.LOGGER.info("[visite] {} : Monique présente {}, distance {}", nom, moniques.size(),
+                moniques.isEmpty() ? "-" : String.format(Locale.ROOT, "%.1f", moniques.get(0).distanceTo(jeu.player)));
         RoyaumeDesIdees.LOGGER.info("[visite] {} : Grâce reçue {}, jauge visible {}", nom,
                 com.royaumedesidees.grace.GracePaquet.recue(), com.royaumedesidees.client.JaugeGrace.visible());
         Screenshot.grab(jeu.gameDirectory, "visite_" + nom + ".png", jeu.getMainRenderTarget(), message -> { });

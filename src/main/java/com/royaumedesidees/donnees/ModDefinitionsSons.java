@@ -24,22 +24,23 @@ public class ModDefinitionsSons extends SoundDefinitionsProvider {
         // Morceau long : lu en flux (stream) plutôt que chargé d'un bloc en mémoire.
         add(ModSons.MUSIQUE_ROYAUME, definition().with(sound(RoyaumeDesIdees.id("musique_royaume")).stream()));
 
-        // Sons de la Culpabilité (v0.2), à fournir : voir docs/sons_a_fournir.md.
-        fichiers.trackGenerated(RoyaumeDesIdees.id("sanglots"), PackType.CLIENT_RESOURCES, ".ogg", "sounds");
+        // Pleurs de Monique : trois extraits courts, en mono (placés dans l'espace), tirés au hasard.
+        for (String nom : new String[]{"sanglots", "sanglots_2", "sanglots_3"}) {
+            fichiers.trackGenerated(RoyaumeDesIdees.id(nom), PackType.CLIENT_RESOURCES, ".ogg", "sounds");
+        }
         add(ModSons.SANGLOTS, definition().subtitle("sous_titre.royaumedesidees.sanglots")
-                .with(sound(RoyaumeDesIdees.id("sanglots")).stream()));
+                .with(sound(RoyaumeDesIdees.id("sanglots")), sound(RoyaumeDesIdees.id("sanglots_2")),
+                        sound(RoyaumeDesIdees.id("sanglots_3"))));
         fichiers.trackGenerated(RoyaumeDesIdees.id("musique_culpabilite"), PackType.CLIENT_RESOURCES, ".ogg", "sounds");
         add(ModSons.MUSIQUE_CULPABILITE, definition().with(sound(RoyaumeDesIdees.id("musique_culpabilite")).stream()));
 
         // Sons des PNJ (v0.3), à fournir.
-        for (String nom : new String[]{"augustin_rire", "ambroise_page", "pascal_merci"}) {
+        for (String nom : new String[]{"augustin_rire", "ambroise_page"}) {
             fichiers.trackGenerated(RoyaumeDesIdees.id(nom), PackType.CLIENT_RESOURCES, ".ogg", "sounds");
         }
         add(ModSons.AUGUSTIN_RIRE, definition().subtitle("sous_titre.royaumedesidees.augustin_rire")
                 .with(sound(RoyaumeDesIdees.id("augustin_rire"))));
         add(ModSons.AMBROISE_PAGE, definition().subtitle("sous_titre.royaumedesidees.ambroise_page")
                 .with(sound(RoyaumeDesIdees.id("ambroise_page"))));
-        add(ModSons.PASCAL_MERCI, definition().subtitle("sous_titre.royaumedesidees.pascal_merci")
-                .with(sound(RoyaumeDesIdees.id("pascal_merci"))));
     }
 }

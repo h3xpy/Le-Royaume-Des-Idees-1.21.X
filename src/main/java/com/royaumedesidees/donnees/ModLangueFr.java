@@ -106,14 +106,19 @@ public class ModLangueFr extends LanguageProvider {
         add("pnj.royaumedesidees.adeodat.coup", "*soupire* Frapper un génie ne rend pas plus intelligent. J'ai vérifié.");
         add("pnj.royaumedesidees.ambroise.bonjour", "*Ambroise lève les yeux de son livre, puis les rabaisse, sans un mot.*");
         add("pnj.royaumedesidees.ambroise.coup", "*Ambroise tourne une page, sans un mot.*");
-        add("pnj.royaumedesidees.monique.bonjour", "*Monique essuie ses larmes.* Mon fils… Tu n'aurais pas vu mon fils ?");
         add("pnj.royaumedesidees.monique.coup", "*Monique pleure plus fort.*");
+        add("message.royaumedesidees.monique.arrive", "§dSainte Monique§r te rejoint, en larmes. Elle ne te lâchera plus tant que tu ne seras pas converti.");
+        add("pnj.royaumedesidees.monique.bonjour", "*Monique pleure.* Tant de larmes… Il est impossible que le fils de tant de larmes périsse.");
+        add("pnj.royaumedesidees.monique.apaisee", "*Monique sourit, apaisée.* Mes prières sont exaucées. Je peux m'en aller en paix.");
+        add("pnj.royaumedesidees.monique.pas_mon_fils", "Tu n'es pas mon fils. Mais je prierai aussi pour toi.");
+        add("pnj.royaumedesidees.monique.nourrie", "*Monique mange en silence, puis te bénit.*");
+        add("pnj.royaumedesidees.monique.repue", "Merci, mais j'ai déjà mangé aujourd'hui. Garde ça pour les pauvres.");
+        add("message.royaumedesidees.grace.raison.monique", "Monique nourrie");
         add("pnj.royaumedesidees.pascal.bonjour", "Le cœur a ses raisons que la raison ne connaît point. Mais les comptes de mon père, eux, n'en ont aucune.");
         add("pnj.royaumedesidees.pascal.coup", "Merci. *Il serre sa ceinture.*");
         add("message.royaumedesidees.pascal.merci", "Pascal remercie %1$s de l'avoir frappé.");
         add("sous_titre.royaumedesidees.augustin_rire", "Augustin rit");
         add("sous_titre.royaumedesidees.ambroise_page", "Une page tourne");
-        add("sous_titre.royaumedesidees.pascal_merci", "Pascal dit merci");
         add("message.royaumedesidees.confessionnal.mode_emploi", "Pour te confesser, tape /confesse suivi de ton péché.");
         add("message.royaumedesidees.etal.achat", "Tu achètes %1$s poires, honnêtement. Elles ont l'air moins bonnes.");
         add("message.royaumedesidees.etal.ecriteau", "« Une émeraude dans le tronc, %1$s poires pour toi. Ou alors, tu les voles… »");
@@ -143,7 +148,7 @@ public class ModLangueFr extends LanguageProvider {
         add("panneau.royaumedesidees.verger.defense", "Défense");
         add("panneau.royaumedesidees.verger.voler", "de voler !");
         add("message.royaumedesidees.figuier.voix", "Une voix d'enfant, venue de la maison voisine : « Prends, lis ; prends, lis. »");
-        add("sous_titre.royaumedesidees.sanglots", "Quelqu'un sanglote");
+        add("sous_titre.royaumedesidees.sanglots", "Monique sanglote");
 
         add(ModTags.LIE_AU_ROYAUME, "Lié au Royaume");
     }

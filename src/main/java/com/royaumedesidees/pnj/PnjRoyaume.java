@@ -105,6 +105,11 @@ public class PnjRoyaume extends PathfinderMob {
         setItemSlot(EquipmentSlot.MAINHAND, objet);
     }
 
+    /** Faux pour un PNJ qui n'a pas de maison et suit quelqu'un (Monique). */
+    protected boolean aUneMaison() {
+        return true;
+    }
+
     /** Vrai pour les PNJ qu'on pourra tuer (v0.4) ; ceux de la v0.3 sont tous invulnérables. */
     public boolean estMortel() {
         return false;
@@ -206,7 +211,7 @@ public class PnjRoyaume extends PathfinderMob {
     public void tick() {
         super.tick();
         // Un PNJ invoqué sans maison prend pour maison l'endroit où il apparaît.
-        if (maison == null && !level().isClientSide) {
+        if (maison == null && aUneMaison() && !level().isClientSide) {
             setMaison(blockPosition(), rayonMaison);
         }
     }

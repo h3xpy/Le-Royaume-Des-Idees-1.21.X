@@ -106,14 +106,19 @@ public class ModLangueEn extends LanguageProvider {
         add("pnj.royaumedesidees.adeodat.coup", "*sighs* Hitting a genius does not make you smarter. I checked.");
         add("pnj.royaumedesidees.ambroise.bonjour", "*Ambrose looks up from his book, then down again, without a word.*");
         add("pnj.royaumedesidees.ambroise.coup", "*Ambrose turns a page, without a word.*");
-        add("pnj.royaumedesidees.monique.bonjour", "*Monica wipes her tears.* My son… Have you seen my son?");
         add("pnj.royaumedesidees.monique.coup", "*Monica weeps louder.*");
+        add("message.royaumedesidees.monique.arrive", "§dSaint Monica§r joins you, in tears. She will not leave you until you are converted.");
+        add("pnj.royaumedesidees.monique.bonjour", "*Monica weeps.* So many tears… The son of so many tears cannot perish.");
+        add("pnj.royaumedesidees.monique.apaisee", "*Monica smiles, at peace.* My prayers are answered. I can go in peace.");
+        add("pnj.royaumedesidees.monique.pas_mon_fils", "You are not my son. But I will pray for you too.");
+        add("pnj.royaumedesidees.monique.nourrie", "*Monica eats in silence, then blesses you.*");
+        add("pnj.royaumedesidees.monique.repue", "Thank you, but I have already eaten today. Keep it for the poor.");
+        add("message.royaumedesidees.grace.raison.monique", "Monica fed");
         add("pnj.royaumedesidees.pascal.bonjour", "The heart has its reasons which reason does not know. My father's accounts, however, have none.");
         add("pnj.royaumedesidees.pascal.coup", "Thank you. *He tightens his belt.*");
         add("message.royaumedesidees.pascal.merci", "Pascal thanks %1$s for hitting him.");
         add("sous_titre.royaumedesidees.augustin_rire", "Augustine laughs");
         add("sous_titre.royaumedesidees.ambroise_page", "A page turns");
-        add("sous_titre.royaumedesidees.pascal_merci", "Pascal says thank you");
         add("message.royaumedesidees.confessionnal.mode_emploi", "To confess, type /confesse followed by your sin.");
         add("message.royaumedesidees.etal.achat", "You honestly buy %1$s pears. They look less tasty.");
         add("message.royaumedesidees.etal.ecriteau", "\"One emerald in the box, %1$s pears for you. Or you could just steal them...\"");
@@ -143,7 +148,7 @@ public class ModLangueEn extends LanguageProvider {
         add("panneau.royaumedesidees.verger.defense", "No");
         add("panneau.royaumedesidees.verger.voler", "stealing!");
         add("message.royaumedesidees.figuier.voix", "A child's voice from the house next door: \"Take up and read; take up and read.\"");
-        add("sous_titre.royaumedesidees.sanglots", "Someone sobs");
+        add("sous_titre.royaumedesidees.sanglots", "Monica sobs");
 
         add(ModTags.LIE_AU_ROYAUME, "Bound to the Kingdom");
     }

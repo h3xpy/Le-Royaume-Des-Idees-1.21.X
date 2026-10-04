@@ -1,10 +1,8 @@
 package com.royaumedesidees.pnj;
 
-import com.royaumedesidees.registre.ModSons;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -27,7 +25,6 @@ public class Pascal extends PnjRoyaume {
 
     @Override
     protected void reagirCoup(ServerPlayer joueur) {
-        level().playSound(null, this, ModSons.PASCAL_MERCI.get(), SoundSource.NEUTRAL, 1.0F, 1.0F);
         parler(joueur, "coup");
         long maintenant = level().getGameTime();
         if (maintenant - derniereAnnonce >= DELAI_ANNONCE) {

@@ -27,18 +27,11 @@
       }
     ]
   },
-  "pascal_merci": {
-    "sounds": [
-      "royaumedesidees:pascal_merci"
-    ],
-    "subtitle": "sous_titre.royaumedesidees.pascal_merci"
-  },
   "sanglots": {
     "sounds": [
-      {
-        "name": "royaumedesidees:sanglots",
-        "stream": true
-      }
+      "royaumedesidees:sanglots",
+      "royaumedesidees:sanglots_2",
+      "royaumedesidees:sanglots_3"
     ],
     "subtitle": "sous_titre.royaumedesidees.sanglots"
   }
